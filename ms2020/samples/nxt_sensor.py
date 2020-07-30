@@ -1,25 +1,4 @@
 #!/usr/bin/env pybricks-micropython
-# import ev3dev.ev3 as ev3
-# import sys
-# import os
-# import pybricks.nxtdevices as nxt
-# # from pybricks.nxtdevices import UltrasonicSensor
-# import pybricks.ev3devices as ev3dev
-# from pybricks.tools import wait, StopWatch
-# from pybricks import ev3brick as brick
-# from pybricks.ev3devices import UltrasonicSensor,TouchSensor
-# from pybricks.parameters import Port, Stop, Direction, Button, Color
-# sys.path.append('../shared')
- 
-# import robot_setup
-
-# # us = ev3.UltrasonicSensor()
-# # us = nxt.UltrasonicSensor(Port.S2)
-
-
-
-
-
 
 import sys
 import os
