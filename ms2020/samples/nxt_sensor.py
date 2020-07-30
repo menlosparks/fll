@@ -56,5 +56,23 @@ def test_sensor():
         brick.display.text(message)
         wait(1000)
 
-# us = ev3dev.UltrasonicSensor(Port.S1)
-test_sensor()
+# test_sensor()
+
+
+def move_to_obstacle(
+    distance_from_obstacle_mm,
+    speed_mm_s):
+ 
+    robot.drive(speed_mm_s, 0)
+    message='Distance ' + str(ultrasound.distance())
+    print(message)
+    brick.display.text(message)
+    # Check if color reached.
+    while  ultrasound.distance() > abs(distance_from_obstacle_mm):
+        message='Distance ' + str(ultrasound.distance())
+        print(message)
+        brick.display.text(message)
+        wait(100)
+    robot.stop(stop_type=Stop.BRAKE)
+
+move_to_obstacle(distance_from_obstacle_mm=70,  speed_mm_s=120)

@@ -10,7 +10,7 @@ from pybricks.tools import wait, StopWatch
 from pybricks.robotics import DriveBase
 from pybricks.ev3devices import Motor
 
-sys.path.append(os.path.abspath('../shared'))
+sys.path.append('../shared')
  
 import robot_setup
 
@@ -25,6 +25,7 @@ from robot_setup import color_sensor_left
 from robot_setup import color_sensor_right
 from robot_setup import color_sensor_center
 from robot_setup import touch_sensor
+from robot_setup import ultrasound
 
 from robot_setup import SOUND_VOLUME
 from robot_setup import WHEEL_DIAMETER_MM
@@ -43,7 +44,7 @@ def log_string(message):
     print(message)
     brick.display.text(message)
 
-def move_straight(distance, speed_mm_s):
+def move_straight(distance_mm, speed_mm_s):
 
     left_motor.reset_angle(0)
     motor_target_angle = int(DEGREES_PER_MM * distance_mm)
@@ -55,7 +56,7 @@ def move_straight(distance, speed_mm_s):
 
     robot.stop(stop_type=Stop.BRAKE)
 
-# move_straight(distance=300, speed_mm_s=300)
+# move_straight(distance_mm=300, speed_mm_s=300)
 
 
 def turn(angle):
@@ -68,7 +69,7 @@ def turn_arc(distance,angle):
     robot.drive_time(distance, angle, 1000)
 
 
-# turn_arc(distance=200,angle=-90)
+# turn_arc(distance=200,angle=-120)
 
 
 def drive_raising_crane(duration_ms, robot_distance_mm, robot_turn_angle, 
@@ -82,6 +83,11 @@ def drive_raising_crane(duration_ms, robot_distance_mm, robot_turn_angle,
     crane_motor.stop(Stop.BRAKE)
     robot.stop(stop_type=Stop.BRAKE)
 
+# drive_raising_crane(duration_ms=1000, 
+#     robot_distance_mm=100, 
+#     robot_turn_angle=30, 
+#     crane_motor=crane_motor, 
+#     crane_angle=-50)
 
 def move_to_color(
     color_sensor,
@@ -95,7 +101,7 @@ def move_to_color(
     robot.stop(stop_type=Stop.BRAKE)
 
 
-# move_to_color(color_sensor=color_sensor_right, stop_on_color=Color.BLACK, speed_mm_s=100)
+# move_to_color(color_sensor=color_sensor_center, stop_on_color=Color.BLACK, speed_mm_s=100)
 
 # obstacle_sensor = UltrasonicSensor(Port.S4)
 
@@ -112,7 +118,6 @@ def move_to_obstacle(
     
 # move_to_obstacle(obstacle_sensor=obstacle_sensor, stop_on_obstacle_at=50, speed_mm_s=300)
 
-touch_sensor= TouchSensor(Port.S3)
 
 def move_to_wall(touch_sensor, speed_mm_s):
     robot.drive(speed_mm_s, 0)
@@ -122,6 +127,14 @@ def move_to_wall(touch_sensor, speed_mm_s):
     robot.stop(stop_type=Stop.BRAKE)
        
 # move_to_wall(touch_sensor=touch_sensor, speed_mm_s=100)
+
+
+def calibrate_gyro(new_angle=0):
+    current_speed=gyro.speed()
+    current_angle=gyro.angle()
+    wait(60)
+    gyro.reset_angle(new_angle)
+    wait(20)
 
 def turn_to_angle( gyro, target_angle):
 
@@ -133,17 +146,6 @@ def turn_to_angle( gyro, target_angle):
         error=target_angle - gyro.angle()
 
     robot.stop(stop_type=Stop.BRAKE)
-
-
-# turn_to_angle( gyro, 65)
-
-
-def calibrate_gyro(new_angle=0):
-    current_speed=gyro.speed()
-    current_angle=gyro.angle()
-    wait(60)
-    gyro.reset_angle(new_angle)
-    wait(20)
 
 # calibrate_gyro(new_angle=0)    
 # turn_to_angle( gyro=gyro, target_angle=-65)
@@ -200,7 +202,7 @@ def turn_to_color_left(color_sensor, stop_on_color, angular_speed_deg_s):
     robot.stop(stop_type=Stop.BRAKE)
 
 
-# turn_to_color_left(color_sensor_right, Color.BLUE, 45)
+turn_to_color_left(color_sensor_center, Color.BLUE, 45)
 
 
 # Used by line follower to align with the general direction of the line
@@ -266,9 +268,9 @@ def move_straight_target_direction_motor_angle(gyro, distance_mm, speed_mm_s, ta
     robot.stop(stop_type=Stop.BRAKE)
 
 
-calibrate_gyro(new_angle=0)
-move_straight_target_direction_motor_angle(gyro=gyro,
-       distance_mm=600, speed_mm_s=240, target_angle=0)
+# calibrate_gyro(new_angle=0)
+# move_straight_target_direction_motor_angle(gyro=gyro,
+#        distance_mm=600, speed_mm_s=240, target_angle=0)
 # move_straight(distance=600, speed_mm_s=300)
 # wait(999999)
 
@@ -289,7 +291,7 @@ def color_test(color_sensor, distance_mm, speed_mm_s):
 
     robot.stop(stop_type=Stop.BRAKE)
 
-# color_test(color_sensor=color_sensor_right, distance_mm=100, speed_mm_s=50)
+color_test(color_sensor=color_sensor_center, distance_mm=100, speed_mm_s=50)
 # wait(999999)
 
 def follow_line_border(
