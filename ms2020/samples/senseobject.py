@@ -36,42 +36,27 @@ from robot_setup import DEGREES_PER_MM
 ##### Do not change above this line ##########################################
 
 
-
-
-
-
-color_sensor_center = None##ColorSensor(Port.S4)
-touch_sensor= None## TouchSensor(Port.S2)
-message='Staring ultrasomic'
-brick.sound.beep(1100, 80, 7)
-print(message)
-brick.display.text(message)
-
-def test_sensor():
-    # while touch_sensor.pressed() == False :
-    while ultrasound.distance() > 10:
-        message='Distance ' + str(ultrasound.distance())
-        print(message)
-        brick.display.text(message)
-        wait(1000)
-
-# test_sensor()
-
-
-def move_to_obstacle(
-    distance_from_obstacle_mm,
+def stop_with_object_at(
+    distance_from_object_mm,
+    max_distance_mm,
     speed_mm_s):
- 
+
+    
+    left_motor.reset_angle(0)
+    motor_target_angle = int(DEGREES_PER_MM * max_distance_mm)
+
     robot.drive(speed_mm_s, 0)
     message='Distance ' + str(ultrasound.distance())
     print(message)
     brick.display.text(message)
-    # Check if color reached.
-    while  ultrasound.distance() > abs(distance_from_obstacle_mm):
-        message='Distance ' + str(ultrasound.distance())
-        print(message)
-        brick.display.text(message)
-        wait(100)
+
+    while (abs(left_motor.angle()) < abs(motor_target_angle)
+          and  ultrasound.distance() > abs(distance_from_object_mm)):
+        wait(50)
+
     robot.stop(stop_type=Stop.BRAKE)
 
-move_to_obstacle(distance_from_obstacle_mm=70,  speed_mm_s=120)
+stop_with_object_at(
+    distance_from_object_mm = 70,
+    max_distance_mm = 300,
+    speed_mm_s = 200)
