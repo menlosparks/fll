@@ -202,7 +202,7 @@ def turn_to_color_left(color_sensor, stop_on_color, angular_speed_deg_s):
     robot.stop(stop_type=Stop.BRAKE)
 
 
-turn_to_color_left(color_sensor_center, Color.BLUE, 45)
+# turn_to_color_left(color_sensor_center, Color.BLUE, 45)
 
 
 # Used by line follower to align with the general direction of the line

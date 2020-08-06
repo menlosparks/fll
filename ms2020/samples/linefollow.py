@@ -10,10 +10,9 @@ from pybricks.tools import wait, StopWatch
 from pybricks.robotics import DriveBase
 from pybricks.ev3devices import Motor
 
-sys.path.append(os.path.abspath('../shared'))
+sys.path.append('../shared')
  
 import robot_setup
-import testcode
 
 from robot_setup import left_motor
 from robot_setup import right_motor
@@ -36,6 +35,9 @@ from robot_setup import DEGREES_PER_MM
 
 ##### Do not change above this line ##########################################
  
+def log_string(message):
+    print(message)
+    brick.display.text(message)
 
 def follow_line_border(
     color_sensor,
@@ -45,20 +47,24 @@ def follow_line_border(
     left_motor.reset_angle(0)
     motor_target_angle = int(DEGREES_PER_MM * distance_mm)
     target_intensity = color_sensor.reflection()
+    log_string('start Color : ' + str(color_sensor.color()) + ' Intense:' + str(color_sensor.reflection()))
 
     # Keep moving till the angle of the left motor reaches target
     while (abs(left_motor.angle()) < abs(motor_target_angle)):
 
         darkness = target_intensity - color_sensor.reflection()
-        testcode.log_string('See ' + str(color_sensor.color()) + ' dar: ' + str(darkness))
         if color_sensor.color() == Color.WHITE:
             robot.drive(speed_mm_s, 0)
         elif color_sensor.color() == Color.BLACK:
-            robot.drive(speed_mm_s, 0.5 * abs(darkness))
+            robot.drive(speed_mm_s, abs(darkness))
         else :
-            robot.drive(speed_mm_s,  -0.5 * abs(darkness))
+            robot.drive(speed_mm_s, -1 * abs(darkness))
 
-        wait(50)
+        wait(250)
 
     robot.stop(stop_type=Stop.BRAKE)
 
+follow_line_border(
+   color_sensor=color_sensor_center,
+   distance_mm=650,
+   speed_mm_s=110)
