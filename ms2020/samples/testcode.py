@@ -291,7 +291,7 @@ def color_test(color_sensor, distance_mm, speed_mm_s):
 
     robot.stop(stop_type=Stop.BRAKE)
 
-color_test(color_sensor=color_sensor_center, distance_mm=100, speed_mm_s=50)
+# color_test(color_sensor=color_sensor_center, distance_mm=100, speed_mm_s=50)
 # wait(999999)
 
 def follow_line_border(
