@@ -65,8 +65,12 @@ def turn(angle):
 
 # turn(90)
 
-def turn_arc(distance,angle):
-    robot.drive_time(distance, angle, 1000)
+def turn_arc(distance,angle, speed_mm_s=100):
+
+    duration_ms = 1000* abs(distance / speed_mm_s)
+    steering_speed = (angle / duration_ms) / 1000
+    # robot.drive(speed_mm_s, steering)
+    robot.drive_time(distance, steering_speed, duration_ms)
 
 
 # turn_arc(distance=200,angle=-120)

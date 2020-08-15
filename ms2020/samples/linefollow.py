@@ -47,7 +47,6 @@ def follow_line_border(
     left_motor.reset_angle(0)
     motor_target_angle = int(DEGREES_PER_MM * distance_mm)
     target_intensity = color_sensor.reflection()
-    log_string('start Color : ' + str(color_sensor.color()) + ' Intense:' + str(color_sensor.reflection()))
 
     # Keep moving till the angle of the left motor reaches target
     while (abs(left_motor.angle()) < abs(motor_target_angle)):
