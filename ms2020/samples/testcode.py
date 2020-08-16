@@ -65,15 +65,15 @@ def turn(angle):
 
 # turn(90)
 
-def turn_arc(distance,angle, speed_mm_s=100):
+def turn_arc(distance,angle, speed_mm_s):
 
     duration_ms = 1000* abs(distance / speed_mm_s)
-    steering_speed = (angle / duration_ms) / 1000
-    # robot.drive(speed_mm_s, steering)
-    robot.drive_time(distance, steering_speed, duration_ms)
+    steering_speed = (angle / duration_ms) * 1000
+    robot.drive_time(speed_mm_s, steering_speed, duration_ms)
+    # robot.drive_time(distance,angle, 1000)
 
 
-# turn_arc(distance=200,angle=-120)
+turn_arc(distance=200,angle=-60, speed_mm_s=100)
 
 
 def drive_raising_crane(duration_ms, robot_distance_mm, robot_turn_angle, 
