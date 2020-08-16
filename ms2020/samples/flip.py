@@ -39,27 +39,27 @@ def flip_small():
     testcode.move_crane_to_floor(crane_motor)
     testcode.move_straight(distance_mm=30, speed_mm_s=60)
     testcode.drive_raising_crane(duration_ms=400, robot_distance_mm=20, robot_turn_angle=0, 
-        crane_motor=crane_motor, crane_angle=80)
+        crane_motor=crane_motor, crane_angle=90)
 
 def flip_bigt():
     testcode.move_crane_to_floor(crane_motor)
-    testcode.move_straight(distance_mm=50, speed_mm_s=50)
-    left_motor.run_angle( 90,  8, Stop.BRAKE, True)
-    right_motor.run_angle(90,  8, Stop.BRAKE, True)
+    testcode.move_straight(distance_mm=70, speed_mm_s=50)
+    left_motor.run_angle( 120,  10, Stop.BRAKE, True)
+    right_motor.run_angle(120,  10, Stop.BRAKE, True)
 
     # wait(1000)
-    testcode.drive_raising_crane(duration_ms=550, robot_distance_mm=50, robot_turn_angle=0, 
+    testcode.drive_raising_crane(duration_ms=400, robot_distance_mm=50, robot_turn_angle=0, 
         crane_motor=crane_motor, crane_angle=100)
     # testcode.drive_raising_crane(duration_ms=400, robot_distance_mm=30, robot_turn_angle=0, 
     #     crane_motor=crane_motor, crane_angle=60)
     # testcode.drive_raising_crane(duration_ms=300, robot_distance_mm=30, robot_turn_angle=0, 
     #     crane_motor=crane_motor, crane_angle=60)
     testcode.drive_raising_crane(duration_ms=200, robot_distance_mm=30, robot_turn_angle=0, 
-        crane_motor=crane_motor, crane_angle=20)
+        crane_motor=crane_motor, crane_angle=30)
 
-flip_small()
-wait(6000)
-flip_small()
-wait(6000) 
+# flip_small()
+# wait(6000)
+# flip_small()
+# wait(6000) 
 
 flip_bigt()

@@ -168,7 +168,7 @@ def move_crane_down( crane_motor, degrees):
 # move_crane_down(crane_motor=crane_motor, degrees=90)
 
 def move_crane_to_floor(crane_motor):
-   crane_motor.run_until_stalled(-360, Stop.COAST, 35)
+   crane_motor.run_until_stalled(-360, Stop.COAST, 33)
    move_crane_up( crane_motor, degrees = 10)
 
 def move_crane_to_top(crane_motor):
