@@ -125,22 +125,19 @@ def move_reverse(
     speed_mm_s = DEFAULT_SPEED):
     move_straight( -1 * max_distance, speed_mm_s)
 
-def move_straight(
-    max_distance, 
-    speed_mm_s = DEFAULT_SPEED):
+
+def move_straight(distance_mm, speed_mm_s):
 
     left_motor.reset_angle(0)
-    right_motor.reset_angle(0)
-    log_string('Move stratight at speed '+ str(speed_mm_s) + ' dist ' + str(max_distance))
-    if (max_distance < 0 ):
-        # moving in reverse
-        speed_mm_s = -1 * speed_mm_s
+    motor_target_angle = int(DEGREES_PER_MM * distance_mm)
 
-    duration = abs(int(1000 * max_distance / speed_mm_s))
-    robot.drive_time(speed_mm_s, 0, duration)
+    # Keep moving till the angle of the left motor reaches target
+    while (abs(left_motor.angle()) < abs(motor_target_angle)):
+        robot.drive(speed_mm_s, 0)
+        wait(100)
+
     robot.stop(stop_type=Stop.BRAKE)
-    log_string('Move stratight Done left motangle '+ str(left_motor.angle()) + ' right motangle ' + str(right_motor.angle()))
- 
+
 
 def turn_to_color(
     color_sensor,
@@ -337,8 +334,46 @@ def follow_line_border(
 
 
 
+def turn_to_angle( gyro, target_angle):
+
+    error = target_angle - gyro.angle()
+    while ( abs(error) >= 4):
+        adj_angular_speed = error * 1.5
+        robot.drive(0, adj_angular_speed)
+        wait(100)
+        error=target_angle - gyro.angle()
+
+    robot.stop(stop_type=Stop.BRAKE)
 
 
+
+def move_straight_target_direction(gyro, distance_mm, speed_mm_s, target_angle):
+
+    turn_to_angle( gyro, target_angle)
+    duration = abs(int(1000 * distance_mm / speed_mm_s))
+    time_spent=0
+    while (time_spent<duration):
+        error = target_angle - gyro.angle()
+        adj_angular_speed = error * 1.5
+        robot.drive(speed_mm_s, adj_angular_speed)
+        wait(200)
+        time_spent = time_spent + 200
+
+    robot.stop(stop_type=Stop.BRAKE)
+
+
+
+
+def drive_raising_crane(duration_ms, robot_distance_mm, robot_turn_angle, 
+                        crane_motor, crane_angle):
+    crane_angular_speed = int(1000 * crane_angle / duration_ms)
+    turn_angular_speed_deg_s = abs(int(1000 * robot_turn_angle / duration_ms))
+    forward_speed = int(1000 * robot_distance_mm / duration_ms) 
+    robot.drive(forward_speed, turn_angular_speed_deg_s)
+    crane_motor.run(crane_angular_speed)
+    wait(duration_ms)
+    crane_motor.stop(Stop.BRAKE)
+    robot.stop(stop_type=Stop.BRAKE)
 
 
 
@@ -348,16 +383,10 @@ def move_crane_to_floor( crane_motor):
 
 
 def move_crane_up( crane_motor, degrees):
-    log_string('Angle at start ' + str(crane_motor.angle()))
-    wait(100)
     crane_motor.run_angle(90,  degrees, Stop.BRAKE)
-    log_string('Angle at end ' + str(crane_motor.angle()))
 
 def move_crane_down( crane_motor, degrees):
-    log_string('Down Angle at start ' + str(crane_motor.angle()))
-    wait(100)
     crane_motor.run_angle(90,  -1 * degrees)
-    log_string('down Angle at end ' + str(crane_motor.angle()))
 
 def run_to_home():
     turn_to_direction(gyro, target_angle=190)
