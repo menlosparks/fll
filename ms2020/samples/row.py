@@ -35,32 +35,22 @@ from robot_setup import WHEEL_CIRCUM_MM
 from robot_setup import DEGREES_PER_MM
  
 ##### Do not change above this line ##########################################
-import testcode
-def flip_small():
-    testcode.move_crane_to_floor(crane_motor)
-    testcode.move_straight(distance_mm=30, speed_mm_s=60)
-    testcode.drive_raising_crane(duration_ms=400, robot_distance_mm=20, robot_turn_angle=0, 
-        crane_motor=crane_motor, crane_angle=90)
 
-def flip_bigt():
-    testcode.move_crane_to_floor(crane_motor)
-    testcode.move_straight(distance_mm=70, speed_mm_s=50)
-    left_motor.run_angle( 120,  10, Stop.BRAKE, True)
-    right_motor.run_angle(120,  10, Stop.BRAKE, True)
 
-    # wait(1000)
-    testcode.drive_raising_crane(duration_ms=400, robot_distance_mm=50, robot_turn_angle=0, 
-        crane_motor=crane_motor, crane_angle=100)
-    # testcode.drive_raising_crane(duration_ms=400, robot_distance_mm=30, robot_turn_angle=0, 
-    #     crane_motor=crane_motor, crane_angle=60)
-    # testcode.drive_raising_crane(duration_ms=300, robot_distance_mm=30, robot_turn_angle=0, 
-    #     crane_motor=crane_motor, crane_angle=60)
-    testcode.drive_raising_crane(duration_ms=200, robot_distance_mm=30, robot_turn_angle=0, 
-        crane_motor=crane_motor, crane_angle=30)
 
-flip_small()
-wait(6000)
-flip_small()
-wait(6000) 
+def row():
+    shared_all.turn_to_angle( gyro = gyro, target_angle = 20)
+    shared_all.move_straight(distance_mm=70, speed_mm_s=50)
+    shared_all.move_crane_to_floor(rack_motor)
+    shared_all.move_straight(distance_mm=10, speed_mm_s=-20)
+    shared_all.move_crane_to_floor(rack_motor)
+    shared_all.move_straight(distance_mm=10, speed_mm_s=-20)
+    shared_all.move_crane_to_floor(rack_motor)
+    shared_all.move_straight(distance_mm=70, speed_mm_s=-80)
 
-flip_bigt()
+    shared_all.drive_raising_crane(duration_ms=200, robot_distance_mm=5, robot_turn_angle=0, 
+        crane_motor=rack_motor, crane_angle=30)
+    shared_all.drive_raising_crane(duration_ms=500, robot_distance_mm=0, robot_turn_angle=0, 
+        crane_motor=rack_motor, crane_angle=160)
+
+row()
