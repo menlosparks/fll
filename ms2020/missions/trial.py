@@ -41,7 +41,24 @@ import shared_all
 
 def runtrial():
     shared_all.move_straight(distance_mm=70, speed_mm_s=50)
+    shared_all.move_straight(distance_mm=70, speed_mm_s=-50)
 
+    shared_all.move_to_color(
+        color_sensor = color_sensor_center,
+        stop_on_color = Color.RED,
+        speed_mm_s = 100)
+
+    shared_all.move_straight_target_direction(gyro = gyro, 
+        distance_mm=200, 
+        speed_mm_s=100, 
+        target_angle=45)
+
+
+    shared_all.drive_raising_crane(duration_ms = 800, 
+        robot_distance_mm = 70, 
+        robot_turn_angle = 30, 
+        crane_motor = crane_motor, 
+        crane_angle = 60)
 
 runtrial()
 
