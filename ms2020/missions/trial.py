@@ -54,11 +54,18 @@ def runtrial():
         target_angle=45)
 
 
+    shared_all.turn_arc(distance=50,angle=60, speed_mm_s=100) # turn in an arc
+
+    shared_all.turn_to_angle( gyro=gyro, target_angle=90) # turn to face suoth
+
     shared_all.drive_raising_crane(duration_ms = 800, 
         robot_distance_mm = 70, 
         robot_turn_angle = 30, 
-        crane_motor = crane_motor, 
+        motor = crane_motor, 
         crane_angle = 60)
+
+    shared_all.drive_raising_crane(duration_ms=400, robot_distance_mm=0, robot_turn_angle=0, 
+        motor=rack_motor, crane_angle=70)
 
 runtrial()
 
