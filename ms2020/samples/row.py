@@ -12,7 +12,6 @@ from pybricks.ev3devices import Motor
  
 sys.path.append('../shared')
 import robot_setup
-import shared_all
  
 from robot_setup import left_motor
 from robot_setup import right_motor
@@ -33,24 +32,30 @@ from robot_setup import AXLE_TRACK_MM
 from robot_setup import SENSOR_TO_AXLE
 from robot_setup import WHEEL_CIRCUM_MM
 from robot_setup import DEGREES_PER_MM
- 
+
+import shared_all
+
 ##### Do not change above this line ##########################################
 
 
 
 def row():
     shared_all.turn_to_angle( gyro = gyro, target_angle = 20)
-    shared_all.move_straight(distance_mm=70, speed_mm_s=50)
+    shared_all.move_straight(distance_mm=70, speed_mm_s=70)
+    shared_all.wiggle();
+    shared_all.move_crane_to_floor(rack_motor)
+    shared_all.move_straight(distance_mm=10, speed_mm_s=-20)
+    shared_all.wiggle();
     shared_all.move_crane_to_floor(rack_motor)
     shared_all.move_straight(distance_mm=10, speed_mm_s=-20)
     shared_all.move_crane_to_floor(rack_motor)
-    shared_all.move_straight(distance_mm=10, speed_mm_s=-20)
-    shared_all.move_crane_to_floor(rack_motor)
-    shared_all.move_straight(distance_mm=70, speed_mm_s=-80)
+    # shared_all.move_straight(distance_mm=70, speed_mm_s=-80)
+    shared_all.drive_raising_crane(duration_ms=1900, robot_distance_mm=-90, robot_turn_angle=0, 
+        motor=rack_motor, crane_angle=-20)
 
     shared_all.drive_raising_crane(duration_ms=200, robot_distance_mm=5, robot_turn_angle=0, 
-        crane_motor=rack_motor, crane_angle=30)
+        motor=rack_motor, crane_angle=30)
     shared_all.drive_raising_crane(duration_ms=500, robot_distance_mm=0, robot_turn_angle=0, 
-        crane_motor=rack_motor, crane_angle=160)
+        motor=rack_motor, crane_angle=160)
 
 row()
