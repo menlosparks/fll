@@ -40,17 +40,22 @@ import shared_all
 
 
 def row():
-    shared_all.turn_to_angle( gyro = gyro, target_angle = 20)
+    # shared_all.turn_to_angle( gyro = gyro, target_angle = 20)
     shared_all.move_straight(distance_mm=70, speed_mm_s=70)
-    shared_all.wiggle();
     shared_all.move_crane_to_floor(rack_motor)
+    shared_all.move_straight(distance_mm=10, speed_mm_s=20)
+
+    left_motor.run_angle( 120,  20, Stop.BRAKE, True)
+    shared_all.move_crane_to_floor(rack_motor)
+
     shared_all.move_straight(distance_mm=10, speed_mm_s=-20)
-    shared_all.wiggle();
+    right_motor.run_angle( 120,  20, Stop.BRAKE, True)
     shared_all.move_crane_to_floor(rack_motor)
+
     shared_all.move_straight(distance_mm=10, speed_mm_s=-20)
     shared_all.move_crane_to_floor(rack_motor)
     # shared_all.move_straight(distance_mm=70, speed_mm_s=-80)
-    shared_all.drive_raising_crane(duration_ms=1900, robot_distance_mm=-90, robot_turn_angle=0, 
+    shared_all.drive_raising_crane(duration_ms=1900, robot_distance_mm=-100, robot_turn_angle=0, 
         motor=rack_motor, crane_angle=-20)
 
     shared_all.drive_raising_crane(duration_ms=200, robot_distance_mm=5, robot_turn_angle=0, 
