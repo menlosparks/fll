@@ -1,5 +1,7 @@
 #!/usr/bin/env pybricks-micropython
 #chnage
+import sys
+import os
 from pybricks import ev3brick as brick
 from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor,
                                  InfraredSensor, UltrasonicSensor, GyroSensor)
@@ -10,38 +12,38 @@ from pybricks.robotics import DriveBase
 from pybricks.ev3devices import Motor
 from pybricks.parameters import Port
 from pybricks.parameters import Port
+ 
+sys.path.append('../shared')
+import robot_setup
+ 
+from robot_setup import left_motor
+from robot_setup import right_motor
+from robot_setup import robot
+from robot_setup import rack_motor
+from robot_setup import crane_motor
+from robot_setup import gyro
+from robot_setup import touch_sensor
+from robot_setup import color_sensor_left
+from robot_setup import color_sensor_right
+from robot_setup import color_sensor_center
+from robot_setup import touch_sensor
+from robot_setup import ultrasound
+ 
+from robot_setup import SOUND_VOLUME
+from robot_setup import WHEEL_DIAMETER_MM
+from robot_setup import AXLE_TRACK_MM
+from robot_setup import SENSOR_TO_AXLE
+from robot_setup import WHEEL_CIRCUM_MM
+from robot_setup import DEGREES_PER_MM
 
 
 DEFAULT_SPEED=300
 DEFAULT_COLOR_FIND_SPEED=100
 DEFAULT_LINEFOLLOW_SPEED=100
 DEFAULT_ANGULAR_SPEED=45
-TANK_CHASSIS_LEN_MM=200
-SENSOR_TO_AXLE=60
-# WHEEL_DIAMETER_MM=54
-# AXLE_TRACK_MM=121
-WHEEL_DIAMETER_MM=89
-AXLE_TRACK_MM=157
+
 
 SOUND_VOLUME=7
-
-#output
-crane_motor=Motor(Port.D)
-# side_crane=Motor(Port.C)
-
-#drive motors
-left_motor=Motor(Port.B, Direction.COUNTERCLOCKWISE)
-# left_motor.duty(75)
-right_motor=Motor(Port.C, Direction.COUNTERCLOCKWISE)
-robot = DriveBase(left_motor, right_motor, WHEEL_DIAMETER_MM, AXLE_TRACK_MM)
-
-#Sensors
-gyro=GyroSensor(Port.S1)
-
-color_sensor_left = ColorSensor(Port.S2)
-color_sensor_right = ColorSensor(Port.S3)
-# Initialize the Ultrasonic Sensor. 
-# obstacle_sensor = UltrasonicSensor(Port.S4)
 
 
 def sound_happy():
@@ -63,19 +65,37 @@ def log_string(message):
     print(message)
     brick.display.text(message)
 
-def calibrate_gyro(new_angle=0):
+def calibrate_gyro():
     current_speed=gyro.speed()
     current_angle=gyro.angle()
     log_string('calibrating gyro speed ' + str(current_speed) + ' angle:' + str(current_angle))
     wait(100)
-    log_string('Resetting gyro to ' + str(new_angle)) 
-    gyro.reset_angle(new_angle)
+    gyro.reset_angle(0)
     wait(150)
-    log_string('Reset gyro complete to ' + str(new_angle)) 
     current_speed=gyro.speed()
     current_angle=gyro.angle()
     log_string('After reset gyro speed ' + str(current_speed) + ' angle:' + str(current_angle))
     wait(150)
+
+
+def turn_arc(distance,angle, speed_mm_s):
+
+    duration_ms = 1000* abs(distance / speed_mm_s)
+    steering_speed = (angle / duration_ms) * 1000
+    robot.drive_time(speed_mm_s, steering_speed, duration_ms)
+    # robot.drive_time(distance,angle, 1000)
+
+
+def turn_to_angle( gyro, target_angle):
+
+    error = target_angle - gyro.angle()
+    while ( abs(error) >= 4):
+        adj_angular_speed = error * 1.5
+        robot.drive(0,  adj_angular_speed)
+        wait(100)
+        error=target_angle - gyro.angle()
+
+    robot.stop(stop_type=Stop.BRAKE)
 
 def turn_to_direction( gyro, target_angle, speed_mm_s = DEFAULT_SPEED):
     start_angle = gyro.angle()
@@ -139,6 +159,21 @@ def move_straight(distance_mm, speed_mm_s):
     robot.stop(stop_type=Stop.BRAKE)
 
 
+def did_motor_stall(motor, max_degrees, speed):
+    motor.reset_angle(0)
+    speed = speed * (-1 if max_degrees < 0 else 1)
+    motor.run(speed)
+
+    while(abs(motor.angle()) < abs(max_degrees)):
+        if ( motor.stalled() == True):
+            motor.stop(stop_type=Stop.BRAKE)
+            return True
+        wait(100)
+    
+    motor.stop(stop_type=Stop.BRAKE)
+    return False
+
+
 def turn_to_color(
     color_sensor,
     stop_on_color,
@@ -188,21 +223,6 @@ def move_to_color_reverse(
         color_sensor,
         stop_on_color,
         speed_mm_s = -1 * speed_mm_s)
-
-def move_to_obstacle(
-    obstacle_sensor,
-    stop_on_obstacle_at,
-    speed_mm_s = DEFAULT_SPEED):
-
-    log_string('Driving to obstacle' + str(stop_on_obstacle_at))
- 
-    robot.drive(speed_mm_s, 0)
-    # Check if color reached.
-    while obstacle_sensor.distance() > stop_on_obstacle_at:
-        wait(10)
-    robot.stop(stop_type=Stop.BRAKE)
-    
-    log_string('Reached obstacle' + str(obstacle_sensor.distance()))
 
 
 
@@ -365,28 +385,32 @@ def move_straight_target_direction(gyro, distance_mm, speed_mm_s, target_angle):
 
 
 def drive_raising_crane(duration_ms, robot_distance_mm, robot_turn_angle, 
-                        crane_motor, crane_angle):
+                        motor, crane_angle):
     crane_angular_speed = int(1000 * crane_angle / duration_ms)
     turn_angular_speed_deg_s = abs(int(1000 * robot_turn_angle / duration_ms))
     forward_speed = int(1000 * robot_distance_mm / duration_ms) 
     robot.drive(forward_speed, turn_angular_speed_deg_s)
-    crane_motor.run(crane_angular_speed)
+    motor.run(crane_angular_speed)
     wait(duration_ms)
-    crane_motor.stop(Stop.BRAKE)
+    motor.stop(Stop.BRAKE)
     robot.stop(stop_type=Stop.BRAKE)
 
 
 
-def move_crane_to_floor( crane_motor):
-    crane_motor.run_until_stalled(-180, Stop.COAST, 50)
-    move_crane_up( crane_motor, degrees = 5)
+def move_crane_to_top( motor):
+    motor.run_until_stalled(180, Stop.COAST, 50)
+    move_crane_up( motor, degrees = 5)
+
+def move_crane_to_floor( motor):
+    motor.run_until_stalled(-180, Stop.COAST, 50)
+    move_crane_up( motor, degrees = 5)
 
 
-def move_crane_up( crane_motor, degrees):
-    crane_motor.run_angle(90,  degrees, Stop.BRAKE)
+def move_crane_up( motor, degrees):
+    motor.run_angle(90,  degrees, Stop.BRAKE)
 
-def move_crane_down( crane_motor, degrees):
-    crane_motor.run_angle(90,  -1 * degrees)
+def move_crane_down( motor, degrees):
+    motor.run_angle(90,  -1 * degrees)
 
 def run_to_home():
     turn_to_direction(gyro, target_angle=190)
@@ -395,7 +419,25 @@ def run_to_home():
         wait(100)
     robot.stop()
 
+def wiggle():
+    left_motor.run_angle( 120,  10, Stop.BRAKE, True)
+    right_motor.run_angle(120,  10, Stop.BRAKE, True)
 
 
 ### Run this at start up
-calibrate_gyro()
+#calibrate_gyro()
+ 
+def move_to_obstacle(
+    obstacle_sensor,
+    stop_on_obstacle_at,
+    speed_mm_s):
+ 
+    robot.drive(speed_mm_s, 0)
+    sign = -1 if speed_mm_s < 0 else 1
+    # Check if obstacle too close.
+    while sign * obstacle_sensor.distance() > sign * stop_on_obstacle_at:
+        log_string('obstacle_sensor at ' + str(obstacle_sensor.distance()))
+        wait(10)
+
+    robot.stop(stop_type=Stop.BRAKE)
+    
