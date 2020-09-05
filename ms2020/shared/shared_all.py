@@ -367,20 +367,26 @@ def turn_to_angle( gyro, target_angle):
 
 
 
+
 def move_straight_target_direction(gyro, distance_mm, speed_mm_s, target_angle):
 
     turn_to_angle( gyro, target_angle)
-    duration = abs(int(1000 * distance_mm / speed_mm_s))
-    time_spent=0
-    while (time_spent<duration):
+
+    # Use a different variable name for gyro so you dont get confused
+    gyro_target_angle = target_angle
+    left_motor.reset_angle(0)
+    motor_target_angle = int(DEGREES_PER_MM * distance_mm)
+
+    while (abs(left_motor.angle()) < abs(motor_target_angle)):
         error = target_angle - gyro.angle()
+        log_string('Gyro :' + str(gyro.angle()) + ' err: '+ str(error))
         adj_angular_speed = error * 1.5
         robot.drive(speed_mm_s, adj_angular_speed)
-        wait(200)
-        time_spent = time_spent + 200
+        wait(50)
+        if right_motor.stalled() or left_motor.stalled():
+            return
 
     robot.stop(stop_type=Stop.BRAKE)
-
 
 
 
