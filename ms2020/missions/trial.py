@@ -40,35 +40,35 @@ import shared_all
 
 
 def runtrial():
-    # shared_all.move_straight(distance_mm=70, speed_mm_s=50)
-    # shared_all.move_straight(distance_mm=70, speed_mm_s=-90)
+    shared_all.move_straight(distance_mm=70, speed_mm_s=50)
+    shared_all.move_straight(distance_mm=70, speed_mm_s=-90)
 
-    # shared_all.turn_to_angle( gyro=gyro, target_angle=45) # turn to face south
+    shared_all.turn_to_angle( gyro=gyro, target_angle=45) # turn to face south
 
-    # shared_all.move_to_color(
-    #     color_sensor = color_sensor_center,
-    #     stop_on_color = Color.RED,
-    #     speed_mm_s = 100)
+    shared_all.move_to_color(
+        color_sensor = color_sensor_center,
+        stop_on_color = Color.RED,
+        speed_mm_s = 100)
 
-    # shared_all.turn_to_angle( gyro=gyro, target_angle=-45)
+    shared_all.turn_to_angle( gyro=gyro, target_angle=-45)
 
-    # shared_all.move_straight_target_direction(gyro = gyro, 
-    #     distance_mm=800, 
-    #     speed_mm_s=300, 
-    #     target_angle=-45)
+    shared_all.move_straight_target_direction(gyro = gyro, 
+        distance_mm=800, 
+        speed_mm_s=300, 
+        target_angle=-45)
 
 
-    # shared_all.turn_arc(distance=50,angle=-60, speed_mm_s=100) # turn in an arc
+    shared_all.turn_arc(distance=50,angle=-60, speed_mm_s=100) # turn in an arc
 
-    # shared_all.turn_to_angle( gyro=gyro, target_angle=150) # turn to face south
+    shared_all.turn_to_angle( gyro=gyro, target_angle=150) # turn to face south
 
-    # shared_all.move_crane_to_floor(crane_motor)
+    shared_all.move_crane_to_floor(crane_motor)
 
-    # shared_all.drive_raising_crane(duration_ms = 1000, 
-    #     robot_distance_mm = 400, 
-    #     robot_turn_angle = 0, 
-    #     motor = crane_motor, 
-    #     crane_angle = 60)
+    shared_all.drive_raising_crane(duration_ms = 1000, 
+        robot_distance_mm = 400, 
+        robot_turn_angle = 0, 
+        motor = crane_motor, 
+        crane_angle = 60)
 
     shared_all.move_crane_to_top( crane_motor)
 
