@@ -133,7 +133,7 @@ def turn_to_direction( gyro, target_angle, speed_mm_s = DEFAULT_SPEED):
 def turn( angle, speed_mm_s = DEFAULT_SPEED):
 
     if angle > 0:    # right turns are a bit under-steered
-        angle = int(1.1 * angle)
+        angle = int( angle)
     else:
         angle = int(angle / 1)
 
@@ -204,11 +204,13 @@ def turn_to_color_left(
 def move_to_color(
     color_sensor,
     stop_on_color,
+    alternative_color = None,
     speed_mm_s = DEFAULT_COLOR_FIND_SPEED):
  
+    alternative_color = alternative_color if alternative_color != None else stop_on_color
     robot.drive(speed_mm_s, 0)
     # Check if color reached.
-    while color_sensor.color() != stop_on_color:
+    while color_sensor.color() != stop_on_color and color_sensor.color() != alternative_color:
         log_string('color: ' + str(color_sensor.color()) + ' intens: ' + str(color_sensor.reflection()))
         wait(10)
     robot.stop(stop_type=Stop.BRAKE)
@@ -218,10 +220,12 @@ def move_to_color(
 def move_to_color_reverse(
     color_sensor,
     stop_on_color,
+    alternative_color = None,
     speed_mm_s = DEFAULT_COLOR_FIND_SPEED):
     move_to_color(
         color_sensor,
         stop_on_color,
+        alternative_color,
         speed_mm_s = -1 * speed_mm_s)
 
 
@@ -291,7 +295,7 @@ def align_with_line_to_right(
         stop_on_color=border_color)
 
     #move forward half the length of tank and rotate
-    move_straight( SENSOR_TO_AXLE)    
+    move_straight(distance_mm=SENSOR_TO_AXLE, speed_mm_s=50)
     turn_to_color_left( color_sensor, line_color) 
     turn_to_color_left( color_sensor, border_color) 
 
@@ -393,7 +397,7 @@ def move_straight_target_direction(gyro, distance_mm, speed_mm_s, target_angle):
 def drive_raising_crane(duration_ms, robot_distance_mm, robot_turn_angle, 
                         motor, crane_angle):
     crane_angular_speed = int(1000 * crane_angle / duration_ms)
-    turn_angular_speed_deg_s = abs(int(1000 * robot_turn_angle / duration_ms))
+    turn_angular_speed_deg_s = int(1000 * robot_turn_angle / duration_ms)
     forward_speed = int(1000 * robot_distance_mm / duration_ms) 
     robot.drive(forward_speed, turn_angular_speed_deg_s)
     motor.run(crane_angular_speed)
