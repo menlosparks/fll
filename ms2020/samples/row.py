@@ -37,12 +37,7 @@ import shared_all
 
 ##### Do not change above this line ##########################################
 
-
-
-def row():
-    # shared_all.turn_to_angle( gyro = gyro, target_angle = 20)
-    shared_all.move_straight(distance_mm=70, speed_mm_s=70)
-    shared_all.move_crane_to_floor(rack_motor)
+def shake():
     shared_all.move_straight(distance_mm=10, speed_mm_s=20)
 
     left_motor.run_angle( 120,  20, Stop.BRAKE, True)
@@ -54,13 +49,34 @@ def row():
 
     shared_all.move_straight(distance_mm=10, speed_mm_s=-20)
     shared_all.move_crane_to_floor(rack_motor)
+
+
+def rowxx():
+    shared_all.turn_to_angle( gyro = gyro, target_angle = 55)  # real :180
+    shared_all.move_crane_to_floor(rack_motor)
+    shake()
+    shared_all.drive_raising_crane(duration_ms=1900, robot_distance_mm=0, robot_turn_angle=-90, 
+        motor=rack_motor, crane_angle=-20)
+    shared_all.drive_raising_crane(duration_ms=1900, robot_distance_mm=-50, robot_turn_angle=0, 
+        motor=rack_motor, crane_angle=-20)
+    shared_all.move_crane_up(rack_motor, 70)
+
+def row():
+    shared_all.turn_to_angle( gyro = gyro, target_angle = 24)
+    shared_all.move_straight(distance_mm=45, speed_mm_s=70)
+    shared_all.move_crane_to_floor(rack_motor)
+    shake()
+    
+
     # shared_all.move_straight(distance_mm=70, speed_mm_s=-80)
-    shared_all.drive_raising_crane(duration_ms=1900, robot_distance_mm=-100, robot_turn_angle=0, 
+    shared_all.drive_raising_crane(duration_ms=1900, robot_distance_mm=-120, robot_turn_angle=0, 
         motor=rack_motor, crane_angle=-20)
 
     shared_all.drive_raising_crane(duration_ms=200, robot_distance_mm=5, robot_turn_angle=0, 
         motor=rack_motor, crane_angle=30)
     shared_all.drive_raising_crane(duration_ms=500, robot_distance_mm=0, robot_turn_angle=0, 
         motor=rack_motor, crane_angle=160)
+    shared_all.turn(-24)
+    shared_all.turn_to_angle( gyro = gyro, target_angle = 0)
 
-row()
+# row()

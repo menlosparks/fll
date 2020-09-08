@@ -40,18 +40,13 @@ import shared_all
 def step():
 
     shared_all.move_straight_target_direction(gyro = gyro, 
-        distance_mm=230, 
+        distance_mm=190, 
         speed_mm_s=25, 
         target_angle=0)
 
     shared_all.move_straight(distance_mm=70, speed_mm_s=-100)
-    shared_all.turn( angle=-45)
-    shared_all.turn_arc(distance=100,angle=45, speed_mm_s=100) # turn in an arc
+    shared_all.turn_to_angle( gyro = gyro, target_angle = 0)
 
-    shared_all.move_straight_target_direction(gyro = gyro, 
-        distance_mm=200, 
-        speed_mm_s=150, 
-        target_angle=0)
 
-shared_all.calibrate_gyro()
-step()
+
+# step()
