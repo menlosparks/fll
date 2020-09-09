@@ -38,7 +38,7 @@ from robot_setup import DEGREES_PER_MM
 
 
 DEFAULT_SPEED=300
-DEFAULT_COLOR_FIND_SPEED=100
+DEFAULT_COLOR_FIND_SPEED=50
 DEFAULT_LINEFOLLOW_SPEED=100
 DEFAULT_ANGULAR_SPEED=45
 
@@ -211,7 +211,6 @@ def move_to_color(
     robot.drive(speed_mm_s, 0)
     # Check if color reached.
     while color_sensor.color() != stop_on_color and color_sensor.color() != alternative_color:
-        log_string('color: ' + str(color_sensor.color()) + ' intens: ' + str(color_sensor.reflection()))
         wait(10)
     robot.stop(stop_type=Stop.BRAKE)
 
