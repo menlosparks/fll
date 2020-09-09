@@ -66,6 +66,8 @@ def log_string(message):
     brick.display.text(message)
 
 def calibrate_gyro():
+    brick.sound.beep(300, 150, SOUND_VOLUME)
+
     current_speed=gyro.speed()
     current_angle=gyro.angle()
     log_string('calibrating gyro speed ' + str(current_speed) + ' angle:' + str(current_angle))
@@ -301,60 +303,29 @@ def align_with_line_to_right(
 
 
 
-#must be on the left border to start
 def follow_line_border(
     color_sensor,
-    max_distance = 0, 
-    stop_on_color=None,
-    line_color = Color.BLACK,
-    border_color = Color.WHITE,
-    speed_mm_s = DEFAULT_LINEFOLLOW_SPEED):
+    distance_mm,
+    speed_mm_s):
 
-    if ( True != search_for_color( color_sensor, border_color)):
-        log_string('follow_line_border :Could not find line to follow')
-        return False
-    
+    left_motor.reset_angle(0)
+    motor_target_angle = int(DEGREES_PER_MM * distance_mm)
     target_intensity = color_sensor.reflection()
 
-    follow_speed_mm_s = min(speed_mm_s, DEFAULT_LINEFOLLOW_SPEED) # line follow speed is slower
-    sample_distance_mm = 10  # sample every 1cm to check on track
-    interval = sample_distance_mm / (speed_mm_s/1000) # millisecpnds to sample
-    max_duration = 1000 * int(max_distance / speed_mm_s)
-    cum_duration = 0
-    intensity = color_sensor.reflection()
+    # Keep moving till the angle of the left motor reaches target
+    while (abs(left_motor.angle()) < abs(motor_target_angle)):
 
-    while True:
-        intensity = color_sensor.reflection()
-        current_color = color_sensor.color()
-        error = target_intensity - intensity
-        if current_color != line_color and current_color != border_color:
-            turn = 1 #right
-        elif current_color == border_color:
-            turn = 0
-        elif current_color == line_color :
-            turn = -1 #left
+        darkness = target_intensity - color_sensor.reflection()
+        if color_sensor.color() == Color.WHITE:
+            robot.drive(speed_mm_s, 0)
+        elif color_sensor.color() == Color.BLACK:
+            robot.drive(speed_mm_s, abs(darkness))
+        else :
+            robot.drive(speed_mm_s, -1 * abs(darkness))
 
-        robot.drive(follow_speed_mm_s, turn * abs(error))
-        wait(interval)
-        cum_duration += interval
-        log_string('follow_line_border intensity ' + str(intensity)
-                + ' error ' + str(error)
-                + ' color ' + str(current_color)
-                + ' turned ' + str(turn)
-                + ' cum_dist ' + str(int((cum_duration * speed_mm_s)/1000))
-            )
+        wait(250)
 
-        # Check any endng conditions being met
-        if ((max_distance > 0 and cum_duration >= max_duration) or 
-            (stop_on_color and color_sensor.color() == stop_on_color)):
-            robot.stop(stop_type=Stop.BRAKE)
-            log_string('follow_line_border Stopping as end met')
-            sound_happy()
-            return True
-
-        prev_intensity = intensity
-        prev_turn = turn
-
+    robot.stop(stop_type=Stop.BRAKE)
 
 
 def turn_to_angle( gyro, target_angle):
