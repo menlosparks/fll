@@ -38,22 +38,27 @@ import shared_all
 ##### Do not change above this line ##########################################
 
 def treadon():
-    shared_all.turn(10)
+    shared_all.turn(5)
 # 
     shared_all.move_straight(distance_mm=120, speed_mm_s=-180)
-    right_motor.run_angle( -90,  55, Stop.BRAKE, True)
-    left_motor.run_angle( -90,  25, Stop.BRAKE, True)
-    left_motor.run_angle( -100,  360, Stop.BRAKE, True)
-    right_motor.run_angle( -90,  25, Stop.BRAKE, True)
+    right_motor.run_angle( -90,  70, Stop.BRAKE, True)
+    # left_motor.run_angle( -90,  25, Stop.BRAKE, True)
+
+    right_motor.run(-5)
+    left_motor.run_angle( -100,  3*360, Stop.BRAKE, True)
+    right_motor.stop(stop_type=Stop.BRAKE)
+    # right_motor.run_angle( -90,  25, Stop.BRAKE, True)
 
     # left_motor.run_angle( 100,  45, Stop.COAST, True)
-    left_motor.run_angle( -100,  360, Stop.BRAKE, True)
-    right_motor.run_angle( -90,  -25, Stop.BRAKE, True)
+    # left_motor.run_angle( -100,  360, Stop.BRAKE, True)
+    # right_motor.run_angle( -90,  -25, Stop.BRAKE, True)
 
     # # left_motor.run_angle( 100,  45, Stop.COAST, True)
-    left_motor.run_angle( -100,  360, Stop.BRAKE, True)
+    # left_motor.run_angle( -100,  360, Stop.BRAKE, True)
     shared_all.move_straight(distance_mm=160, speed_mm_s=180)
-    shared_all.turn_to_direction( gyro=gyro, target_angle=180)
+
+
+    shared_all.turn_to_direction( gyro=gyro, target_angle= 0) ##   real:180)
 
 
 # treadon ()

@@ -33,15 +33,26 @@ from robot_setup import SENSOR_TO_AXLE
 from robot_setup import WHEEL_CIRCUM_MM
 from robot_setup import DEGREES_PER_MM
  
+import shared_all
+
 ##### Do not change above this line ##########################################
 
-import testcode
+def raise_weigh0t():
+    # shared_all.move_crane_to_top(crane_motor)
+    shared_all.move_crane_to_floor(rack_motor)
+    shared_all.drive_raising_crane(duration_ms=600, robot_distance_mm=3, robot_turn_angle=0, 
+        motor=rack_motor, crane_angle=-120)
+
 def raise_weight():
-    testcode.move_crane_to_floor(crane_motor)
-    testcode.move_crane_up( crane_motor = crane_motor, degrees = 35)
-    testcode.move_straight(distance_mm=50, speed_mm_s=50)
-    testcode.drive_raising_crane(duration_ms=400, robot_distance_mm=0, robot_turn_angle=0, 
-        crane_motor=crane_motor, crane_angle=120)
+    shared_all.move_crane_to_top(rack_motor)
+    shared_all.move_crane_to_floor(crane_motor)
+    shared_all.move_crane_up( motor = crane_motor, degrees = 45)
+    shared_all.move_straight(distance_mm=115, speed_mm_s=50)
+    shared_all.drive_raising_crane(duration_ms=400, robot_distance_mm=0, robot_turn_angle=0, 
+        motor=crane_motor, crane_angle=120)
+    shared_all.drive_raising_crane(duration_ms=400, robot_distance_mm=-100, robot_turn_angle=0, 
+        motor=crane_motor, crane_angle=-40)
+    shared_all.move_crane_to_top(crane_motor)
 
 
-raise_weight()
+# raise_weight()
