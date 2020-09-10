@@ -59,18 +59,19 @@ def flip_bigt():
         motor=crane_motor, crane_angle=30)
 
 def shift_phone(adjust_for_mission = 0):
-    shared_all.turn(45)
-    shared_all.move_crane_to_floor(crane_motor)
-    shared_all.turn_arc(distance=20,angle = 40, speed_mm_s=30)
+    shared_all.move_crane_to_floor(rack_motor)
 
-    #back up in a snake ans straighten
-    shared_all.turn_arc(distance=60, angle = 30, speed_mm_s=-100)
-    shared_all.turn_arc(distance=50, angle = -70, speed_mm_s=-100)
-    shared_all.turn(-45)
-    shared_all.move_straight_target_direction(gyro = gyro, 
-        distance_mm= 60, 
-        speed_mm_s= 100, 
-        target_angle= -90 + adjust_for_mission)
+    shared_all.turn_arc(distance=40,angle = 25, speed_mm_s=30)
+    shared_all.move_crane_to_top(rack_motor)
+
+    # #back up in a snake ans straighten
+    # shared_all.turn_arc(distance=60, angle = 30, speed_mm_s=-100)
+    # shared_all.turn_arc(distance=50, angle = -70, speed_mm_s=-100)
+    # shared_all.turn(-45)
+    # shared_all.move_straight_target_direction(gyro = gyro, 
+    #     distance_mm= 60, 
+    #     speed_mm_s= 100, 
+    #     target_angle= -90 + adjust_for_mission)
 
 
 def do_flips_bigtire(adjust_for_mission=0):

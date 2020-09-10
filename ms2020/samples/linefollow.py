@@ -63,7 +63,7 @@ def follow_line_border(
 
     robot.stop(stop_type=Stop.BRAKE)
 
-follow_line_border(
-   color_sensor=color_sensor_center,
-   distance_mm=650,
-   speed_mm_s=110)
+# follow_line_border(
+#    color_sensor=color_sensor_center,
+#    distance_mm=650,
+#    speed_mm_s=110)

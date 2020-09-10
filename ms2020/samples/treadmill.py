@@ -37,15 +37,15 @@ import shared_all
 
 ##### Do not change above this line ##########################################
 
-def treadon():
+def treadon(adjust_for_mission=0):
     shared_all.turn(5)
 # 
     shared_all.move_straight(distance_mm=120, speed_mm_s=-180)
-    right_motor.run_angle( -90,  70, Stop.BRAKE, True)
+    right_motor.run_angle( -90,  50, Stop.BRAKE, True)
     # left_motor.run_angle( -90,  25, Stop.BRAKE, True)
 
-    right_motor.run(-5)
-    left_motor.run_angle( -100,  3*360, Stop.BRAKE, True)
+    # right_motor.run(-3)
+    left_motor.run_angle( -85,  3*360, Stop.BRAKE, True)
     right_motor.stop(stop_type=Stop.BRAKE)
     # right_motor.run_angle( -90,  25, Stop.BRAKE, True)
 
@@ -58,7 +58,7 @@ def treadon():
     shared_all.move_straight(distance_mm=160, speed_mm_s=180)
 
 
-    shared_all.turn_to_direction( gyro=gyro, target_angle= 0) ##   real:180)
+    shared_all.turn_to_direction( gyro=gyro, target_angle= 180 + adjust_for_mission) ##   real:180)
 
 
 # treadon ()

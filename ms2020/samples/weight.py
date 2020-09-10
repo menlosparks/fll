@@ -37,22 +37,18 @@ import shared_all
 
 ##### Do not change above this line ##########################################
 
-def raise_weigh0t():
-    # shared_all.move_crane_to_top(crane_motor)
-    shared_all.move_crane_to_floor(rack_motor)
-    shared_all.drive_raising_crane(duration_ms=600, robot_distance_mm=3, robot_turn_angle=0, 
-        motor=rack_motor, crane_angle=-120)
 
-def raise_weight():
+def raise_weight(adjust_for_mission=0):
     shared_all.move_crane_to_top(rack_motor)
     shared_all.move_crane_to_floor(crane_motor)
     shared_all.move_crane_up( motor = crane_motor, degrees = 45)
     shared_all.move_straight(distance_mm=115, speed_mm_s=50)
     shared_all.drive_raising_crane(duration_ms=400, robot_distance_mm=0, robot_turn_angle=0, 
         motor=crane_motor, crane_angle=120)
-    shared_all.drive_raising_crane(duration_ms=400, robot_distance_mm=-100, robot_turn_angle=0, 
+    shared_all.drive_raising_crane(duration_ms=400, robot_distance_mm=-70, robot_turn_angle=0, 
         motor=crane_motor, crane_angle=-40)
     shared_all.move_crane_to_top(crane_motor)
+    shared_all.turn_to_direction( gyro=gyro, target_angle=-90 + adjust_for_mission) 
 
 
 # raise_weight()

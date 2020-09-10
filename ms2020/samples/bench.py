@@ -69,5 +69,7 @@ def lift():
     shared_all.move_crane_down( motor=crane_motor, degrees=40)
     shared_all.turn_arc(distance=60,angle=-40, speed_mm_s=-120)
 
-knock()
-lift()
+
+def bench_knock_and_lift():
+    knock()
+    lift()
