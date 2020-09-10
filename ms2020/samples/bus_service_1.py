@@ -108,6 +108,51 @@ def treadmill_to_flip():
 
 
 def treadmill_to_row():
+    shared_all.move_straight(distance_mm=100, speed_mm_s=130)
+    shared_all.turn(90)
+    shared_all.turn_to_direction( gyro=gyro, target_angle=-90 + ADJUST_FOR_MISSION)
+    shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
+        stop_on_color=Color.WHITE, alternative_color=Color.WHITE)
+
+    shared_all.move_straight(distance_mm=100, speed_mm_s=130)
+    shared_all.turn(-90)
+    shared_all.turn_to_direction( gyro=gyro, target_angle=180 + ADJUST_FOR_MISSION)
+    shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
+        stop_on_color=Color.WHITE, alternative_color=Color.WHITE)
+
+
+    shared_all.move_straight(distance_mm=100, speed_mm_s=130)
+    shared_all.turn_to_direction( gyro=gyro, target_angle=180 + ADJUST_FOR_MISSION)
+
+    shared_all.turn(90)
+
+    shared_all.move_straight_target_direction(gyro = gyro, 
+            distance_mm=100, 
+            speed_mm_s=130, 
+            target_angle= -90 + ADJUST_FOR_MISSION)
+
+def align_to_row():
+    shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
+        stop_on_color=Color.YELLOW, alternative_color=Color.YELLOW)
+
+    shared_all.move_straight_target_direction(gyro = gyro, 
+            distance_mm=100, 
+            speed_mm_s=130, 
+            target_angle= -90 + ADJUST_FOR_MISSION)
+
+    shared_all.turn(90)
+    shared_all.turn_to_direction( gyro=gyro, target_angle=0 + ADJUST_FOR_MISSION)
+
+    shared_all.move_to_color(color_sensor=color_sensor_right,
+        stop_on_color=Color.RED, alternative_color=Color.YELLOW)
+
+    shared_all.move_straight_target_direction(gyro = gyro, 
+            distance_mm=40, 
+            speed_mm_s=-70, 
+            target_angle= 0 + ADJUST_FOR_MISSION)
+
+
+def treadmill_to_rowold():
     shared_all.turn_arc(distance=70,angle=60, speed_mm_s=100) # turn in an arc
     shared_all.turn_arc(distance=70,angle=-60, speed_mm_s=100) # turn in an arc
     shared_all.move_straight(distance_mm=100, speed_mm_s=-90)
@@ -117,9 +162,7 @@ def treadmill_to_row():
     shared_all.move_straight(distance_mm=100, speed_mm_s=150)
 
     shared_all.turn(-90)
-    shared_all.turn_to_direction( gyro=gyro,
-    ####  Change yo 90
-       target_angle=     90 + ADJUST_FOR_MISSION)
+    shared_all.turn_to_direction( gyro=gyro, target_angle=90 + ADJUST_FOR_MISSION)
 
     shared_all.move_to_color(color_sensor=color_sensor_right,
         stop_on_color=Color.WHITE, alternative_color=Color.WHITE)
@@ -231,9 +274,9 @@ def align_to_phone():
 
 def phone_to_bigtire():
     shared_all.move_straight(distance_mm=30, speed_mm_s=-100)
-    shared_all.turn_arc(distance=170, angle = -120, speed_mm_s=-150)
-    shared_all.move_straight(distance_mm=30, speed_mm_s=100)
     shared_all.turn_arc(distance=170, angle = -90, speed_mm_s=-150)
+    shared_all.move_straight(distance_mm=30, speed_mm_s=100)
+    shared_all.turn_arc(distance=170, angle = 75, speed_mm_s=150)
 
     shared_all.move_to_color(color_sensor=color_sensor_center,
         stop_on_color=Color.BLACK, alternative_color=Color.BLACK)
@@ -292,6 +335,7 @@ ADJUST_FOR_MISSION=0 - INITIAL_ANGLE
 
 
 # treadmill_to_row()
+# align_to_row()
 # row.row()
 # push_tires()
 
@@ -304,7 +348,7 @@ align_to_phone()
 flip.shift_phone(ADJUST_FOR_MISSION)
 # flip.flip_small()
 # phone_to_bigtire()
-# do_flips_bigtire(ADJUST_FOR_MISSION)
+# flip.do_flips_bigtire(ADJUST_FOR_MISSION)
 
 
 # bigtire_to_slide()
