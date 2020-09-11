@@ -88,20 +88,15 @@ def turn_arc(distance,angle, speed_mm_s):
     # robot.drive_time(distance,angle, 1000)
 
 
-def turn_to_angle( gyro, target_angle):
 
-    error = target_angle - gyro.angle()
-    while ( abs(error) >= 4):
-        adj_angular_speed = error * 1.5
-        robot.drive(0,  adj_angular_speed)
-        wait(100)
-        error=target_angle - gyro.angle()
-
-    robot.stop(stop_type=Stop.BRAKE)
 
 def turn_to_direction( gyro, target_angle, speed_mm_s = DEFAULT_SPEED):
     start_angle = gyro.angle()
     angle_change = target_angle - start_angle
+    log_string('turn_to_direction start_angle:' + str(start_angle) 
+        + ' angle_change:' +str(angle_change)
+        + ' target_angle:' +str(target_angle)
+        )
 
     if (angle_change >180 ):
         angle_change = angle_change - 360
@@ -110,8 +105,11 @@ def turn_to_direction( gyro, target_angle, speed_mm_s = DEFAULT_SPEED):
     target_angle = angle_change + start_angle
 
 
-    robot.drive_time(0, 0.9 * angle_change, 1000)
-    robot.stop(stop_type=Stop.BRAKE)
+    target_angle = adjust_gyro_target_angle(target_angle)
+    log_string('turn_to_direction  Adjtgt :' +str(target_angle))
+
+    # robot.drive_time(0, 0.9 * angle_change, 1000)
+    # robot.stop(stop_type=Stop.BRAKE)
 
     max_attempts=10 # limit oscialltions to 10, not forever
     while ( abs(target_angle - gyro.angle()) > 1 and max_attempts >0):
@@ -124,7 +122,7 @@ def turn_to_direction( gyro, target_angle, speed_mm_s = DEFAULT_SPEED):
     robot.stop(stop_type=Stop.BRAKE)
 
     adjusted_angle = gyro.angle()
-    log_string('turn_to_direction -- Adjusted target: ' + str(target_angle) 
+    log_string('turn_to_direction done-- Adjusted target: ' + str(target_angle) 
         + ' now: ' + str(adjusted_angle)
         + ' remain attempts : ' + str(max_attempts)
         )
@@ -327,27 +325,28 @@ def follow_line_border(
 
     robot.stop(stop_type=Stop.BRAKE)
 
+def adjust_gyro_target_angle(target_angle):
+    start_angle = gyro.angle()
+    angle_change = target_angle - start_angle
 
-def turn_to_angle( gyro, target_angle):
-
-    error = target_angle - gyro.angle()
-    while ( abs(error) >= 4):
-        adj_angular_speed = error * 1.5
-        robot.drive(0, adj_angular_speed)
-        wait(100)
-        error=target_angle - gyro.angle()
-
-    robot.stop(stop_type=Stop.BRAKE)
-
-
-
+    if (angle_change >180 ):
+        angle_change = angle_change - 360
+    if (angle_change < -180 ):
+        angle_change = angle_change + 360
+    target_angle = angle_change + start_angle
+    log_string('adjust_gyro_target_angle start_angle:' + str(start_angle) 
+        + ' angle_change:' +str(angle_change)
+        + ' Adj :' +str(target_angle)
+        )
+    return target_angle
 
 def move_straight_target_direction(gyro, distance_mm, speed_mm_s, target_angle):
 
-    turn_to_angle( gyro, target_angle)
+    target_angle = adjust_gyro_target_angle(target_angle)
+    log_string('move_straight_target_direction  Adjtgt :' +str(target_angle))
 
-    # Use a different variable name for gyro so you dont get confused
-    gyro_target_angle = target_angle
+    turn_to_direction( gyro, target_angle)
+
     left_motor.reset_angle(0)
     motor_target_angle = int(DEGREES_PER_MM * distance_mm)
 
@@ -358,7 +357,10 @@ def move_straight_target_direction(gyro, distance_mm, speed_mm_s, target_angle):
         robot.drive(speed_mm_s, adj_angular_speed)
         wait(50)
         if right_motor.stalled() or left_motor.stalled():
+            log_string('move_straight_target_direction motor stalled ')
             return
+
+    log_string('move_straight_target_direction -- done gyro.angle(): ' + str(gyro.angle()))
 
     robot.stop(stop_type=Stop.BRAKE)
 
@@ -378,19 +380,19 @@ def drive_raising_crane(duration_ms, robot_distance_mm, robot_turn_angle,
 
 
 def move_crane_to_top( motor):
-    motor.run_until_stalled(180, Stop.COAST, 50)
+    motor.run_until_stalled(300, Stop.COAST, 50)
     move_crane_up( motor, degrees = 5)
 
 def move_crane_to_floor( motor):
-    motor.run_until_stalled(-180, Stop.COAST, 50)
+    motor.run_until_stalled(-300, Stop.COAST, 50)
     move_crane_up( motor, degrees = 5)
 
 
 def move_crane_up( motor, degrees):
-    motor.run_angle(90,  degrees, Stop.BRAKE)
+    motor.run_angle(180,  degrees, Stop.BRAKE)
 
 def move_crane_down( motor, degrees):
-    motor.run_angle(90,  -1 * degrees)
+    motor.run_angle(180,  -1 * degrees)
 
 def run_to_home():
     turn_to_direction(gyro, target_angle=190)
