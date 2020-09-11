@@ -38,29 +38,49 @@ import shared_all
 ##### Do not change above this line ##########################################
 
 def base_to_basket(adjust_for_mission=0):
-    shared_all.move_straight_target_direction(gyro = gyro, 
-            distance_mm=80, 
-            speed_mm_s=100, 
-        target_angle= 0 + adjust_for_mission)
 
-    shared_all.turn(-90)
-
+    shared_all.turn_arc(distance=150, angle = -90, speed_mm_s=130)
     shared_all.move_straight_target_direction(gyro = gyro, 
-            distance_mm=300, 
-            speed_mm_s=180, 
+            distance_mm=350, 
+            speed_mm_s=120, 
         target_angle= -90 + adjust_for_mission)
 
-    shared_all.move_to_color(color_sensor=color_sensor_right,
+def align_to_basket(adjust_for_mission=0):
+
+    shared_all.move_to_color(color_sensor=color_sensor_center,
         stop_on_color=Color.WHITE, alternative_color=Color.WHITE)
-
     shared_all.move_straight_target_direction(gyro = gyro, 
-            distance_mm=100, 
-            speed_mm_s=180, 
+            distance_mm=40, 
+            speed_mm_s=-100, 
         target_angle= -90 + adjust_for_mission)
-
-    shared_all.turn(-45)
-
+    shared_all.turn(-90)
+    shared_all.turn_to_direction( gyro=gyro, target_angle=180 + adjust_for_mission) 
+    shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
+        stop_on_color=Color.WHITE, alternative_color=Color.WHITE)
     shared_all.move_straight_target_direction(gyro = gyro, 
-            distance_mm=50, 
-            speed_mm_s=180, 
+            distance_mm=40, 
+            speed_mm_s=80, 
+        target_angle= 180 + adjust_for_mission)
+
+    shared_all.turn(50)
+    shared_all.move_straight_target_direction(gyro = gyro, 
+            distance_mm=-40, 
+            speed_mm_s=80, 
         target_angle= -135 + adjust_for_mission)
+
+def basket_to_bench():
+    shared_all.turn_arc(distance=90, angle = -55, speed_mm_s=-70)
+    shared_all.move_crane_to_top( motor=rack_motor)
+
+    shared_all.turn_to_direction( gyro=gyro, target_angle=180 + adjust_for_mission) 
+    shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
+        stop_on_color=Color.WHITE, alternative_color=Color.WHITE)
+    shared_all.move_straight_target_direction(gyro = gyro, 
+            distance_mm=120, 
+            speed_mm_s=140, 
+        target_angle= 180 + adjust_for_mission)
+    shared_all.move_crane_to_top( motor=crane_motor)
+    shared_all.turn(-60)
+
+
+bench.bench_knock_and_lift()

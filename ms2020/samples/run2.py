@@ -53,6 +53,7 @@ INITIAL_ANGLE=-90
 ADJUST_FOR_MISSION=0 - INITIAL_ANGLE
 
 bus_service_2.base_to_basket(adjust_for_mission=ADJUST_FOR_MISSION)
+bus_service_2.align_to_basket(adjust_for_mission=ADJUST_FOR_MISSION)
 basket.putcube()
 basket.level1()
 basket.level2()
