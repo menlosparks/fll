@@ -65,7 +65,7 @@ def log_string(message):
     print(message)
     brick.display.text(message)
 
-def calibrate_gyro():
+def calibrate_gyro(new_gyro_angle=0):
     brick.sound.beep(300, 150, SOUND_VOLUME)
 
     current_speed=gyro.speed()
@@ -79,6 +79,9 @@ def calibrate_gyro():
     log_string('After reset gyro speed ' + str(current_speed) + ' angle:' + str(current_angle))
     wait(150)
 
+def push_back_reset_gyro(distance_mm, new_gyro_angle):
+    move_straight(distance_mm = distance_mm , speed_mm_s= -80)
+    calibrate_gyro(new_gyro_angle)
 
 def turn_arc(distance,angle, speed_mm_s):
 
@@ -376,11 +379,13 @@ def drive_raising_crane(duration_ms, robot_distance_mm, robot_turn_angle,
     wait(duration_ms)
     motor.stop(Stop.BRAKE)
     robot.stop(stop_type=Stop.BRAKE)
+    left_motor.stop(Stop.BRAKE)
+    right_motor.stop(Stop.BRAKE)
 
 
 
 def move_crane_to_top( motor):
-    motor.run_until_stalled(300, Stop.COAST, 50)
+    motor.run_until_stalled(500, Stop.COAST, 50)
     move_crane_up( motor, degrees = 5)
 
 def move_crane_to_floor( motor):
