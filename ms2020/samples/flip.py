@@ -39,8 +39,15 @@ from robot_setup import DEGREES_PER_MM
 def flip_small():
     shared_all.move_crane_to_floor(crane_motor)
     shared_all.move_straight(distance_mm=60, speed_mm_s=90)
-    shared_all.drive_raising_crane(duration_ms=300, robot_distance_mm=20, robot_turn_angle=0, 
+    shared_all.drive_raising_crane(duration_ms=400, robot_distance_mm=30, robot_turn_angle=0, 
         motor=crane_motor, crane_angle=110)
+    shared_all.move_crane_to_top(crane_motor)
+
+def flip_phone():
+    shared_all.move_crane_to_floor(crane_motor)
+    shared_all.move_straight(distance_mm=60, speed_mm_s=90)
+    shared_all.drive_raising_crane(duration_ms=250, robot_distance_mm=20, robot_turn_angle=0, 
+        motor=crane_motor, crane_angle=120)
     shared_all.move_crane_to_top(crane_motor)
 
 def flip_bigt():

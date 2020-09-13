@@ -63,7 +63,7 @@ def rowxx():
 
 def row():
     # shared_all.turn_to_angle( gyro = gyro, target_angle = 24+180)
-    shared_all.turn(19)
+    shared_all.turn(17)
     shared_all.move_straight(distance_mm=70, speed_mm_s=70)
     shared_all.move_crane_to_floor(rack_motor)
     shake()

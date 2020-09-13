@@ -38,6 +38,7 @@ import shared_all
 ##### Do not change above this line ##########################################
 
 
+import bus_service_1
 import bus_service_2
 import stepcounter
 import treadmill
@@ -49,13 +50,37 @@ import bench
 import basket
 shared_all.calibrate_gyro()
 
-INITIAL_ANGLE=-90
+INITIAL_ANGLE=0
 ADJUST_FOR_MISSION=0 - INITIAL_ANGLE
 
-bus_service_2.base_to_basket(adjust_for_mission=ADJUST_FOR_MISSION)
-bus_service_2.align_to_basket(adjust_for_mission=ADJUST_FOR_MISSION)
-basket.putcube()
-basket.level1()
-basket.level2()
-    
-bus_service_2.basket_to_bench()
+
+bus_service_1.base_to_stepcounter()
+bus_service_1.stepcounter.step()
+bus_service_1.stepcounter_to_treadmill()
+bus_service_1.align_for_treadmill()
+treadmill.treadon(ADJUST_FOR_MISSION)
+
+
+bus_service_1.treadmill_to_row()
+bus_service_1.align_to_row(adjust_for_mission)
+row.row()
+bus_service_1.push_tires()
+
+bus_service_1.row_to_weight()
+bus_service_1.align_to_weight()
+bus_service_1.weight.raise_weight()
+
+bus_service_1.weight_to_phone()
+bus_service_1.align_to_phone()
+flip.shift_phone(ADJUST_FOR_MISSION)
+################# flip.pull_phone_back()
+flip.flip_small()
+bus_service_1.phone_to_bigtire()
+#################flip.do_flips_bigtire(ADJUST_FOR_MISSION)
+flip.flip_bigt()
+
+bus_service_1.bigtire_to_slide()
+bus_service_1.align_to_slide()
+slide.slide()
+slide.take_slide_to_home()
+# slide_to_bench()

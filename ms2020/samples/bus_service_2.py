@@ -83,4 +83,3 @@ def basket_to_bench():
     shared_all.turn(-60)
 
 
-bench.bench_knock_and_lift()
