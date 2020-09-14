@@ -50,28 +50,31 @@ import bench
 import basket
 shared_all.calibrate_gyro()
 
-INITIAL_ANGLE=180
+INITIAL_ANGLE=0
 adjust_for_mission=0 - INITIAL_ANGLE
 
 
 # bus_service_1.base_to_stepcounter()
-# bus_service_1.stepcounter.step()
+# stepcounter.step()
 # bus_service_1.stepcounter_to_treadmill()
 # bus_service_1.align_for_treadmill()
 # treadmill.treadon(adjust_for_mission)
 
-
-bus_service_1.treadmill_to_row(adjust_for_mission)
+# bus_service_1.treadmill_to_row(adjust_for_mission)
+# shared_all.push_back_reset_gyro(distance_mm = 80, new_gyro_angle =0 )
+adjust_for_mission=90
 bus_service_1.align_to_row(adjust_for_mission)
-row.row()
-bus_service_1.push_tires(adjust_for_mission)
 
-# bus_service_1.row_to_weight()
-# bus_service_1.align_to_weight()
-# bus_service_1.weight.raise_weight()
 
-# bus_service_1.weight_to_phone()
-# bus_service_1.align_to_phone()
+row.row(adjust_for_mission)
+# bus_service_1.push_tires(adjust_for_mission)
+
+# bus_service_1.row_to_weight(adjust_for_mission)
+# bus_service_1.align_to_weight(adjust_for_mission)
+# bus_service_1.weight.raise_weight(adjust_for_mission)
+
+# bus_service_1.weight_to_phone(adjust_for_mission)
+# bus_service_1.align_to_phone(adjust_for_mission)
 # flip.shift_phone(adjust_for_mission)
 # flip.flip_small()
 # bus_service_1.phone_to_bigtire()

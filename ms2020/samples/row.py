@@ -61,9 +61,9 @@ def rowxx():
         motor=rack_motor, crane_angle=-20)
     shared_all.move_crane_up(rack_motor, 70)
 
-def row():
-    # shared_all.turn_to_angle( gyro = gyro, target_angle = 24+180)
-    shared_all.turn(17)
+def row(adjust_for_mission=0):
+    shared_all.turn_to_direction( gyro = gyro, target_angle = 17+adjust_for_mission)
+    # shared_all.turn(17)
     shared_all.move_straight(distance_mm=70, speed_mm_s=70)
     shared_all.move_crane_to_floor(rack_motor)
     shake()

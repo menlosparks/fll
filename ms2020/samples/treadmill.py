@@ -46,7 +46,7 @@ def treadon(adjust_for_mission=0):
 
     # right_motor.run(-3)
     left_motor.run_angle( -85,  3*360, Stop.BRAKE, True)
-    right_motor.stop(stop_type=Stop.BRAKE)
+    # right_motor.stop(stop_type=Stop.BRAKE)
     # right_motor.run_angle( -90,  25, Stop.BRAKE, True)
 
     # left_motor.run_angle( 100,  45, Stop.COAST, True)

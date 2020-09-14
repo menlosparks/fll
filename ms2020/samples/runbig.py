@@ -55,7 +55,7 @@ ADJUST_FOR_MISSION=0 - INITIAL_ANGLE
 
 
 bus_service_1.base_to_stepcounter()
-bus_service_1.stepcounter.step()
+stepcounter.step()
 bus_service_1.stepcounter_to_treadmill()
 bus_service_1.align_for_treadmill()
 treadmill.treadon(ADJUST_FOR_MISSION)

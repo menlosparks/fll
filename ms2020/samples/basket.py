@@ -75,6 +75,7 @@ def level2():
 
 # all.move_crane_up( motor=rack_motor, degrees=110)
 
-# putcube()
-# level1()
-# level2()
+def dobasket():
+    putcube()
+    level1()
+    level2()

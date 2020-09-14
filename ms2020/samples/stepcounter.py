@@ -44,8 +44,7 @@ def step():
         speed_mm_s=25, 
         target_angle=0)
 
-    shared_all.move_straight(distance_mm=71, speed_mm_s=-140)
+    shared_all.move_straight(distance_mm=90, speed_mm_s=-140)
     shared_all.turn_to_direction( gyro = gyro, target_angle = 0)
 
 
-# step()
