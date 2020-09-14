@@ -49,13 +49,16 @@ import weight
 import slide
 import bench
 import basket
-shared_all.calibrate_gyro()
-
-INITIAL_ANGLE=180
 
 
-ADJUST_FOR_MISSION=0 - INITIAL_ANGLE
+shared_all.move_to_obstacle(
+    obstacle_sensor = ultrasound,
+    stop_on_obstacle_at = 70,
+    speed_mm_s = 70)
+brick.sound.beep(300, 150, SOUND_VOLUME)
 
-## starts near yellow flower in gray area
-bus_service_2.align_to_basket(adjust_for_mission=-90)
-basket.dobasket()
+
+shared_all.move_to_obstacle(
+    obstacle_sensor = ultrasound,
+    stop_on_obstacle_at = 70,
+    speed_mm_s = 70)

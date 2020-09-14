@@ -39,23 +39,20 @@ import shared_all
 ##### Do not change above this line ##########################################
 
 
-import bus_service_1
-import bus_service_2
-import stepcounter
-import treadmill
-import row
-import flip
-import weight
-import slide
-import bench
-import basket
-shared_all.calibrate_gyro()
+def color_test(distance_mm, speed_mm_s):
 
-INITIAL_ANGLE=180
+    left_motor.reset_angle(0)
+    motor_target_angle = int(DEGREES_PER_MM * distance_mm)
 
+    while (abs(left_motor.angle()) < abs(motor_target_angle)):
+        shared_all.log_string(
+            'Center : ' + str(color_sensor_center.color()) + '(' + str(color_sensor_center.reflection()) + ')' 
+            + 'Right : ' + str(color_sensor_right.color()) + '(' + str(color_sensor_right.reflection()) + ')' 
+            )
+        robot.drive(speed_mm_s, 0)
+        wait(200)
 
-ADJUST_FOR_MISSION=0 - INITIAL_ANGLE
+    robot.stop(stop_type=Stop.BRAKE)
 
-## starts near yellow flower in gray area
-bus_service_2.align_to_basket(adjust_for_mission=-90)
-basket.dobasket()
+color_test( distance_mm=100, speed_mm_s=50)
+wait(999999)

@@ -55,7 +55,15 @@ INITIAL_ANGLE=180
 
 
 ADJUST_FOR_MISSION=0 - INITIAL_ANGLE
+shared_all.log_string('Arc turns 90 deg 12 cm')
+shared_all.turn_arc(distance  =120 ,angle =90 , speed_mm_s=130)
 
-## starts near yellow flower in gray area
-bus_service_2.align_to_basket(adjust_for_mission=-90)
-basket.dobasket()
+wait(3000)
+shared_all.turn_arc(distance  =120 ,angle =-90 , speed_mm_s=130)
+wait(3000)
+
+shared_all.log_string('POint turns 90 deg')
+shared_all.turn(90)
+
+wait(3000)
+shared_all.turn(-90)

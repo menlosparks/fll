@@ -37,25 +37,10 @@ from robot_setup import DEGREES_PER_MM
 import shared_all
 
 ##### Do not change above this line ##########################################
-
-
-import bus_service_1
-import bus_service_2
-import stepcounter
-import treadmill
-import row
-import flip
-import weight
-import slide
-import bench
-import basket
 shared_all.calibrate_gyro()
 
-INITIAL_ANGLE=180
 
+shared_all.push_back_reset_gyro(distance_mm=100, new_gyro_angle=-90)
+shared_all.move_straight(distance_mm=70, speed_mm_s=100)
 
-ADJUST_FOR_MISSION=0 - INITIAL_ANGLE
-
-## starts near yellow flower in gray area
-bus_service_2.align_to_basket(adjust_for_mission=-90)
-basket.dobasket()
+shared_all.turn_to_direction( gyro=gyro, target_angle=-70)

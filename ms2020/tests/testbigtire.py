@@ -49,12 +49,5 @@ import weight
 import slide
 import bench
 import basket
-shared_all.calibrate_gyro()
 
-INITIAL_ANGLE=180
-
-
-ADJUST_FOR_MISSION=0 - INITIAL_ANGLE
-
-bus_service_1.align_to_slide()
-slide.slide()
+flip.flip_bigt()

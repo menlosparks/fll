@@ -49,15 +49,9 @@ import weight
 import slide
 import bench
 import basket
-shared_all.calibrate_gyro()
 
-INITIAL_ANGLE=180
-
-
-ADJUST_FOR_MISSION=0 - INITIAL_ANGLE
 
 flip.flip_phone()
 wait(5000)
 flip.flip_small()
-wait(5000)
-flip.flip_bigt()
+

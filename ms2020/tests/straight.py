@@ -49,13 +49,7 @@ import weight
 import slide
 import bench
 import basket
-shared_all.calibrate_gyro()
 
-INITIAL_ANGLE=180
-
-
-ADJUST_FOR_MISSION=0 - INITIAL_ANGLE
-
-## starts near yellow flower in gray area
-bus_service_2.align_to_basket(adjust_for_mission=-90)
-basket.dobasket()
+move_straight(distance_mm = 400, speed_mm_s = 140)
+wait(3000)
+move_straight(distance_mm = 400, speed_mm_s = -140)
