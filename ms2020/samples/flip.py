@@ -68,7 +68,7 @@ def  pull_phone_back(adjust_for_mission = 0):
     shared_all.turn_arc(distance=30, angle = -60, speed_mm_s=-70)
 
     shared_all.turn_to_direction( gyro=gyro, target_angle=-90 + adjust_for_mission) 
-    shared_all.move_straight(distance_mm=90, speed_mm_s=110)
+    shared_all.move_straight(distance_mm=100, speed_mm_s=110)
     shared_all.move_crane_to_floor(rack_motor) 
     shared_all.drive_raising_crane(duration_ms=1100, robot_distance_mm=-130, robot_turn_angle=0, 
         motor=rack_motor, crane_angle=-15)

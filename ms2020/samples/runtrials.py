@@ -72,6 +72,8 @@ row.row(adjust_for_mission)
 # bus_service_1.row_to_weight(adjust_for_mission)
 # bus_service_1.align_to_weight(adjust_for_mission)
 # bus_service_1.weight.raise_weight(adjust_for_mission)
+# shared_all.push_back_reset_gyro(distance_mm = 60, new_gyro_angle =0 )
+adjust_for_mission=180
 
 # bus_service_1.weight_to_phone(adjust_for_mission)
 # bus_service_1.align_to_phone(adjust_for_mission)

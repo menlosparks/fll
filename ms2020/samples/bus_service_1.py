@@ -66,10 +66,15 @@ def align_for_treadmill(adjust_for_mission=0):
 
     # shared_all.turn(90)
     shared_all.turn_to_direction( gyro=gyro, target_angle=90+ adjust_for_mission)
+    shared_all.move_straight(30, -50)
     shared_all.move_to_color(color_sensor=color_sensor_center,
         stop_on_color=Color.BLACK, alternative_color=Color.BLACK)
     shared_all.move_to_color(color_sensor=color_sensor_center,
         stop_on_color=Color.RED, alternative_color=Color.YELLOW, speed_mm_s=25)
+    shared_all.move_straight_target_direction(gyro = gyro, 
+            distance_mm=20, 
+            speed_mm_s=-100, 
+            target_angle=90+ adjust_for_mission)
 
     # shared_all.turn(90)
     shared_all.turn_to_direction( gyro=gyro, target_angle=180)
@@ -131,7 +136,7 @@ def align_to_oldrow(adjust_for_mission=0):
             speed_mm_s=130, 
             target_angle= -90+ adjust_for_mission)
 
-    shared_all.turn(90)
+    ########shared_all.turn(90)
     shared_all.turn_to_direction( gyro=gyro, target_angle=0+ adjust_for_mission)
 
     shared_all.move_to_color(color_sensor=color_sensor_right,
@@ -183,13 +188,12 @@ def align_to_weight(adjust_for_mission=0):
 
 
     shared_all.move_straight(distance_mm=30, speed_mm_s=-130)
-    shared_all.turn(90)
+    ########shared_all.turn(90)
     shared_all.turn_to_direction( gyro=gyro, target_angle=-90+ adjust_for_mission) 
     shared_all.move_straight(distance_mm=50, speed_mm_s=-140)
     shared_all.turn_to_direction( gyro=gyro, target_angle=-90+ adjust_for_mission) 
 
 def weight_to_phone(adjust_for_mission=0):
-    shared_all.turn(-90)
     shared_all.move_straight_target_direction(gyro = gyro, 
         distance_mm= 280, 
         speed_mm_s= 180, 
@@ -198,7 +202,6 @@ def weight_to_phone(adjust_for_mission=0):
 def align_to_phone(adjust_for_mission=0):
     shared_all.move_to_color(color_sensor=color_sensor_center,
         stop_on_color=Color.BLACK, alternative_color=Color.BLACK)
-    shared_all.turn(90)
     shared_all.turn_to_direction( gyro=gyro, target_angle=-90+ adjust_for_mission) 
 
     shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
@@ -207,7 +210,6 @@ def align_to_phone(adjust_for_mission=0):
         distance_mm= 80, 
         speed_mm_s= 100, 
         target_angle= -90+ adjust_for_mission)
-    shared_all.turn(-5)
     shared_all.turn_to_direction( gyro=gyro, target_angle=-95+ adjust_for_mission) 
 
 
@@ -232,7 +234,7 @@ def align_to_slide(adjust_for_mission=0):
         stop_on_color=Color.BLACK, alternative_color=Color.BLACK)
 
 
-    shared_all.turn(90)
+    ######## shared_all.turn(90)
     shared_all.turn_to_direction( gyro=gyro, target_angle=180+ adjust_for_mission) 
     shared_all.move_straight_target_direction(gyro = gyro, 
         distance_mm= 130, 
@@ -251,59 +253,10 @@ def align_to_slide(adjust_for_mission=0):
 
 
 def slide_to_bench(adjust_for_mission=0):
-    shared_all.turn(60)
+    ########shared_all.turn(60)
     shared_all.turn_to_direction( gyro=gyro, target_angle=195+ adjust_for_mission) 
     shared_all.move_straight_target_direction(gyro = gyro, 
         distance_mm= 400, 
         speed_mm_s= 90, 
         target_angle= 195+ adjust_for_mission)
-
-
-
-# import stepcounter
-# import treadmill
-# import row
-# import flip
-# import weight
-# import slide
-# import bench
-# shared_all.calibrate_gyro()
-
-# INITIAL_ANGLE=180
-# adjust_for_mission=0 - INITIAL_ANGLE
-# adjust_for_mission=adjust_for_mission
-
-# base_to_stepcounter()
-# stepcounter.step()
-# stepcounter_to_treadmill()
-# align_for_treadmill()
-# treadmill.treadon(adjust_for_mission)
-
-
-# treadmill_to_row()
-# ####### align_to_row()
-# row.row()
-# push_tires()
-
-# row_to_weight()
-# align_to_weight()
-# weight.raise_weight()
-
-# weight_to_phone()
-# align_to_phone()
-# flip.shift_phone(adjust_for_mission)
-# ################# flip.pull_phone_back()
-# flip.flip_small()
-# phone_to_bigtire()
-# #################flip.do_flips_bigtire(adjust_for_mission)
-# flip.flip_bigt()
-
-# bigtire_to_slide()
-# align_to_slide()
-# slide.slide()
-# slide.take_slide_to_home()
-# slide_to_bench()
-
-
-# bench.bench_knock_and_lift()
 

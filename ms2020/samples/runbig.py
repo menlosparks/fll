@@ -62,6 +62,8 @@ treadmill.treadon(ADJUST_FOR_MISSION)
 
 
 bus_service_1.treadmill_to_row()
+shared_all.push_back_reset_gyro(distance_mm = 80, new_gyro_angle =0 )
+adjust_for_mission=90
 bus_service_1.align_to_row(adjust_for_mission)
 row.row()
 bus_service_1.push_tires()
@@ -69,11 +71,12 @@ bus_service_1.push_tires()
 bus_service_1.row_to_weight()
 bus_service_1.align_to_weight()
 bus_service_1.weight.raise_weight()
+shared_all.push_back_reset_gyro(distance_mm = 60, new_gyro_angle =0 )
+adjust_for_mission=180
 
 bus_service_1.weight_to_phone()
 bus_service_1.align_to_phone()
 flip.shift_phone(ADJUST_FOR_MISSION)
-################# flip.pull_phone_back()
 flip.flip_small()
 bus_service_1.phone_to_bigtire()
 #################flip.do_flips_bigtire(ADJUST_FOR_MISSION)

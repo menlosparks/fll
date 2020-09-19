@@ -47,6 +47,7 @@ def raise_weight(adjust_for_mission=0):
     shared_all.drive_raising_crane(duration_ms=400, robot_distance_mm=-70, robot_turn_angle=0, 
         motor=crane_motor, crane_angle=-40)
     shared_all.move_crane_to_top(crane_motor)
+    shared_all.turn(-90)
 
 
 # raise_weight()
