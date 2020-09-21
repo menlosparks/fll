@@ -1,6 +1,6 @@
 #!/usr/bin/env pybricks-micropython
 # from pybricks.hubs import EV3Brick
-import pybricks.nxtdevices as nxt
+# import pybricks.nxtdevices as nxt
 from pybricks import ev3brick as brick
 from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor,
                                 InfraredSensor, UltrasonicSensor, GyroSensor)
@@ -32,5 +32,5 @@ color_sensor_left = None ### ColorSensor(Port.S1)
 color_sensor_right = ColorSensor(Port.S3)
 color_sensor_center = ColorSensor(Port.S4)
 touch_sensor= None ##TouchSensor(Port.S3)
-ultrasound=  nxt.UltrasonicSensor(Port.S2)
+ultrasound=  None## nxt.UltrasonicSensor(Port.S2)
  

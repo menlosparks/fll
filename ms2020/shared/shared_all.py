@@ -71,45 +71,38 @@ def calibrate_gyro(new_gyro_angle=0):
     current_speed=gyro.speed()
     current_angle=gyro.angle()
     log_string('calibrating gyro speed ' + str(current_speed) + ' angle:' + str(current_angle))
-    wait(100)
-    gyro.reset_angle(0)
-    wait(150)
+    wait(30)
+    gyro.reset_angle(new_gyro_angle)
+    wait(40)
     current_speed=gyro.speed()
     current_angle=gyro.angle()
     log_string('After reset gyro speed ' + str(current_speed) + ' angle:' + str(current_angle))
-    wait(150)
+    wait(40)
 
-def push_back_reset_gyro(distance_mm, new_gyro_angle):
+def push_back_reset_gyro(distance_mm, reset_gyro = True, new_gyro_angle = 0 ):
     move_straight(distance_mm = distance_mm , speed_mm_s= -80)
-    calibrate_gyro(new_gyro_angle)
+    left_motor.run_angle( -80,  60, Stop.BRAKE, True)
+    right_motor.run_angle( -80,  60, Stop.BRAKE, True)
+    if reset_gyro == True:
+        calibrate_gyro(new_gyro_angle)
 
 def turn_arc(distance,angle, speed_mm_s):
 
     duration_ms = 1000* abs(distance / speed_mm_s)
     steering_speed = (angle / duration_ms) * 1000
     robot.drive_time(speed_mm_s, steering_speed, duration_ms)
-    # robot.drive_time(distance,angle, 1000)
 
 
 
 
 def turn_to_direction( gyro, target_angle, speed_mm_s = DEFAULT_SPEED):
-    start_angle = gyro.angle()
-    angle_change = target_angle - start_angle
-    log_string('turn_to_direction start_angle:' + str(start_angle) 
-        + ' angle_change:' +str(angle_change)
-        + ' target_angle:' +str(target_angle)
-        )
-
-    if (angle_change >180 ):
-        angle_change = angle_change - 360
-    if (angle_change < -180 ):
-        angle_change = angle_change + 360
-    target_angle = angle_change + start_angle
-
 
     target_angle = adjust_gyro_target_angle(target_angle)
     log_string('turn_to_direction  Adjtgt :' +str(target_angle))
+
+    turn(target_angle - gyro.angle())
+    # target_angle = adjust_gyro_target_angle(target_angle)
+    # log_string('turn_to_direction  Adjtgt :' +str(target_angle))
 
     # robot.drive_time(0, 0.9 * angle_change, 1000)
     # robot.stop(stop_type=Stop.BRAKE)
