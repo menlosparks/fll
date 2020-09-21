@@ -49,12 +49,22 @@ import weight
 import slide
 import bench
 import basket
-shared_all.calibrate_gyro()
-
-INITIAL_ANGLE=180
 
 
-ADJUST_FOR_MISSION=0 - INITIAL_ANGLE
+INITIAL_ANGLE=0
 
-bus_service_1.align_to_slide()
-slide.slide()
+shared_all.calibrate_gyro(INITIAL_ANGLE)
+adjust_for_mission=0 - INITIAL_ANGLE
+
+def align_for_treadmill(adjust_for_mission=0):
+    shared_all.turn(-90)
+    shared_all.move_straight(distance_mm=120, speed_mm_s = -120)
+    shared_all.push_back_reset_gyro(distance_mm = 80, reset_gyro = False, new_gyro_angle =0 )
+    shared_all.move_straight(distance_mm=160, speed_mm_s = 150)
+    shared_all.turn_to_direction( gyro=gyro, target_angle=180+ adjust_for_mission) 
+    shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
+        stop_on_color=Color.BLACK, alternative_color=Color.BLACK)
+
+# bus_service_1.align_for_treadmill()
+align_for_treadmill()
+treadmill.treadon(adjust_for_mission)

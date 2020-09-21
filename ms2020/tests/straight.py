@@ -50,6 +50,6 @@ import slide
 import bench
 import basket
 
-move_straight(distance_mm = 400, speed_mm_s = 140)
+shared_all.move_straight(distance_mm = 400, speed_mm_s = 140)
 wait(3000)
-move_straight(distance_mm = 400, speed_mm_s = -140)
+shared_all.move_straight(distance_mm = 400, speed_mm_s = -140)

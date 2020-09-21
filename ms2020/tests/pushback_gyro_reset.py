@@ -39,8 +39,9 @@ import shared_all
 ##### Do not change above this line ##########################################
 shared_all.calibrate_gyro()
 
+shared_all.turn_to_direction( gyro=gyro, target_angle=-90)
 
-shared_all.push_back_reset_gyro(distance_mm=100, new_gyro_angle=-90)
+shared_all.push_back_reset_gyro(distance_mm=100, reset_gyro = True, new_gyro_angle=-90)
 shared_all.move_straight(distance_mm=70, speed_mm_s=100)
 
-shared_all.turn_to_direction( gyro=gyro, target_angle=-70)
+shared_all.turn_to_direction( gyro=gyro, target_angle=0)

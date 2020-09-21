@@ -47,12 +47,14 @@ def color_test(distance_mm, speed_mm_s):
     while (abs(left_motor.angle()) < abs(motor_target_angle)):
         shared_all.log_string(
             'Center : ' + str(color_sensor_center.color()) + '(' + str(color_sensor_center.reflection()) + ')' 
-            + 'Right : ' + str(color_sensor_right.color()) + '(' + str(color_sensor_right.reflection()) + ')' 
+             +  ' amb=(' + str(color_sensor_center.ambient()) + ')'
+            + ' Right : ' + str(color_sensor_right.color()) + '(' + str(color_sensor_right.reflection()) + ')'
+             +  ' amb=(' + str(color_sensor_right.ambient()) + ')' 
             )
         robot.drive(speed_mm_s, 0)
         wait(200)
 
     robot.stop(stop_type=Stop.BRAKE)
 
-color_test( distance_mm=100, speed_mm_s=50)
+color_test( distance_mm=100, speed_mm_s=30)
 wait(999999)

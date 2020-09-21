@@ -49,12 +49,14 @@ import weight
 import slide
 import bench
 import basket
+
+INITIAL_ANGLE=-90
+
 shared_all.calibrate_gyro()
 
-INITIAL_ANGLE=180
+# adjust_for_mission=180
 
-
-ADJUST_FOR_MISSION=0 - INITIAL_ANGLE
-
-bus_service_1.align_to_slide()
-slide.slide()
+bus_service_1.weight_to_phone(adjust_for_mission=0)
+bus_service_1.align_to_phone(adjust_for_mission=0)
+flip.shift_phone(adjust_for_mission=0)
+flip.flip_small()
