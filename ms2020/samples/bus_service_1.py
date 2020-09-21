@@ -59,12 +59,11 @@ def align_for_treadmill(adjust_for_mission=0):
 
     #### go to pink and move back 3 cm
     shared_all.move_to_color(color_sensor=color_sensor_center,
-        stop_on_color=Color.RED, alternative_color=Color.YELLOW)
+        stop_on_color=Color.WHITE, alternative_color=Color.WHITE)
     shared_all.move_to_color(color_sensor=color_sensor_center,
         stop_on_color=Color.BLACK, alternative_color=Color.BLACK)
 
 
-    # shared_all.turn(90)
     shared_all.turn_to_direction( gyro=gyro, target_angle=90+ adjust_for_mission)
     shared_all.move_straight(30, -50)
     shared_all.move_to_color(color_sensor=color_sensor_center,
@@ -72,93 +71,36 @@ def align_for_treadmill(adjust_for_mission=0):
     shared_all.move_to_color(color_sensor=color_sensor_center,
         stop_on_color=Color.RED, alternative_color=Color.YELLOW, speed_mm_s=25)
     shared_all.move_straight_target_direction(gyro = gyro, 
-            distance_mm=20, 
+            distance_mm=8, 
             speed_mm_s=-100, 
             target_angle=90+ adjust_for_mission)
 
-    # shared_all.turn(90)
-    shared_all.turn_to_direction( gyro=gyro, target_angle=180)
     shared_all.move_straight_target_direction(gyro = gyro, 
             distance_mm=100, 
             speed_mm_s=-100, 
             target_angle=180+ adjust_for_mission)
-    shared_all.turn_to_direction( gyro=gyro, target_angle=180)
+    ##################shared_all.turn_to_direction( gyro=gyro, target_angle=180)
 
 def treadmill_to_row(adjust_for_mission=0):
 
     shared_all.turn_arc(distance=120,angle=90, speed_mm_s=100) # turn in an arc
 
     shared_all.turn_to_direction( gyro=gyro, target_angle=-90+ adjust_for_mission)
-    shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
-        stop_on_color=Color.WHITE, alternative_color=Color.WHITE)
+    shared_all.move_straight(180, -160)
+
+    shared_all.push_back_reset_gyro(distance_mm=100, reset_gyro = True, new_gyro_angle=-90)
 
 def align_to_row(adjust_for_mission=0):
+        shared_all.move_straight(distance_mm=180, speed_mm_s=120)
+        shared_all.turn_to_direction( gyro=gyro, target_angle=0+ adjust_for_mission)
+        shared_all.move_to_color(color_sensor=color_sensor_center,
+                stop_on_color=Color.BLACK, alternative_color=Color.BLACK)
+        shared_all.move_straight(distance_mm=14, speed_mm_s=120)
 
-    shared_all.move_to_color(color_sensor=color_sensor_center,
-        stop_on_color=Color.BLACK, alternative_color=Color.BLACK)
-
-    shared_all.move_straight_target_direction(gyro = gyro, 
-            distance_mm=160, 
-            speed_mm_s=110, 
-            target_angle= -90+ adjust_for_mission)
-    shared_all.turn_to_direction( gyro=gyro, target_angle=180+ adjust_for_mission)
-    shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
-        stop_on_color=Color.WHITE, alternative_color=Color.WHITE)
-    shared_all.move_straight_target_direction(gyro = gyro, 
-            distance_mm=120, 
-            speed_mm_s=130, 
-            target_angle= 180+ adjust_for_mission)
-    shared_all.move_straight_target_direction(gyro = gyro, 
-            distance_mm=120, 
-            speed_mm_s=130, 
-            target_angle= -90+ adjust_for_mission)
-    shared_all.turn_to_direction( gyro=gyro, target_angle=0+ adjust_for_mission)
-
-    shared_all.move_straight_target_direction(gyro = gyro, 
-            distance_mm=100, 
-            speed_mm_s=-90, 
-            target_angle= 0+ adjust_for_mission)
-    shared_all.move_to_color(color_sensor=color_sensor_center,
-        stop_on_color=Color.RED, alternative_color=Color.YELLOW)
-    shared_all.move_to_color(color_sensor=color_sensor_center,
-        stop_on_color=Color.BLUE, alternative_color=Color.BLUE)
-    shared_all.move_straight_target_direction(gyro = gyro, 
-            distance_mm=60, 
-            speed_mm_s=-90, 
-            target_angle= 0+ adjust_for_mission)
-
-def align_to_oldrow(adjust_for_mission=0):
-    shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
-        stop_on_color=Color.YELLOW, alternative_color=Color.YELLOW)
-
-    shared_all.move_straight_target_direction(gyro = gyro, 
-            distance_mm=100, 
-            speed_mm_s=130, 
-            target_angle= -90+ adjust_for_mission)
-
-    ########shared_all.turn(90)
-    shared_all.turn_to_direction( gyro=gyro, target_angle=0+ adjust_for_mission)
-
-    shared_all.move_to_color(color_sensor=color_sensor_right,
-        stop_on_color=Color.RED, alternative_color=Color.YELLOW)
-
-    shared_all.move_straight_target_direction(gyro = gyro, 
-            distance_mm=40, 
-            speed_mm_s=-70, 
-            target_angle= 0+ adjust_for_mission)
-
-def row_to_flip(adjust_for_mission=0):
-
-
-    shared_all.turn_arc(distance=30,angle=-60, speed_mm_s=100) # turn in an arc
-
-    shared_all.move_straight(distance_mm=110, speed_mm_s=100)
-    shared_all.turn(180)
-    shared_all.move_straight(distance_mm=70, speed_mm_s=-100)
 
 def push_tires(adjust_for_mission=0):
     shared_all.turn_arc(distance=40,angle=-50, speed_mm_s=-100) # turn in an arc
-    shared_all.turn_arc(distance=60,angle=-40, speed_mm_s=100) # turn in an arc
+    shared_all.turn_arc(distance=60,angle=-25, speed_mm_s=100) # turn in an arc
     shared_all.move_straight(distance_mm=130, speed_mm_s=-100)
 
 def row_to_weight(adjust_for_mission=0):
@@ -169,31 +111,58 @@ def row_to_weight(adjust_for_mission=0):
 
 
 
-def align_to_weight(adjust_for_mission=0):
-    shared_all.move_crane_to_top(rack_motor)
+def align_to_old_weight(adjust_for_mission=0):
 
     shared_all.move_to_color(color_sensor=color_sensor_center,
         stop_on_color=Color.WHITE, alternative_color=Color.WHITE)
 
-    shared_all.move_straight(distance_mm=120, speed_mm_s=130)
-    shared_all.turn(-90)
-    # shared_all.move_crane_to_top(crane_motor)
+    shared_all.move_straight(distance_mm=135, speed_mm_s=120)
+    ###########shared_all.turn(-90)
+    shared_all.move_crane_to_top(crane_motor)
     shared_all.move_straight_target_direction(gyro = gyro, 
-        distance_mm= 130, 
-        speed_mm_s= -150, 
+        distance_mm= 135, 
+        speed_mm_s= -110, 
         target_angle= 180+ adjust_for_mission)
 
     shared_all.move_to_color_reverse(color_sensor=color_sensor_right,
         stop_on_color=Color.BLACK, alternative_color=Color.BLACK)
 
 
-    shared_all.move_straight(distance_mm=30, speed_mm_s=-130)
-    ########shared_all.turn(90)
+    shared_all.move_straight(distance_mm=40, speed_mm_s=-90)
+
     shared_all.turn_to_direction( gyro=gyro, target_angle=-90+ adjust_for_mission) 
     shared_all.move_straight(distance_mm=50, speed_mm_s=-140)
     shared_all.turn_to_direction( gyro=gyro, target_angle=-90+ adjust_for_mission) 
 
+
+def align_to_weight(adjust_for_mission=0):
+
+    shared_all.move_to_color(color_sensor=color_sensor_center,
+        stop_on_color=Color.BLACK, alternative_color=Color.BLACK)
+
+    shared_all.move_straight(distance_mm=30, speed_mm_s=120)
+    ###########shared_all.turn(-90)
+    shared_all.move_crane_to_top(crane_motor)
+    shared_all.turn_to_direction( gyro=gyro, target_angle=180+ adjust_for_mission) 
+    shared_all.move_straight(distance_mm=170, speed_mm_s=-180)
+
+    shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
+        stop_on_color=Color.RED, alternative_color=Color.YELLOW)
+
+    shared_all.push_back_reset_gyro(distance_mm = 80,  reset_gyro = False,  new_gyro_angle =0 )
+    shared_all.move_straight_target_direction(gyro = gyro, 
+        distance_mm= 65, 
+        speed_mm_s= 110, 
+        target_angle= 180+ adjust_for_mission)
+    shared_all.move_straight_target_direction(gyro = gyro, 
+        distance_mm= 20, 
+        speed_mm_s= 110, 
+        target_angle= -90+ adjust_for_mission)
+
+
+
 def weight_to_phone(adjust_for_mission=0):
+    shared_all.push_back_reset_gyro(distance_mm = 80, reset_gyro = True, new_gyro_angle =180 )
     shared_all.move_straight_target_direction(gyro = gyro, 
         distance_mm= 280, 
         speed_mm_s= 180, 
@@ -206,11 +175,7 @@ def align_to_phone(adjust_for_mission=0):
 
     shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
         stop_on_color=Color.BLACK, alternative_color=Color.BLACK)
-    shared_all.move_straight_target_direction(gyro = gyro, 
-        distance_mm= 80, 
-        speed_mm_s= 100, 
-        target_angle= -90+ adjust_for_mission)
-    shared_all.turn_to_direction( gyro=gyro, target_angle=-95+ adjust_for_mission) 
+
 
 
 def phone_to_bigtire(adjust_for_mission=0):

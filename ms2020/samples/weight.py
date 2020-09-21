@@ -39,15 +39,22 @@ import shared_all
 
 
 def raise_weight(adjust_for_mission=0):
+    
+
     shared_all.move_crane_to_floor(crane_motor)
     shared_all.move_crane_up( motor = crane_motor, degrees = 50)
-    shared_all.move_straight(distance_mm=115, speed_mm_s=50)
-    shared_all.drive_raising_crane(duration_ms=400, robot_distance_mm=0, robot_turn_angle=0, 
+    ############## shared_all.move_straight(distance_mm=110, speed_mm_s=50)
+    shared_all.move_to_color(color_sensor=color_sensor_center,
+        stop_on_color=Color.RED, alternative_color=Color.YELLOW)
+    shared_all.move_straight(distance_mm= 30, speed_mm_s= 60)
+    shared_all.drive_raising_crane(duration_ms=400 , robot_distance_mm=0, robot_turn_angle=0, 
         motor=crane_motor, crane_angle=120)
-    shared_all.drive_raising_crane(duration_ms=400, robot_distance_mm=-70, robot_turn_angle=0, 
-        motor=crane_motor, crane_angle=-40)
-    shared_all.move_crane_to_top(crane_motor)
+    shared_all.move_crane_down( motor = crane_motor, degrees = 40)
+    shared_all.move_straight(distance_mm=60, speed_mm_s=-120)
+    # shared_all.drive_raising_crane(duration_ms=400, robot_distance_mm=-60, robot_turn_angle=0, 
+    #     motor=crane_motor, crane_angle=-70)
     shared_all.turn(-90)
+    shared_all.move_crane_to_top(crane_motor)
 
 
 # raise_weight()

@@ -52,18 +52,15 @@ def shake():
 
 
 def row(adjust_for_mission=0):
-    shared_all.turn_to_direction( gyro = gyro, target_angle = 17+adjust_for_mission)
-    # shared_all.turn(17)
-    shared_all.move_straight(distance_mm=70, speed_mm_s=70)
+    shared_all.turn_to_direction( gyro=gyro, target_angle=-37+ adjust_for_mission)
     shared_all.move_crane_to_floor(rack_motor)
     shake()
-    
-
-    shared_all.drive_raising_crane(duration_ms=1900, robot_distance_mm=-120, robot_turn_angle=0, 
-        motor=rack_motor, crane_angle=-20)
-
-    shared_all.drive_raising_crane(duration_ms=200, robot_distance_mm=5, robot_turn_angle=0, 
-        motor=rack_motor, crane_angle=30)
-    shared_all.move_crane_up( motor=rack_motor, degrees=220)
+    shared_all.drive_raising_crane(duration_ms=1900, robot_distance_mm=-80, robot_turn_angle=-20, 
+            motor=rack_motor, crane_angle=-5)
+    shared_all.drive_raising_crane(duration_ms=1900, robot_distance_mm=35, robot_turn_angle=-45, 
+            motor=rack_motor, crane_angle=-5)
+    shared_all.turn(8)        
+    shared_all.drive_raising_crane(duration_ms=1900, robot_distance_mm=-10, robot_turn_angle=0, 
+            motor=rack_motor, crane_angle=90)
 
 

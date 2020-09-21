@@ -40,7 +40,7 @@ import shared_all
 def treadon(adjust_for_mission=0):
     shared_all.turn(5)
 # 
-    shared_all.move_straight(distance_mm=120, speed_mm_s=-180)
+    shared_all.move_straight(distance_mm=140, speed_mm_s=-180)
     right_motor.run_angle( -90,  50, Stop.BRAKE, True)
     # left_motor.run_angle( -90,  25, Stop.BRAKE, True)
 

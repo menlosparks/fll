@@ -48,6 +48,9 @@ import weight
 import slide
 import bench
 import basket
+
+
+
 shared_all.calibrate_gyro()
 
 INITIAL_ANGLE=0
@@ -61,7 +64,7 @@ adjust_for_mission=0 - INITIAL_ANGLE
 # treadmill.treadon(adjust_for_mission)
 
 # bus_service_1.treadmill_to_row(adjust_for_mission)
-# shared_all.push_back_reset_gyro(distance_mm = 80, new_gyro_angle =0 )
+# shared_all.push_back_reset_gyro(distance_mm = 80, reset_gyro = True, new_gyro_angle =0 )
 adjust_for_mission=90
 bus_service_1.align_to_row(adjust_for_mission)
 
@@ -72,7 +75,7 @@ row.row(adjust_for_mission)
 # bus_service_1.row_to_weight(adjust_for_mission)
 # bus_service_1.align_to_weight(adjust_for_mission)
 # bus_service_1.weight.raise_weight(adjust_for_mission)
-# shared_all.push_back_reset_gyro(distance_mm = 60, new_gyro_angle =0 )
+# shared_all.push_back_reset_gyro(distance_mm = 60, reset_gyro = True, new_gyro_angle =0 )
 adjust_for_mission=180
 
 # bus_service_1.weight_to_phone(adjust_for_mission)

@@ -65,31 +65,39 @@ def  pull_phone_back(adjust_for_mission = 0):
 
     ### change lane to the left
     shared_all.turn_arc(distance=30, angle = 60, speed_mm_s=-70)
-    shared_all.turn_arc(distance=30, angle = -60, speed_mm_s=-70)
+    shared_all.turn_arc(distance=45, angle = -60, speed_mm_s=-70)
 
-    shared_all.turn_to_direction( gyro=gyro, target_angle=-90 + adjust_for_mission) 
-    shared_all.move_straight(distance_mm=100, speed_mm_s=110)
+    shared_all.move_straight_target_direction(gyro = gyro, 
+        distance_mm= 80, 
+        speed_mm_s= 100, 
+        target_angle= -100+ adjust_for_mission)
+
     shared_all.move_crane_to_floor(rack_motor) 
-    shared_all.drive_raising_crane(duration_ms=1100, robot_distance_mm=-130, robot_turn_angle=0, 
+    shared_all.drive_raising_crane(duration_ms=1100, robot_distance_mm=-250, robot_turn_angle=-30, 
         motor=rack_motor, crane_angle=-15)
     shared_all.move_crane_up(rack_motor, 210) 
 
 def shift_phone(adjust_for_mission = 0):
+    shared_all.move_straight_target_direction(gyro = gyro, 
+        distance_mm= 70, 
+        speed_mm_s= 100, 
+        target_angle= -90+ adjust_for_mission)
+    shared_all.turn_to_direction( gyro=gyro, target_angle=-110+ adjust_for_mission) 
     shared_all.move_crane_to_floor(rack_motor)
 
-    shared_all.turn_arc(distance=50,angle = 18, speed_mm_s=30)
+    shared_all.turn_arc(distance=60,angle = 18, speed_mm_s=30)
     shared_all.move_crane_up(rack_motor, 70)
 
     pull_phone_back(adjust_for_mission )
 
     ### change lane to the left
     shared_all.turn_arc(distance=80, angle = 80, speed_mm_s=-100)
-    shared_all.turn_arc(distance=80, angle = -80, speed_mm_s=-100)
-
-    shared_all.move_straight_target_direction(gyro = gyro, 
-        distance_mm= 10, 
-        speed_mm_s= 100, 
-        target_angle= -90 + adjust_for_mission)
+    shared_all.turn_arc(distance=90, angle = -80, speed_mm_s=-100)
+    shared_all.move_straight(distance_mm= 40, speed_mm_s= 100)
+    # shared_all.move_straight_target_direction(gyro = gyro, 
+    #     distance_mm= 10, 
+    #     speed_mm_s= 100, 
+    #     target_angle= -90 + adjust_for_mission)
 
 
 def do_flips_bigtire(adjust_for_mission=0):
