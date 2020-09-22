@@ -164,17 +164,16 @@ def align_to_weight(adjust_for_mission=0):
 def weight_to_phone(adjust_for_mission=0):
     shared_all.push_back_reset_gyro(distance_mm = 80, reset_gyro = True, new_gyro_angle =180 )
     shared_all.move_straight_target_direction(gyro = gyro, 
-        distance_mm= 280, 
+        distance_mm= 320, 
         speed_mm_s= 180, 
         target_angle= 180+ adjust_for_mission)
 
 def align_to_phone(adjust_for_mission=0):
-    shared_all.move_to_color(color_sensor=color_sensor_center,
+    shared_all.move_to_color(color_sensor=color_sensor_right,
         stop_on_color=Color.BLACK, alternative_color=Color.BLACK)
+    shared_all.move_straight(distance_mm= 50, speed_mm_s= 110)
     shared_all.turn_to_direction( gyro=gyro, target_angle=-90+ adjust_for_mission) 
 
-    shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
-        stop_on_color=Color.BLACK, alternative_color=Color.BLACK)
 
 
 

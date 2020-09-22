@@ -64,13 +64,13 @@ def flip_bigt():
 def  pull_phone_back(adjust_for_mission = 0):
 
     ### change lane to the left
-    shared_all.turn_arc(distance=30, angle = 60, speed_mm_s=-70)
-    shared_all.turn_arc(distance=45, angle = -60, speed_mm_s=-70)
+    # shared_all.turn_arc(distance=30, angle = 60, speed_mm_s=-70)
+    # shared_all.turn_arc(distance=45, angle = -60, speed_mm_s=-70)
 
     shared_all.move_straight_target_direction(gyro = gyro, 
-        distance_mm= 80, 
-        speed_mm_s= 100, 
-        target_angle= -100+ adjust_for_mission)
+        distance_mm= 180, 
+        speed_mm_s= 120, 
+        target_angle= -90+ adjust_for_mission)
 
     shared_all.move_crane_to_floor(rack_motor) 
     shared_all.drive_raising_crane(duration_ms=1100, robot_distance_mm=-250, robot_turn_angle=-30, 
