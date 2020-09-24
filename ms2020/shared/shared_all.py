@@ -81,8 +81,8 @@ def calibrate_gyro(new_gyro_angle=0):
 
 def push_back_reset_gyro(distance_mm, reset_gyro = True, new_gyro_angle = 0 ):
     move_straight(distance_mm = distance_mm , speed_mm_s= -80)
-    left_motor.run_angle( -80,  60, Stop.BRAKE, True)
-    right_motor.run_angle( -80,  60, Stop.BRAKE, True)
+    left_motor.run_angle( -140,  60, Stop.BRAKE, True)
+    right_motor.run_angle( -140,  60, Stop.BRAKE, True)
     if reset_gyro == True:
         calibrate_gyro(new_gyro_angle)
 
@@ -101,11 +101,8 @@ def turn_to_direction( gyro, target_angle, speed_mm_s = DEFAULT_SPEED):
     log_string('turn_to_direction  Adjtgt :' +str(target_angle))
 
     turn(target_angle - gyro.angle())
-    # target_angle = adjust_gyro_target_angle(target_angle)
-    # log_string('turn_to_direction  Adjtgt :' +str(target_angle))
 
-    # robot.drive_time(0, 0.9 * angle_change, 1000)
-    # robot.stop(stop_type=Stop.BRAKE)
+    log_string('turn_to_direction  after turn :' +str(gyro.angle()))
 
     max_attempts=10 # limit oscialltions to 10, not forever
     while ( abs(target_angle - gyro.angle()) > 1 and max_attempts >0):
@@ -209,6 +206,7 @@ def move_to_color(
     while color_sensor.color() != stop_on_color and color_sensor.color() != alternative_color:
         wait(10)
     robot.stop(stop_type=Stop.BRAKE)
+    log_string('Color found: ' + str(color_sensor.color()) +'(' + str(color_sensor.reflection()) + ')')
 
 
 
