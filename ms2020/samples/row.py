@@ -57,10 +57,10 @@ def row(adjust_for_mission=0):
     shake()
     shared_all.drive_raising_crane(duration_ms=1900, robot_distance_mm=-80, robot_turn_angle=-20, 
             motor=rack_motor, crane_angle=-5)
-    shared_all.drive_raising_crane(duration_ms=1900, robot_distance_mm=35, robot_turn_angle=-45, 
+    shared_all.drive_raising_crane(duration_ms=1900, robot_distance_mm=25, robot_turn_angle=-50, 
             motor=rack_motor, crane_angle=-5)
     shared_all.turn(8)        
     shared_all.drive_raising_crane(duration_ms=1900, robot_distance_mm=-10, robot_turn_angle=0, 
-            motor=rack_motor, crane_angle=90)
+            motor=rack_motor, crane_angle=110)
 
 
