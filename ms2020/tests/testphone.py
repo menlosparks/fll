@@ -50,31 +50,12 @@ import slide
 import bench
 import basket
 
-def shift_phone(adjust_for_mission = 0):
-    shared_all.move_straight_target_direction(gyro = gyro, 
-        distance_mm= 100, 
-        speed_mm_s= 110, 
-        target_angle= -90+ adjust_for_mission)
-    shared_all.move_crane_to_floor(rack_motor)
-    shared_all.drive_raising_crane(duration_ms=1100, robot_distance_mm=-80, robot_turn_angle=-25, 
-        motor=rack_motor, crane_angle=-15)
-
-
 
 INITIAL_ANGLE=180
-
 shared_all.calibrate_gyro(INITIAL_ANGLE)
-ust_for_mission=0 - INITIAL_ANGLE
 
-# bus_service_1.align_to_weight(adjust_for_mission=0)
-# weight.raise_weight(adjust_for_mission=0)
-# # adjust_for_mission=180
-
-# weight.raise_weight()
-
-
-bus_service_1.weight_to_phone(adjust_for_mission=0)
 bus_service_1.align_to_phone(adjust_for_mission=0)
-shift_phone(adjust_for_mission=0)
-# flip.shift_phone(adjust_for_mission=0)
-# flip.flip_small()
+flip.shift_phone(adjust_for_mission=0)
+flip.flip_small()
+
+
