@@ -37,9 +37,28 @@ from robot_setup import DEGREES_PER_MM
 ##### Do not change above this line ##########################################
 
 
-def base_to_basket():
-    shared_all.turn_arc(distance=150, angle = -90, speed_mm_s=130)
+def base_to_pullup():
     shared_all.move_straight_target_direction(gyro = gyro, 
             distance_mm=350, 
             speed_mm_s=120, 
-        target_angle= -90 + adjust_for_mission)
+        target_angle= 0)
+        
+
+
+def pullup_to_dance():
+    shared_all.move_straight_target_direction(gyro = gyro, 
+            distance_mm=150, 
+            speed_mm_s=180, 
+        target_angle= -90)
+    shared_all.turn_arc(distance=150, angle = -60, speed_mm_s=130)
+    shared_all.turn_arc(distance=150, angle = 60, speed_mm_s=130)
+
+
+
+## Below lines only for testing
+## Comment out when done testing. Do not upload to Git hub without commenting.
+
+# Calibrate the gyro point in the direction at the start 
+shared_all.calibrate_gyro(0)
+
+base_to_pullup()
