@@ -70,6 +70,15 @@ def lift():
     shared_all.turn_arc(distance=60,angle=-40, speed_mm_s=-120)
 
 
-def bench_knock_and_lift():
+def run():
     knock()
     lift()
+
+def align():
+    shared_all.move_to_color(color_sensor = color_sensor_right,
+    stop_on_color = Color.GREEN,
+    alternative_color = Color.GREEN)
+
+def drop_cubes():
+    shared_all.move_crane_down(crane_motor, 40)
+    shared_all.move_crane_to_top(crane_motor)

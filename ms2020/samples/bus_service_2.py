@@ -61,6 +61,17 @@ def bench_to_loading():
     shared_all.sound_alarm()
     wait(3000)
 
+def loading_to_bench():
+    shared_all.sound_alarm()
+    wait(3000)
+    shared_all.calibrate_gyro(0)
+    shared_all.move_straight_target_direction(gyro = gyro, 
+            distance_mm=270, 
+            speed_mm_s=120, 
+        target_angle= 0)
+    shared_all.move_to_color(color_sensor=color_sensor_center,
+        stop_on_color=Color.GREEN, alternative_color=Color.GREEN)
+    
 def loading_to_basket():
     shared_all.move_straight_target_direction(gyro = gyro, 
             distance_mm=120, 
