@@ -44,6 +44,7 @@ import bus_service_2
 import stepcounter
 import treadmill
 import row
+import phone
 import flip
 import weight
 import slide
@@ -54,8 +55,8 @@ import basket
 INITIAL_ANGLE=180
 shared_all.calibrate_gyro(INITIAL_ANGLE)
 
-bus_service_1.align_to_phone(adjust_for_mission=0)
-flip.shift_phone(adjust_for_mission=0)
-flip.flip_small()
+phone.align(adjust_for_mission=0)
+phone.run()
+bus_service_1.phone_to_slide()
 
 

@@ -13,8 +13,8 @@ import row
 INITIAL_ANGLE=-90
 shared_all.calibrate_gyro(INITIAL_ANGLE)
 
-bus_service_1.align_to_row(adjust_for_mission=0)
-row.row()
+row.align(adjust_for_mission=0)
+row.run()
 bus_service_1.row_to_weight()
 
 

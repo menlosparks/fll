@@ -11,6 +11,6 @@ import treadmill
 INITIAL_ANGLE=0
 shared_all.calibrate_gyro(INITIAL_ANGLE)
 
-bus_service_1.align_for_treadmill()
-treadmill.treadon()
+treadmill.align()
+treadmill.run()
 bus_service_1.treadmill_to_row()
