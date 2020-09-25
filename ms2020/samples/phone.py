@@ -34,45 +34,37 @@ from robot_setup import WHEEL_CIRCUM_MM
 from robot_setup import DEGREES_PER_MM
  
 import shared_all
-
+import flip
 ##### Do not change above this line ##########################################
 
 def align(adjust_for_mission=0):
-
     shared_all.move_to_color(color_sensor=color_sensor_center,
-        stop_on_color=Color.BLACK, alternative_color=Color.BLACK)
+        stop_on_color=Color.WHITE, alternative_color=Color.WHITE)
 
-    shared_all.move_straight(distance_mm=30, speed_mm_s=120)
-    shared_all.move_crane_to_top(crane_motor)
-    shared_all.turn_to_direction( gyro=gyro, target_angle=180+ adjust_for_mission) 
-    shared_all.move_straight(distance_mm=200, speed_mm_s=-180)
-
-    shared_all.push_back_reset_gyro(distance_mm = 80,  reset_gyro = True,  new_gyro_angle =180 )
-    shared_all.move_straight_target_direction(gyro = gyro, 
-        distance_mm= 65, 
-        speed_mm_s= 110, 
-        target_angle= 180+ adjust_for_mission)
-
+    shared_all.move_straight(distance_mm= 60, speed_mm_s= 110)
     shared_all.turn_to_direction( gyro=gyro, target_angle=-90+ adjust_for_mission) 
 
 
-def run(adjust_for_mission=0):
-    
+def shift(adjust_for_mission = 0):
+    shared_all.turn_to_direction( gyro=gyro, target_angle=-90+ adjust_for_mission) 
+    shared_all.move_crane_to_floor(rack_motor)
+    shared_all.move_crane_up(rack_motor, 40)
+    shared_all.move_straight_target_direction(gyro = gyro, 
+        distance_mm= 77, 
+        speed_mm_s= 110, 
+        target_angle= -90+ adjust_for_mission)
 
-    shared_all.move_crane_to_floor(crane_motor)
-    shared_all.move_crane_up( motor = crane_motor, degrees = 50)
-    shared_all.move_to_color(color_sensor=color_sensor_center,
-        stop_on_color=Color.RED, alternative_color=Color.YELLOW)
-    shared_all.turn_arc(distance= 30,angle = 15, speed_mm_s= 60)
+    #Pull phone back
+    shared_all.move_crane_to_floor(rack_motor)
 
-    #lift weight and back up
-    shared_all.drive_raising_crane(duration_ms=400 , robot_distance_mm=0, robot_turn_angle=0, 
-        motor=crane_motor, crane_angle=120)
-    shared_all.move_crane_down( motor = crane_motor, degrees = 50)
-    shared_all.move_straight(distance_mm=55, speed_mm_s=-120)
+    shared_all.drive_raising_crane(duration_ms=2500, robot_distance_mm=-170, robot_turn_angle=-20, 
+        motor=rack_motor, crane_angle=-10)
+    shared_all.move_crane_to_top(rack_motor)
 
-    shared_all.turn(-90)
-    shared_all.move_crane_to_top(crane_motor)
-    shared_all.turn_to_direction( gyro=gyro, target_angle=180+ adjust_for_mission) 
+    #Shift left to use crane motor
+    shared_all.turn_arc(distance=80,angle=70, speed_mm_s=-100)
+    shared_all.turn(-70)
 
-
+def run():
+    shift(adjust_for_mission=0)
+    flip.flip_small()

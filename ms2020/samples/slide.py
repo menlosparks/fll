@@ -36,9 +36,30 @@ from robot_setup import DEGREES_PER_MM
  
 ##### Do not change above this line ##########################################
 
+def align(adjust_for_mission=0):
+    shared_all.move_to_color_reverse(color_sensor=color_sensor_right,
+        stop_on_color=Color.BLACK, alternative_color=Color.BLACK)
 
 
-def slide():
+    ######## shared_all.turn(90)
+    shared_all.turn_to_direction( gyro=gyro, target_angle=180+ adjust_for_mission) 
+    shared_all.move_straight_target_direction(gyro = gyro, 
+        distance_mm= 130, 
+        speed_mm_s= 200, 
+        target_angle= 180+ adjust_for_mission)
+
+
+    shared_all.move_to_color(color_sensor=color_sensor_center,
+        stop_on_color=Color.BLACK, alternative_color=Color.BLACK)
+    shared_all.move_straight(distance_mm=110, speed_mm_s=80)
+
+    shared_all.turn(-30)
+    shared_all.move_straight(distance_mm=110, speed_mm_s=-100)
+    shared_all.turn_to_direction( gyro=gyro, target_angle=150+ adjust_for_mission) 
+
+
+
+def run():
     shared_all.move_crane_to_floor(rack_motor)
     # shared_all.move_crane_up( motor = rack_motor, degrees = 30)
     shared_all.move_straight(distance_mm=55, speed_mm_s=100)

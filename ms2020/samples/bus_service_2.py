@@ -43,30 +43,34 @@ def base_to_basket(adjust_for_mission=0):
     shared_all.move_straight_target_direction(gyro = gyro, 
             distance_mm=350, 
             speed_mm_s=120, 
-        target_angle= -90 + adjust_for_mission)
+        target_angle= -90)
 
-def align_to_basket(adjust_for_mission=0):
-
+def base_to_bench():
+    shared_all.move_straight_target_direction(gyro = gyro, 
+            distance_mm=350, 
+            speed_mm_s=120, 
+        target_angle= -90)
     shared_all.move_to_color(color_sensor=color_sensor_center,
-        stop_on_color=Color.WHITE, alternative_color=Color.WHITE)
-    shared_all.move_straight_target_direction(gyro = gyro, 
-            distance_mm=40, 
-            speed_mm_s=-100, 
-        target_angle= -90 + adjust_for_mission)
-    shared_all.turn(-90)
-    shared_all.turn_to_direction( gyro=gyro, target_angle=180 + adjust_for_mission) 
-    shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
-        stop_on_color=Color.WHITE, alternative_color=Color.WHITE)
-    shared_all.move_straight_target_direction(gyro = gyro, 
-            distance_mm=40, 
-            speed_mm_s=80, 
-        target_angle= 180 + adjust_for_mission)
+        stop_on_color=Color.GREEN, alternative_color=Color.GREEN)
+    
+def bench_to_loading():
+    shared_all.move_straight(distance_mm=200, 
+            speed_mm_s=-140)
+    shared_all.move_crane_to_top(crane_motor)
+    shared_all.move_crane_down(20)
+    shared_all.sound_alarm()
+    wait(3000)
 
-    shared_all.turn(50)
+def loading_to_basket():
     shared_all.move_straight_target_direction(gyro = gyro, 
-            distance_mm=-40, 
-            speed_mm_s=80, 
-        target_angle= -135 + adjust_for_mission)
+            distance_mm=120, 
+            speed_mm_s=140, 
+        target_angle= 0)
+    shared_all.move_straight_target_direction(gyro = gyro, 
+            distance_mm=120, 
+            speed_mm_s=140, 
+        target_angle= -90)
+
 
 def basket_to_bench():
     shared_all.turn_arc(distance=90, angle = -55, speed_mm_s=-70)

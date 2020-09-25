@@ -36,6 +36,12 @@ from robot_setup import DEGREES_PER_MM
 import shared_all
 
 ##### Do not change above this line ##########################################
+def align(adjust_for_mission=0):
+        shared_all.move_straight(distance_mm=180, speed_mm_s=150)
+        shared_all.turn_to_direction( gyro=gyro, target_angle=0+ adjust_for_mission)
+        shared_all.move_to_color(color_sensor=color_sensor_center,
+                stop_on_color=Color.BLACK, alternative_color=Color.BLACK)
+        shared_all.move_straight(distance_mm=20, speed_mm_s=120)
 
 def shake():
     shared_all.move_straight(distance_mm=10, speed_mm_s=20)
@@ -51,7 +57,7 @@ def shake():
     shared_all.move_crane_to_floor(rack_motor)
 
 
-def row(adjust_for_mission=0):
+def run(adjust_for_mission=0):
     shared_all.turn_to_direction( gyro=gyro, target_angle=-37+ adjust_for_mission)
     shared_all.move_crane_to_floor(rack_motor)
     shake()

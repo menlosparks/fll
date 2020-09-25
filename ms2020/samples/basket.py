@@ -37,6 +37,28 @@ import shared_all
 
 ##### Do not change above this line ##########################################
 
+def align(adjust_for_mission=0):
+
+    shared_all.move_to_color(color_sensor=color_sensor_center,
+        stop_on_color=Color.WHITE, alternative_color=Color.WHITE)
+    shared_all.move_straight_target_direction(gyro = gyro, 
+            distance_mm=40, 
+            speed_mm_s=-100, 
+        target_angle= -90 + adjust_for_mission)
+    shared_all.turn(-90)
+    shared_all.turn_to_direction( gyro=gyro, target_angle=180 + adjust_for_mission) 
+    shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
+        stop_on_color=Color.WHITE, alternative_color=Color.WHITE)
+    shared_all.move_straight_target_direction(gyro = gyro, 
+            distance_mm=40, 
+            speed_mm_s=80, 
+        target_angle= 180 + adjust_for_mission)
+
+    shared_all.turn(50)
+    shared_all.move_straight_target_direction(gyro = gyro, 
+            distance_mm=-40, 
+            speed_mm_s=80, 
+        target_angle= -135 + adjust_for_mission)
 
 
 def putcube():
@@ -75,7 +97,7 @@ def level2():
 
 # all.move_crane_up( motor=rack_motor, degrees=110)
 
-def dobasket():
+def run():
     putcube()
     level1()
     level2()

@@ -61,41 +61,6 @@ def flip_bigt():
     shared_all.drive_raising_crane(duration_ms=200, robot_distance_mm=30, robot_turn_angle=0, 
         motor=crane_motor, crane_angle=30)
 
-def  pull_phone_back(adjust_for_mission = 0):
-
-    ### change lane to the left
-    # shared_all.turn_arc(distance=30, angle = 60, speed_mm_s=-70)
-    # shared_all.turn_arc(distance=45, angle = -60, speed_mm_s=-70)
-
-    shared_all.move_straight_target_direction(gyro = gyro, 
-        distance_mm= 180, 
-        speed_mm_s= 120, 
-        target_angle= -90+ adjust_for_mission)
-
-    shared_all.move_crane_to_floor(rack_motor) 
-    shared_all.drive_raising_crane(duration_ms=1100, robot_distance_mm=-250, robot_turn_angle=-30, 
-        motor=rack_motor, crane_angle=-15)
-    shared_all.move_crane_up(rack_motor, 210) 
-
-def shift_phone(adjust_for_mission = 0):
-    shared_all.turn_to_direction( gyro=gyro, target_angle=-90+ adjust_for_mission) 
-    shared_all.move_crane_to_floor(rack_motor)
-    shared_all.move_crane_up(rack_motor, 40)
-    shared_all.move_straight_target_direction(gyro = gyro, 
-        distance_mm= 77, 
-        speed_mm_s= 110, 
-        target_angle= -90+ adjust_for_mission)
-
-    #Pull phone back
-    shared_all.move_crane_to_floor(rack_motor)
-
-    shared_all.drive_raising_crane(duration_ms=2500, robot_distance_mm=-170, robot_turn_angle=-20, 
-        motor=rack_motor, crane_angle=-10)
-    shared_all.move_crane_to_top(rack_motor)
-
-    #Shift left to use crane motor
-    shared_all.turn_arc(distance=80,angle=70, speed_mm_s=-100)
-    shared_all.turn(-70)
 
 def do_flips_bigtire(adjust_for_mission=0):
     flip_bigt()

@@ -37,7 +37,17 @@ import shared_all
 
 ##### Do not change above this line ##########################################
 
-def treadon(adjust_for_mission=0):
+
+def align(adjust_for_mission=0):
+    shared_all.turn(-90)
+    shared_all.move_straight(distance_mm=120, speed_mm_s = -120)
+    shared_all.push_back_reset_gyro(distance_mm = 80, reset_gyro = False, new_gyro_angle =0 )
+    shared_all.move_straight(distance_mm=160, speed_mm_s = 150)
+    shared_all.turn_to_direction( gyro=gyro, target_angle=180+ adjust_for_mission) 
+    shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
+        stop_on_color=Color.BLACK, alternative_color=Color.BLACK)
+
+def run(adjust_for_mission=0):
     shared_all.turn(5)
 # 
     shared_all.move_straight(distance_mm=140, speed_mm_s=-150)
