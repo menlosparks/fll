@@ -54,19 +54,22 @@ def sound_attention():
     brick.sound.beep(700, 80, SOUND_VOLUME)
     brick.sound.beep(1200, 80, SOUND_VOLUME)
 
+def sound_start():
+    brick.sound.beep(700, 80, SOUND_VOLUME)
+
 def sound_alarm():
-    brick.sound.beep(300, 150, SOUND_VOLUME)
+    brick.sound.beep(300, 90, SOUND_VOLUME)
     wait(200)
-    brick.sound.beep(300, 150, SOUND_VOLUME)
+    brick.sound.beep(300, 90, SOUND_VOLUME)
     wait(200)
-    brick.sound.beep(300, 150, SOUND_VOLUME)
+    brick.sound.beep(300, 90, SOUND_VOLUME)
 
 def log_string(message):
     print(message)
     brick.display.text(message)
 
 def calibrate_gyro(new_gyro_angle=0):
-    brick.sound.beep(300, 150, SOUND_VOLUME)
+    brick.sound.beep(300, 90, SOUND_VOLUME)
 
     current_speed=gyro.speed()
     current_angle=gyro.angle()
@@ -123,14 +126,18 @@ def turn_to_direction( gyro, target_angle, speed_mm_s = DEFAULT_SPEED):
 
 
 
-def turn( angle, speed_mm_s = DEFAULT_SPEED):
+def turn( angle, speed_deg_s = DEFAULT_ANGULAR_SPEED):
 
     if angle > 0:    # right turns are a bit under-steered
         angle = int( angle)
     else:
         angle = int(angle / 1)
 
-    robot.drive_time(0, angle, 1000)
+    speed_deg_s = -1 * speed_deg_s if angle < 0 else speed_deg_s
+    # time=int(1000 * (floatspeed_deg_s(angle)/float(speed_deg_s)))
+    time=abs(int(1000 * (angle/speed_deg_s)))
+    log_string('Time of turn ' +str(time))
+    robot.drive_time(0, speed_deg_s, time)
     robot.stop(stop_type=Stop.BRAKE)
 
 def move_reverse(
@@ -365,7 +372,9 @@ def drive_raising_crane(duration_ms, robot_distance_mm, robot_turn_angle,
     crane_angular_speed = int(1000 * crane_angle / duration_ms)
     turn_angular_speed_deg_s = int(1000 * robot_turn_angle / duration_ms)
     forward_speed = int(1000 * robot_distance_mm / duration_ms) 
-    robot.drive(forward_speed, turn_angular_speed_deg_s)
+
+    if forward_speed > 0 or turn_angular_speed_deg_s > 0 :
+        robot.drive(forward_speed, turn_angular_speed_deg_s)
     motor.run(crane_angular_speed)
     wait(duration_ms)
     motor.stop(Stop.BRAKE)
@@ -380,7 +389,7 @@ def move_crane_to_top( motor):
     move_crane_up( motor, degrees = 5)
 
 def move_crane_to_floor( motor):
-    motor.run_until_stalled(-300, Stop.COAST, 50)
+    motor.run_until_stalled(-300, Stop.COAST, 35)
     move_crane_up( motor, degrees = 5)
 
 
