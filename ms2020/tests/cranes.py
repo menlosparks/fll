@@ -50,12 +50,12 @@ import slide
 import bench
 import basket
 
-shared_all.calibrate_gyro(-85)
+shared_all.move_crane_to_floor(crane_motor)
+shared_all.move_crane_up(crane_motor, 90)
+shared_all.move_crane_to_top(crane_motor)
 
-bus_service_2.base_to_bench()
-bench.align()
-bench.run()
-bus_service_2.bench_to_loading()
-bus_service_2.loading_to_bench()
-bench.drop_cubes()
-bus_service_2.bench_to_loading()
+shared_all.move_crane_to_floor(rack_motor)
+shared_all.move_crane_up(rack_motor, 90)
+shared_all.move_crane_to_top(rack_motor)
+
+
