@@ -39,46 +39,39 @@ import shared_all
 
 
 
-def knock():
+def align():
     shared_all.move_crane_to_floor( motor=crane_motor)
-    shared_all.move_crane_up( motor=crane_motor, degrees=40)
-    shared_all.turn(angle=-15)
-    shared_all.move_straight(distance_mm=50, speed_mm_s=90)
-    shared_all.turn_arc(distance=60,angle=30, speed_mm_s=90)
+    shared_all.move_crane_up( motor=crane_motor, degrees=55)
+    shared_all.move_to_color(color_sensor = color_sensor_right,
+        stop_on_color = Color.GREEN,
+        alternative_color = Color.GREEN)
+    shared_all.move_straight(distance_mm=17, speed_mm_s=40)
 
-def lift():
-    shared_all.move_crane_up( motor=crane_motor, degrees=8)
-    shared_all.move_straight(distance_mm=30, speed_mm_s=-90)
-    shared_all.turn(angle=15)
-    shared_all.move_straight(distance_mm=70, speed_mm_s=90)
-    shared_all.turn_arc(distance=60,angle=-50, speed_mm_s=120)
-
-    shared_all.drive_raising_crane(duration_ms = 300, 
-        robot_distance_mm = 0, 
-        robot_turn_angle = 0, 
-        motor = crane_motor, 
-        crane_angle = 90)
-    shared_all.move_crane_down( motor=crane_motor, degrees=40)
-    shared_all.turn_arc(distance=60,angle=-40, speed_mm_s=120)
-
-    shared_all.drive_raising_crane(duration_ms = 300, 
-        robot_distance_mm = 0, 
-        robot_turn_angle = 0, 
-        motor = crane_motor, 
-        crane_angle = 90)
-    shared_all.move_crane_down( motor=crane_motor, degrees=40)
-    shared_all.turn_arc(distance=60,angle=-40, speed_mm_s=-120)
 
 
 def run():
-    knock()
-    lift()
+    ##lift 
+    shared_all.move_crane_down(crane_motor, 10)
+    shared_all.drive_raising_crane(duration_ms=600, robot_distance_mm=0, robot_turn_angle=0, 
+        motor=crane_motor, crane_angle=110)
+    shared_all.move_crane_down(crane_motor, 80)
 
-def align():
-    shared_all.move_to_color(color_sensor = color_sensor_right,
-    stop_on_color = Color.GREEN,
-    alternative_color = Color.GREEN)
+    #knock
+    shared_all.move_straight(distance_mm=18, speed_mm_s=-90)
+    shared_all.drive_raising_crane(duration_ms=400, robot_distance_mm=10, robot_turn_angle=-20, 
+        motor=crane_motor, crane_angle=-20)
+
+    #backup
+    shared_all.turn_to_direction(gyro=gyro, target_angle=-85)
+    shared_all.move_straight(distance_mm=60, speed_mm_s=-120)
 
 def drop_cubes():
     shared_all.move_crane_down(crane_motor, 40)
     shared_all.move_crane_to_top(crane_motor)
+
+    ## Below lines only for testing
+## Comment out when done testing. Do not upload to Git hub without commenting.
+# shared_all.calibrate_gyro(-85)
+# align()
+# run()
+

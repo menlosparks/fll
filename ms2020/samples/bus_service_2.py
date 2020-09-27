@@ -46,13 +46,13 @@ def base_to_basket(adjust_for_mission=0):
         target_angle= -90)
 
 def base_to_bench():
+    shared_all.calibrate_gyro(-85)
     shared_all.move_straight_target_direction(gyro = gyro, 
-            distance_mm=350, 
+            distance_mm=140, 
             speed_mm_s=120, 
-        target_angle= -90)
-    shared_all.move_to_color(color_sensor=color_sensor_center,
-        stop_on_color=Color.GREEN, alternative_color=Color.GREEN)
-    
+        target_angle= -85)
+
+
 def bench_to_loading():
     shared_all.move_straight(distance_mm=200, 
             speed_mm_s=-140)
@@ -64,13 +64,7 @@ def bench_to_loading():
 def loading_to_bench():
     shared_all.sound_alarm()
     wait(3000)
-    shared_all.calibrate_gyro(0)
-    shared_all.move_straight_target_direction(gyro = gyro, 
-            distance_mm=270, 
-            speed_mm_s=120, 
-        target_angle= 0)
-    shared_all.move_to_color(color_sensor=color_sensor_center,
-        stop_on_color=Color.GREEN, alternative_color=Color.GREEN)
+    base_to_bench()
     
 def loading_to_basket():
     shared_all.move_straight_target_direction(gyro = gyro, 
