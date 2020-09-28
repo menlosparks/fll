@@ -375,7 +375,7 @@ def drive_raising_crane(duration_ms, robot_distance_mm, robot_turn_angle,
     turn_angular_speed_deg_s = int(1000 * robot_turn_angle / duration_ms)
     forward_speed = int(1000 * robot_distance_mm / duration_ms) 
 
-    if forward_speed > 0 or turn_angular_speed_deg_s > 0 :
+    if abs(forward_speed) > 0 or abs(turn_angular_speed_deg_s) > 0 :
         robot.drive(forward_speed, turn_angular_speed_deg_s)
     motor.run(crane_angular_speed)
     wait(duration_ms)
@@ -399,7 +399,7 @@ def move_rack_to_top( ):
     move_crane_down( rack_motor, degrees = 5)
 
 def move_rack_to_floor( ):
-    rack_motor.run_until_stalled(-300, Stop.COAST, 45)
+    rack_motor.run_until_stalled(-300, Stop.COAST, 50)
     move_crane_up( rack_motor, degrees = 10)
 
 
