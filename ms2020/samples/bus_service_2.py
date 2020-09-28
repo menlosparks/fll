@@ -39,7 +39,7 @@ import shared_all
 
 def base_to_basket(adjust_for_mission=0):
 
-    shared_all.turn_arc(distance=570, angle = -90, speed_mm_s=230)
+    shared_all.turn_arc(distance=620, angle = -90, speed_mm_s=230)
     shared_all.move_to_color(color_sensor=color_sensor_center,
         stop_on_color=Color.BLACK, alternative_color=Color.BLACK)
     shared_all.turn_to_direction(gyro = gyro, 
