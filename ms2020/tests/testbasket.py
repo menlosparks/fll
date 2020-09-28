@@ -9,10 +9,9 @@ import shared_all
 import bus_service_2
 import basket
 
-shared_all.calibrate_gyro(-90)
+shared_all.calibrate_gyro(0)
 
-# bus_service_2.base_to_basket()
-## starts near yellow flower in gray area
+bus_service_2.base_to_basket()
 basket.align()
-# basket.run()
+basket.run()
 
