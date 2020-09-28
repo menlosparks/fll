@@ -7,12 +7,12 @@ sys.path.append('../samples')
 
 import shared_all
 import bus_service_2
+import basket
 
-INITIAL_ANGLE=180
-shared_all.calibrate_gyro(INITIAL_ANGLE)
+shared_all.calibrate_gyro(-90)
 
-bus_service_2.base_to_basket()
+# bus_service_2.base_to_basket()
 ## starts near yellow flower in gray area
-basket.align(adjust_for_mission=-90)
-basket.run()
+basket.align()
+# basket.run()
 

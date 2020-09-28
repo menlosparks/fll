@@ -39,23 +39,15 @@ import shared_all
 ##### Do not change above this line ##########################################
 
 
-import bus_service_1
-import bus_service_2
-import stepcounter
-import treadmill
-import row
-import flip
-import weight
-import slide
-import bench
-import basket
 
 shared_all.move_crane_to_floor(crane_motor)
 shared_all.move_crane_up(crane_motor, 90)
 shared_all.move_crane_to_top(crane_motor)
 
+shared_all.move_crane_to_top(rack_motor)
+
 shared_all.move_crane_to_floor(rack_motor)
 shared_all.move_crane_up(rack_motor, 90)
-shared_all.move_crane_to_top(rack_motor)
+shared_all.move_crane_down(rack_motor, 90)
 
 
