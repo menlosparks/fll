@@ -40,7 +40,7 @@ from robot_setup import DEGREES_PER_MM
 DEFAULT_SPEED=300
 DEFAULT_COLOR_FIND_SPEED=50
 DEFAULT_LINEFOLLOW_SPEED=100
-DEFAULT_ANGULAR_SPEED=45
+DEFAULT_ANGULAR_SPEED=75
 
 
 SOUND_VOLUME=7
@@ -128,6 +128,8 @@ def turn_to_direction( gyro, target_angle, speed_mm_s = DEFAULT_SPEED):
 
 def turn( angle, speed_deg_s = DEFAULT_ANGULAR_SPEED):
 
+    if angle == 0 :
+        return
     if angle > 0:    # right turns are a bit under-steered
         angle = int( angle)
     else:
@@ -386,11 +388,19 @@ def drive_raising_crane(duration_ms, robot_distance_mm, robot_turn_angle,
 
 def move_crane_to_top( motor):
     motor.run_until_stalled(500, Stop.COAST, 50)
-    move_crane_up( motor, degrees = 5)
+    move_crane_down( motor, degrees = 5)
 
 def move_crane_to_floor( motor):
     motor.run_until_stalled(-300, Stop.COAST, 35)
-    move_crane_up( motor, degrees = 5)
+    move_crane_up( motor, degrees = 10)
+
+def move_rack_to_top( ):
+    rack_motor.run_until_stalled(500, Stop.COAST, 50)
+    move_crane_down( rack_motor, degrees = 5)
+
+def move_rack_to_floor( ):
+    rack_motor.run_until_stalled(-300, Stop.COAST, 45)
+    move_crane_up( rack_motor, degrees = 10)
 
 
 def move_crane_up( motor, degrees):

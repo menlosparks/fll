@@ -26,7 +26,7 @@ left_motor= Motor(Port.D, Direction.CLOCKWISE)
 robot = DriveBase(left_motor, right_motor, WHEEL_DIAMETER_MM, AXLE_TRACK_MM)
 crane_motor= Motor(Port.B, Direction.CLOCKWISE, [12,36])
 rack_motor= Motor(Port.A, Direction.COUNTERCLOCKWISE,  [8,16])
-
+crane_motor.set_dc_settings(90, 30)
 gyro= GyroSensor(Port.S1, Direction.COUNTERCLOCKWISE)
 color_sensor_left = None ### ColorSensor(Port.S1)
 color_sensor_right = ColorSensor(Port.S3)
