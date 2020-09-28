@@ -39,16 +39,18 @@ import shared_all
 
 def base_to_basket(adjust_for_mission=0):
 
-    shared_all.turn_arc(distance=150, angle = -90, speed_mm_s=130)
-    shared_all.move_straight_target_direction(gyro = gyro, 
-            distance_mm=350, 
-            speed_mm_s=120, 
-        target_angle= -90)
+    shared_all.turn_arc(distance=570, angle = -90, speed_mm_s=230)
+    shared_all.move_to_color(color_sensor=color_sensor_center,
+        stop_on_color=Color.BLACK, alternative_color=Color.BLACK)
+    shared_all.turn_to_direction(gyro = gyro, 
+            target_angle= -90, 
+            speed_mm_s=120)    
+
 
 def base_to_bench():
     shared_all.calibrate_gyro(-85)
     shared_all.move_straight_target_direction(gyro = gyro, 
-            distance_mm=140, 
+            distance_mm=160, 
             speed_mm_s=120, 
         target_angle= -85)
 
@@ -57,7 +59,7 @@ def bench_to_loading():
     shared_all.move_straight(distance_mm=200, 
             speed_mm_s=-140)
     shared_all.move_crane_to_top(crane_motor)
-    shared_all.move_crane_down(20)
+    shared_all.move_crane_down(crane_motor, 20)
     shared_all.sound_alarm()
     wait(3000)
 

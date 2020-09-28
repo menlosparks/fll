@@ -41,7 +41,7 @@ import shared_all
 
 def align():
     shared_all.move_crane_to_floor( motor=crane_motor)
-    shared_all.move_crane_up( motor=crane_motor, degrees=55)
+    shared_all.move_crane_up( motor=crane_motor, degrees=45)
     shared_all.move_to_color(color_sensor = color_sensor_right,
         stop_on_color = Color.GREEN,
         alternative_color = Color.GREEN)
