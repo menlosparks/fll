@@ -40,8 +40,8 @@ import shared_all
 
 def align(adjust_for_mission=0):
     shared_all.turn(-90)
-    shared_all.move_straight(distance_mm=120, speed_mm_s = -120)
-    shared_all.push_back_reset_gyro(distance_mm = 80, reset_gyro = False, new_gyro_angle =0 )
+    shared_all.move_straight(distance_mm=170, speed_mm_s = -170)
+    shared_all.push_back_reset_gyro(distance_mm = 60, reset_gyro = False, new_gyro_angle =0 )
     shared_all.move_straight(distance_mm=160, speed_mm_s = 150)
     shared_all.turn_to_direction( gyro=gyro, target_angle=180+ adjust_for_mission) 
     shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
@@ -56,7 +56,7 @@ def run(adjust_for_mission=0):
 
     # right_motor.run(-3)
     left_motor.run_angle( -85,  3*360, Stop.BRAKE, True)
-    # right_motor.stop(stop_type=Stop.BRAKE)
+    right_motor.stop()
     # right_motor.run_angle( -90,  25, Stop.BRAKE, True)
 
     # left_motor.run_angle( 100,  45, Stop.COAST, True)
@@ -65,7 +65,8 @@ def run(adjust_for_mission=0):
 
     # # left_motor.run_angle( 100,  45, Stop.COAST, True)
     # left_motor.run_angle( -100,  360, Stop.BRAKE, True)
-    shared_all.move_straight(distance_mm=160, speed_mm_s=180)
+    shared_all.move_straight(distance_mm=120, speed_mm_s=180)
+    shared_all.move_straight(distance_mm=20, speed_mm_s=90)
 
 
     shared_all.turn_to_direction( gyro=gyro, target_angle= 180 + adjust_for_mission)

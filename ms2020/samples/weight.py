@@ -42,7 +42,7 @@ def align(adjust_for_mission=0):
     shared_all.move_to_color(color_sensor=color_sensor_center,
         stop_on_color=Color.BLACK, alternative_color=Color.BLACK)
 
-    shared_all.move_straight(distance_mm=30, speed_mm_s=120)
+    shared_all.move_straight(distance_mm=75, speed_mm_s=120)
     shared_all.move_crane_to_top(crane_motor)
     shared_all.turn_to_direction( gyro=gyro, target_angle=180+ adjust_for_mission) 
     shared_all.move_straight(distance_mm=200, speed_mm_s=-180)
@@ -66,8 +66,8 @@ def run(adjust_for_mission=0):
     shared_all.turn_arc(distance= 30,angle = 15, speed_mm_s= 60)
 
     #lift weight and back up
-    shared_all.drive_raising_crane(duration_ms=400 , robot_distance_mm=0, robot_turn_angle=0, 
-        motor=crane_motor, crane_angle=120)
+    shared_all.drive_raising_crane(duration_ms=600 , robot_distance_mm=0, robot_turn_angle=0, 
+        motor=crane_motor, crane_angle=130)
     shared_all.move_crane_down( motor = crane_motor, degrees = 50)
     shared_all.move_straight(distance_mm=55, speed_mm_s=-120)
 
