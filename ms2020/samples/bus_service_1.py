@@ -139,14 +139,15 @@ def align_to_old_weight(adjust_for_mission=0):
 
 
 def weight_to_phone(adjust_for_mission=0):
-    shared_all.push_back_reset_gyro(distance_mm = 110, reset_gyro = True, new_gyro_angle =180 )
+    shared_all.push_back_reset_gyro(distance_mm = 60, reset_gyro = True, new_gyro_angle =180 )
     shared_all.move_straight_target_direction(gyro = gyro, 
-        distance_mm= 320, 
+        distance_mm= 340, 
         speed_mm_s= 180, 
         target_angle= 180+ adjust_for_mission)
 
 
 def phone_to_slide(adjust_for_mission=0):
+    shared_all.turn_arc(distance=162, angle=-67, speed_mm_s =-90)
     shared_all.move_straight_target_direction(gyro = gyro, 
         distance_mm= 240, 
         speed_mm_s= 180, 

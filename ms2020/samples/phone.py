@@ -38,33 +38,14 @@ import flip
 ##### Do not change above this line ##########################################
 
 def align(adjust_for_mission=0):
-    shared_all.move_to_color(color_sensor=color_sensor_center,
-        stop_on_color=Color.WHITE, alternative_color=Color.WHITE)
-
-    shared_all.move_straight(distance_mm= 60, speed_mm_s= 110)
-    shared_all.turn_to_direction( gyro=gyro, target_angle=-90+ adjust_for_mission) 
-
-
-def shift(adjust_for_mission = 0):
-    shared_all.turn_to_direction( gyro=gyro, target_angle=-90+ adjust_for_mission) 
-    shared_all.move_crane_to_floor(rack_motor)
-    shared_all.move_crane_up(rack_motor, 40)
-    shared_all.move_straight_target_direction(gyro = gyro, 
-        distance_mm= 77, 
-        speed_mm_s= 110, 
-        target_angle= -90+ adjust_for_mission)
-
-    #Pull phone back
-    shared_all.move_crane_to_floor(rack_motor)
-
-    shared_all.drive_raising_crane(duration_ms=2500, robot_distance_mm=-170, robot_turn_angle=-20, 
-        motor=rack_motor, crane_angle=-10)
-    shared_all.move_crane_to_top(rack_motor)
-
-    #Shift left to use crane motor
-    shared_all.turn_arc(distance=80,angle=70, speed_mm_s=-100)
-    shared_all.turn(-70)
+    shared_all.turn_to_direction( gyro=gyro, target_angle=180+ adjust_for_mission) 
+    shared_all.move_to_color(color_sensor=color_sensor_right,
+        stop_on_color=Color.WHITE, alternative_color=Color.WHITE, speed_mm_s=25)
+    shared_all.move_straight(distance_mm= 32, speed_mm_s= -80)
+    shared_all.move_crane_to_floor(crane_motor)
+    shared_all.turn_arc(distance=162, angle=67, speed_mm_s =70)
 
 def run():
-    shift(adjust_for_mission=0)
-    flip.flip_small()
+    crane_motor.run_until_stalled(-300, Stop.COAST, 35)
+    crane_motor.run_time(720, 700)
+
