@@ -399,6 +399,7 @@ def move_rack_to_top( ):
     move_crane_down( rack_motor, degrees = 5)
 
 def move_rack_to_floor( ):
+    move_crane_down(rack_motor, 40)
     rack_motor.run_until_stalled(-300, Stop.COAST, 50)
     move_crane_up( rack_motor, degrees = 10)
 
