@@ -52,8 +52,7 @@ import bench
 import basket
 
 
-INITIAL_ANGLE=180
-shared_all.calibrate_gyro(INITIAL_ANGLE)
+shared_all.calibrate_gyro(180)
 
 phone.align(adjust_for_mission=0)
 phone.run()

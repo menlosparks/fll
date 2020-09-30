@@ -44,9 +44,11 @@ INITIAL_ANGLE=-90
 
 shared_all.calibrate_gyro(INITIAL_ANGLE)
 
-bus_service_1.align_to_weight(adjust_for_mission=0)
-weight.raise_weight(adjust_for_mission=0)
+weight.align(adjust_for_mission=0)
+weight.run(adjust_for_mission=0)
 bus_service_1.weight_to_phone(adjust_for_mission=0)
 
 
 # import testphone
+# phone.align(adjust_for_mission=0)
+# phone.run()
