@@ -35,7 +35,6 @@ from robot_setup import WHEEL_CIRCUM_MM
 from robot_setup import DEGREES_PER_MM
  
 ##### Do not change above this line ##########################################
-shared_all.calibrate_gyro()
 
 def align():
    shared_all.move_straight(distance_mm=180, speed_mm_s=100)
@@ -45,7 +44,7 @@ def align():
     stop_on_color=Color.BLACK,
     alternative_color = Color.BLACK,
     speed_mm_s =75)
-   shared_all.turn(angle=-30, speed_mm_s =75)
+   shared_all.turn(angle=-30, speed_deg_s= 75)
    shared_all.move_straight(distance_mm=40, speed_mm_s=75)
 
 
@@ -58,8 +57,9 @@ def run():
 ## Below lines only for testing
 ## Comment out when done testing. Do not upload to Git hub without commenting.
 shared_all.calibrate_gyro(0)
-#align()
-#run()
+
+align()
+run()
 
 
 

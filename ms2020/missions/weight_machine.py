@@ -1,18 +1,61 @@
+#!/usr/bin/env pybricks-micropython
  
-def move_straight(distance, speed_mm_s):
+import sys
+import os
+from pybricks import ev3brick as brick
+from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor,
+                               InfraredSensor, UltrasonicSensor, GyroSensor)
+from pybricks.parameters import Port, Stop, Direction, Button, Color
+from pybricks.tools import wait, StopWatch
+from pybricks.robotics import DriveBase
+from pybricks.ev3devices import Motor
  
-   # calculate the time (duration) for which robot needs to run
-   duration = abs(int(1000 * distance / speed_mm_s))
-   robot.drive_time(speed_mm_s, 0, duration)
-   robot.stop(stop_type=Stop.BRAKE)
+sys.path.append('../shared')
+import robot_setup
+import shared_all
+ 
+from robot_setup import left_motor
+from robot_setup import right_motor
+from robot_setup import robot
+from robot_setup import rack_motor
+from robot_setup import crane_motor
+from robot_setup import gyro
+from robot_setup import touch_sensor
+from robot_setup import color_sensor_left
+from robot_setup import color_sensor_right
+from robot_setup import color_sensor_center
+from robot_setup import touch_sensor
+from robot_setup import ultrasound
+ 
+from robot_setup import SOUND_VOLUME
+from robot_setup import WHEEL_DIAMETER_MM
+from robot_setup import AXLE_TRACK_MM
+from robot_setup import SENSOR_TO_AXLE
+from robot_setup import WHEEL_CIRCUM_MM
+from robot_setup import DEGREES_PER_MM
+ 
+##### Do not change above this line ##########################################
 
-move_straight(
-distance=50  
-speed_mm_s=100)
+def align():
+   shared_all.move_straight(distance_mm=85, speed_mm_s=100)
+   shared_all.move_crane_to_floor(motor=crane_motor)
+   #shared_all.move_crane_to_top(motor=rack_motor)
+   shared_all.move_crane_up(motor=crane_motor, degrees=50)
+   shared_all.move_straight(distance_mm=20, speed_mm_s=100)
+   
+   
 
-def move_crane_to_top(crane_motor):
-   crane_motor.run_until_stalled(-180, Stop.COAST, 35)
-   move_crane_up( crane_motor, degrees = 5)
+def run():
+   shared_all.turn_arc(distance=20, angle=0, speed_mm_s=50)
+   shared_all.move_crane_to_top(motor=crane_motor)
+   shared_all.drive_raising_crane(duration_ms=500, robot_distance_mm=1, robot_turn_angle=0, 
+   motor=crane_motor, crane_angle=120)
+   shared_all.move_crane_to_floor(motor=crane_motor)
+   
+   
+## Below lines only for testing
+## Comment out when done testing. Do not upload to Git hub without commenting.
+shared_all.calibrate_gyro(0)
 
-move_crane_to_top(crane_motor)
-
+align()
+run()
