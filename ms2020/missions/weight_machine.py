@@ -46,10 +46,14 @@ def align():
    
 
 def run():
-   shared_all.turn_arc(distance=20, angle=0, speed_mm_s=50)
-   shared_all.move_crane_to_top(motor=crane_motor)
-   shared_all.drive_raising_crane(duration_ms=500, robot_distance_mm=1, robot_turn_angle=0, 
-   motor=crane_motor, crane_angle=120)
+   # shared_all.turn_arc(distance=20, angle=0, speed_mm_s=50)
+   # shared_all.move_crane_to_top(motor=crane_motor)
+   # shared_all.drive_raising_crane(duration_ms=500, robot_distance_mm=1, robot_turn_angle=0, 
+   #    motor=crane_motor, crane_angle=120)
+
+   crane_motor.stop() 
+   crane_motor.run_time(400, 700)
+
    shared_all.move_crane_to_floor(motor=crane_motor)
    
    

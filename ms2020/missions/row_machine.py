@@ -38,7 +38,7 @@ from robot_setup import DEGREES_PER_MM
 
 def align():
    shared_all.move_straight(distance_mm=180, speed_mm_s=100)
-   shared_all.turn_to_direction(gyro, target_angle=90)
+   shared_all.turn_to_direction(gyro, target_angle=0)
    shared_all.move_to_color(
     color_sensor=color_sensor_right,
     stop_on_color=Color.BLACK,
@@ -49,14 +49,14 @@ def align():
 
 
 def run():
-   shared_all.move_crane_to_floor(crane_motor)
+   shared_all.move_crane_to_floor(rack_motor)
    shared_all.move_straight(distance_mm=10, speed_mm_s=25)
    shared_all.move_crane_to_floor(rack_motor)
-   shared_all.turn(angle=-50, speed_mm_s =75)
+   shared_all.turn(angle=-50, speed_deg_s =75)
 
 ## Below lines only for testing
 ## Comment out when done testing. Do not upload to Git hub without commenting.
-shared_all.calibrate_gyro(0)
+shared_all.calibrate_gyro(-90)
 
 align()
 run()
