@@ -21,7 +21,7 @@ from robot_setup import rack_motor
 from robot_setup import crane_motor
 from robot_setup import gyro
 from robot_setup import touch_sensor
-from robot_setup import color_sensor_left
+from robot_setup import color_sensor_back
 from robot_setup import color_sensor_right
 from robot_setup import color_sensor_center
 from robot_setup import touch_sensor
@@ -54,3 +54,22 @@ shared_all.calibrate_gyro()
 
 bus_service_1.base_to_stepcounter()
 stepcounter.step()
+
+import treadmill
+treadmill.align()
+treadmill.run()
+bus_service_1.treadmill_to_row()
+
+import row
+row.align()
+row.run()
+bus_service_1.row_to_weight()
+
+import weight
+weight.align()
+weight.run()
+bus_service_1.weight_to_phone()
+
+import phone
+phone.align()
+phone.run()

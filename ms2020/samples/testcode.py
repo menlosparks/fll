@@ -21,7 +21,7 @@ from robot_setup import rack_motor
 from robot_setup import crane_motor
 from robot_setup import gyro
 from robot_setup import touch_sensor 
-from robot_setup import color_sensor_left
+from robot_setup import color_sensor_back
 from robot_setup import color_sensor_right
 from robot_setup import color_sensor_center
 from robot_setup import touch_sensor
@@ -73,7 +73,7 @@ def turn_arc(distance,angle, speed_mm_s):
     # robot.drive_time(distance,angle, 1000)
 
 
-turn_arc(distance=200,angle=-60, speed_mm_s=100)
+# turn_arc(distance=200,angle=-60, speed_mm_s=100)
 
 
 def drive_raising_crane(duration_ms, robot_distance_mm, robot_turn_angle, 
@@ -187,7 +187,7 @@ def turn_to_color(color_sensor, stop_on_color, angular_speed_deg_s):
         wait(10)
     robot.stop(stop_type=Stop.BRAKE)
 
-# turn_to_color(color_sensor_left, Color.RED, 45)
+# turn_to_color(color_sensor_back, Color.RED, 45)
 
 def turn_to_color_right(color_sensor, stop_on_color, angular_speed_deg_s):
  
@@ -229,7 +229,7 @@ def align_with_line_to_right(color_sensor, line_color):
     move_straight( SENSOR_TO_AXLE, 300)    
     turn_to_color_left( color_sensor, line_color, 45) 
 
-# align_with_line_to_left(color_sensor_left, Color.BLACK)
+# align_with_line_to_left(color_sensor_back, Color.BLACK)
 # align_with_line_to_right(color_sensor_right, Color.BLACK)
 
 
@@ -281,7 +281,7 @@ def move_straight_target_direction_motor_angle(gyro, distance_mm, speed_mm_s, ta
 # log_string('Running robot now done')
 # wait(10)
 
-# log_string('The color on left is ' + str(color_sensor_left.color()))
+# log_string('The color on left is ' + str(color_sensor_back.color()))
 
 def color_test(color_sensor, distance_mm, speed_mm_s):
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env pybricks-micropython
- 
+
 import sys
 import os
 from pybricks import ev3brick as brick
@@ -11,8 +11,8 @@ from pybricks.robotics import DriveBase
 from pybricks.ev3devices import Motor
  
 sys.path.append('../shared')
+sys.path.append('../samples')
 import robot_setup
-import shared_all
  
 from robot_setup import left_motor
 from robot_setup import right_motor
@@ -34,31 +34,15 @@ from robot_setup import SENSOR_TO_AXLE
 from robot_setup import WHEEL_CIRCUM_MM
 from robot_setup import DEGREES_PER_MM
  
+import shared_all
+
 ##### Do not change above this line ##########################################
 
 
-def base_to_pullup():
-    shared_all.move_straight_target_direction(gyro = gyro, 
-            distance_mm=350, 
-            speed_mm_s=120, 
-        target_angle= 0)
-        
 
+shared_all.follow_line_border(
+    color_sensor = color_sensor_right,
+    distance_mm=500,
+    speed_mm_s=120,
+    border_on_right=False)
 
-def pullup_to_dance():
-    shared_all.move_straight_target_direction(gyro = gyro, 
-            distance_mm=150, 
-            speed_mm_s=180, 
-        target_angle= -90)
-    shared_all.turn_arc(distance=150, angle = -60, speed_mm_s=130)
-    shared_all.turn_arc(distance=150, angle = 60, speed_mm_s=130)
-
-
-
-## Below lines only for testing
-## Comment out when done testing. Do not upload to Git hub without commenting.
-
-# Calibrate the gyro point in the direction at the start 
-shared_all.calibrate_gyro(0)
-
-base_to_pullup()

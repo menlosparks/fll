@@ -28,9 +28,30 @@ crane_motor= Motor(Port.B, Direction.CLOCKWISE, [12,36])
 rack_motor= Motor(Port.A, Direction.COUNTERCLOCKWISE,  [8,16])
 crane_motor.set_dc_settings(90, 30)
 gyro= GyroSensor(Port.S1, Direction.COUNTERCLOCKWISE)
-color_sensor_left = None ### ColorSensor(Port.S1)
+color_sensor_back = ColorSensor(Port.S2)
 color_sensor_right = ColorSensor(Port.S3)
 color_sensor_center = ColorSensor(Port.S4)
 touch_sensor= None ##TouchSensor(Port.S3)
 ultrasound=  None## nxt.UltrasonicSensor(Port.S2)
- 
+
+
+# crane motor 
+# ------------------------
+# Run settings:      Max speed        400       Acceleration     800
+# DC settings:    Duty limit       90     Duty offset      30
+# PID settings:
+# kp               400    ki               600    kd               5
+# Tight Loop       100
+# Angle tolerance  3    Speed tolerance  5
+# Stall speed      2     Stall time       200
+
+
+# right motor 
+# ------------------------
+# Run settings: Max speed        800    Acceleration     1600
+
+# DC settings: Duty limit       100    Duty offset      0
+
+# PID settings: kp   500   ki     800      kd    5
+# Tight Loop       100   Angle tolerance  3    Speed tolerance  5
+# Stall speed      2                 Stall time       200

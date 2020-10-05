@@ -23,7 +23,7 @@ from robot_setup import rack_motor
 from robot_setup import crane_motor
 from robot_setup import gyro
 from robot_setup import touch_sensor
-from robot_setup import color_sensor_left
+from robot_setup import color_sensor_back
 from robot_setup import color_sensor_right
 from robot_setup import color_sensor_center
 from robot_setup import touch_sensor
@@ -68,18 +68,37 @@ def log_string(message):
     print(message)
     brick.display.text(message)
 
-def calibrate_gyro(new_gyro_angle=0):
-    brick.sound.beep(300, 90, SOUND_VOLUME)
+def any_button_pressed():
+    brick.light(Color.RED)
 
-    current_speed=gyro.speed()
-    current_angle=gyro.angle()
-    log_string('calibrating gyro speed ' + str(current_speed) + ' angle:' + str(current_angle))
-    wait(30)
+    while not any(brick.buttons()):
+        wait(150)
+    return brick.buttons()
+    brick.light(None)
+
+#(kp, ki, kd, tight_loop_limit, angle_tolerance, speed_tolerance, stall_speed, stall_time)
+
+def set_drive_motors_tight():
+    left_motor.set_pid_settings(500, 800, 5, 100, 3, 5, 2,200)
+    right_motor.set_pid_settings(500, 800, 5, 100, 3, 5, 2,200)
+
+def set_drive_motors_regular():
+    left_motor.set_pid_settings(500, 800, 5, 100, 3, 5, 2,200)
+    right_motor.set_pid_settings(500, 800, 5, 100, 3, 5, 2,200)
+
+def set_motor_tight(motor):
+    motor.set_pid_settings(400, 600, 5, 100, 3, 5, 2,200)
+
+def set_motor_regular(motor):
+    motor.set_pid_settings(400, 600, 5, 100, 3, 5, 2,200)
+
+def calibrate_gyro(new_gyro_angle=0):
+    brick.sound.beep(300, 60, SOUND_VOLUME)
+
+    log_string('calibrating gyro speed ' + str(gyro.speed()) + ' angle:' + str(gyro.angle()))
     gyro.reset_angle(new_gyro_angle)
     wait(40)
-    current_speed=gyro.speed()
-    current_angle=gyro.angle()
-    log_string('After reset gyro speed ' + str(current_speed) + ' angle:' + str(current_angle))
+    log_string('After reset gyro speed ' + str(gyro.speed()) + ' angle:' + str(gyro.angle()))
     wait(40)
 
 def push_back_reset_gyro(distance_mm, reset_gyro = True, new_gyro_angle = 0 ):
@@ -108,12 +127,20 @@ def turn_to_direction( gyro, target_angle, speed_mm_s = DEFAULT_SPEED):
     log_string('turn_to_direction  after turn :' +str(gyro.angle()))
 
     max_attempts=10 # limit oscialltions to 10, not forever
+    kp=1.5
+    ki=0.1
+    kd=0.1
+    integral_error=0
+    prev_error=0
+
     while ( abs(target_angle - gyro.angle()) > 1 and max_attempts >0):
         error=target_angle - gyro.angle()
-        adj_angular_speed = error * 1.5
+        adj_angular_speed = error * kp   + (integral_error + error) * ki + (error - prev_error) * kd
         robot.drive(0, adj_angular_speed)
         wait(100)
         max_attempts -= 1
+        integral_error += error
+        prev_error = error
 
     robot.stop(stop_type=Stop.BRAKE)
 
@@ -142,6 +169,43 @@ def turn( angle, speed_deg_s = DEFAULT_ANGULAR_SPEED):
     robot.drive_time(0, speed_deg_s, time)
     robot.stop(stop_type=Stop.BRAKE)
 
+
+
+def move_straight_target_direction(gyro, distance_mm, speed_mm_s, target_angle):
+
+    target_angle = adjust_gyro_target_angle(target_angle)
+    log_string('move_straight_target_direction  Adjtgt :' +str(target_angle))
+
+    turn_to_direction( gyro, target_angle)
+
+    left_motor.reset_angle(0)
+    motor_target_angle = int(DEGREES_PER_MM * distance_mm)
+    kp=1.5
+    ki=0.1
+    kd=0.1
+    integral_error=0
+    prev_error=0
+
+    while (abs(left_motor.angle()) < abs(motor_target_angle)):
+        error = target_angle - gyro.angle()
+        log_string('Gyro :' + str(gyro.angle()) + ' err: '+ str(error))
+        adj_angular_speed =  error * kp   + (integral_error + error) * ki + (error - prev_error) * kd
+        robot.drive(speed_mm_s, adj_angular_speed)
+        wait(50)
+        if right_motor.stalled() or left_motor.stalled():
+            log_string('move_straight_target_direction motor stalled ')
+            return
+        integral_error += error
+        prev_error = error
+
+    log_string('move_straight_target_direction -- done gyro.angle(): ' + str(gyro.angle()))
+
+    robot.stop(stop_type=Stop.BRAKE)
+
+
+
+
+
 def move_reverse(
     max_distance, 
     speed_mm_s = DEFAULT_SPEED):
@@ -154,9 +218,9 @@ def move_straight(distance_mm, speed_mm_s):
     motor_target_angle = int(DEGREES_PER_MM * distance_mm)
 
     # Keep moving till the angle of the left motor reaches target
+    robot.drive(speed_mm_s, 0)
     while (abs(left_motor.angle()) < abs(motor_target_angle)):
-        robot.drive(speed_mm_s, 0)
-        wait(100)
+        wait(40)
 
     robot.stop(stop_type=Stop.BRAKE)
 
@@ -215,7 +279,8 @@ def move_to_color(
     while color_sensor.color() != stop_on_color and color_sensor.color() != alternative_color:
         wait(10)
     robot.stop(stop_type=Stop.BRAKE)
-    log_string('Color found: ' + str(color_sensor.color()) +'(' + str(color_sensor.reflection()) + ')')
+    log_string('Color found: ' + str(color_sensor.color()) +'(' + str(color_sensor.reflection()) + ')'
+    + ' finding ' + str(stop_on_color) + ' or ' + str(stop_on_color))
 
 
 
@@ -307,12 +372,14 @@ def align_with_line_to_right(
 def follow_line_border(
     color_sensor,
     distance_mm,
-    speed_mm_s):
+    speed_mm_s,
+    border_on_right=True):
 
     left_motor.reset_angle(0)
     motor_target_angle = int(DEGREES_PER_MM * distance_mm)
     target_intensity = color_sensor.reflection()
 
+    border_side = 1 if border_on_right else -1
     # Keep moving till the angle of the left motor reaches target
     while (abs(left_motor.angle()) < abs(motor_target_angle)):
 
@@ -320,11 +387,11 @@ def follow_line_border(
         if color_sensor.color() == Color.WHITE:
             robot.drive(speed_mm_s, 0)
         elif color_sensor.color() == Color.BLACK:
-            robot.drive(speed_mm_s, abs(darkness))
+            robot.drive(speed_mm_s, border_side * abs(darkness))
         else :
-            robot.drive(speed_mm_s, -1 * abs(darkness))
+            robot.drive(speed_mm_s, -1 * border_side * abs(darkness))
 
-        wait(250)
+        wait(100)
 
     robot.stop(stop_type=Stop.BRAKE)
 
@@ -342,31 +409,6 @@ def adjust_gyro_target_angle(target_angle):
         + ' Adj :' +str(target_angle)
         )
     return target_angle
-
-def move_straight_target_direction(gyro, distance_mm, speed_mm_s, target_angle):
-
-    target_angle = adjust_gyro_target_angle(target_angle)
-    log_string('move_straight_target_direction  Adjtgt :' +str(target_angle))
-
-    turn_to_direction( gyro, target_angle)
-
-    left_motor.reset_angle(0)
-    motor_target_angle = int(DEGREES_PER_MM * distance_mm)
-
-    while (abs(left_motor.angle()) < abs(motor_target_angle)):
-        error = target_angle - gyro.angle()
-        log_string('Gyro :' + str(gyro.angle()) + ' err: '+ str(error))
-        adj_angular_speed = error * 1.5
-        robot.drive(speed_mm_s, adj_angular_speed)
-        wait(50)
-        if right_motor.stalled() or left_motor.stalled():
-            log_string('move_straight_target_direction motor stalled ')
-            return
-
-    log_string('move_straight_target_direction -- done gyro.angle(): ' + str(gyro.angle()))
-
-    robot.stop(stop_type=Stop.BRAKE)
-
 
 
 def drive_raising_crane(duration_ms, robot_distance_mm, robot_turn_angle, 
@@ -386,22 +428,26 @@ def drive_raising_crane(duration_ms, robot_distance_mm, robot_turn_angle,
 
 
 
-def move_crane_to_top( motor):
+def move_crane_to_top( motor, release_angle = 10):
     motor.run_until_stalled(500, Stop.COAST, 50)
-    move_crane_down( motor, degrees = 5)
+    if release_angle > 0:
+        move_crane_down( motor, degrees = release_angle)
 
-def move_crane_to_floor( motor):
+def move_crane_to_floor( motor, release_angle = 10):
     motor.run_until_stalled(-300, Stop.COAST, 35)
-    move_crane_up( motor, degrees = 10)
+    if release_angle > 0:
+        move_crane_up( motor, degrees = release_angle)
 
-def move_rack_to_top( ):
+def move_rack_to_top(release_angle = 5 ):
     rack_motor.run_until_stalled(500, Stop.COAST, 50)
-    move_crane_down( rack_motor, degrees = 5)
+    if release_angle > 0:
+        move_crane_down( rack_motor, degrees = release_angle)
 
-def move_rack_to_floor( ):
+def move_rack_to_floor(release_angle = 10 ):
     move_crane_down(rack_motor, 40)
     rack_motor.run_until_stalled(-300, Stop.COAST, 50)
-    move_crane_up( rack_motor, degrees = 10)
+    if release_angle > 0:
+        move_crane_up( rack_motor, degrees = release_angle)
 
 
 def move_crane_up( motor, degrees):

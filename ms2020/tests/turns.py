@@ -21,7 +21,7 @@ from robot_setup import rack_motor
 from robot_setup import crane_motor
 from robot_setup import gyro
 from robot_setup import touch_sensor
-from robot_setup import color_sensor_left
+from robot_setup import color_sensor_back
 from robot_setup import color_sensor_right
 from robot_setup import color_sensor_center
 from robot_setup import touch_sensor
@@ -49,12 +49,7 @@ import weight
 import slide
 import bench
 import basket
-shared_all.calibrate_gyro()
 
-INITIAL_ANGLE=180
-
-
-ADJUST_FOR_MISSION=0 - INITIAL_ANGLE
 shared_all.log_string('Arc turns 90 deg 12 cm')
 shared_all.turn_arc(distance  =120 ,angle =90 , speed_mm_s=130)
 

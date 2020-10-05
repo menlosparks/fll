@@ -14,3 +14,7 @@ shared_all.calibrate_gyro(INITIAL_ANGLE)
 treadmill.align()
 treadmill.run()
 bus_service_1.treadmill_to_row()
+
+import row
+row.align()
+row.run()

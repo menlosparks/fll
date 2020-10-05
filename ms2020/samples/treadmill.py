@@ -20,7 +20,7 @@ from robot_setup import rack_motor
 from robot_setup import crane_motor
 from robot_setup import gyro
 from robot_setup import touch_sensor
-from robot_setup import color_sensor_left
+from robot_setup import color_sensor_back
 from robot_setup import color_sensor_right
 from robot_setup import color_sensor_center
 from robot_setup import touch_sensor
@@ -39,24 +39,23 @@ import shared_all
 
 
 def align(adjust_for_mission=0):
-    shared_all.turn(-90)
-    shared_all.move_straight(distance_mm=170, speed_mm_s = -170)
-    shared_all.push_back_reset_gyro(distance_mm = 60, reset_gyro = False, new_gyro_angle =0 )
-    shared_all.move_straight(distance_mm=160, speed_mm_s = 150)
+    shared_all.turn(180, 210)
     shared_all.turn_to_direction( gyro=gyro, target_angle=180+ adjust_for_mission) 
     shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
         stop_on_color=Color.BLACK, alternative_color=Color.BLACK)
 
+
+
 def run(adjust_for_mission=0):
     shared_all.turn(5)
 # 
-    shared_all.move_straight(distance_mm=140, speed_mm_s=-150)
+    shared_all.move_straight(distance_mm=100, speed_mm_s=-190)
     right_motor.run_angle( -90,  50, Stop.BRAKE, True)
     # left_motor.run_angle( -90,  25, Stop.BRAKE, True)
 
-    # right_motor.run(-3)
+    # right_motor.run(-5)
     left_motor.run_angle( -85,  3*360, Stop.BRAKE, True)
-    right_motor.stop()
+    # right_motor.stop()
     # right_motor.run_angle( -90,  25, Stop.BRAKE, True)
 
     # left_motor.run_angle( 100,  45, Stop.COAST, True)
@@ -73,3 +72,19 @@ def run(adjust_for_mission=0):
 
 
 # treadon ()
+
+
+def alignold(adjust_for_mission=0):
+    shared_all.move_to_color(color_sensor=color_sensor_center,
+        stop_on_color=Color.BLACK, alternative_color=Color.BLACK)
+
+    shared_all.move_straight(distance_mm=10, speed_mm_s = 70)
+
+    shared_all.turn(-90)
+    shared_all.move_straight(distance_mm=170, speed_mm_s = -170)
+    shared_all.push_back_reset_gyro(distance_mm = 60, reset_gyro = False, new_gyro_angle =0 )
+    shared_all.move_straight(distance_mm=160, speed_mm_s = 150)
+
+    shared_all.turn_to_direction( gyro=gyro, target_angle=180+ adjust_for_mission) 
+    shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
+        stop_on_color=Color.BLACK, alternative_color=Color.BLACK)

@@ -20,7 +20,7 @@ from robot_setup import rack_motor
 from robot_setup import crane_motor
 from robot_setup import gyro
 from robot_setup import touch_sensor
-from robot_setup import color_sensor_left
+from robot_setup import color_sensor_back
 from robot_setup import color_sensor_right
 from robot_setup import color_sensor_center
 from robot_setup import touch_sensor
@@ -37,14 +37,21 @@ import shared_all
 
 ##### Do not change above this line ##########################################
 def align(adjust_for_mission=0):
+
+        shared_all.turn_arc(distance=150, angle=-45, speed_mm_s=170)
+        shared_all.turn_arc(distance=150, angle=45, speed_mm_s=170)
+
         shared_all.move_straight_target_direction(gyro = gyro, 
-                distance_mm= 320, 
-                speed_mm_s= 160, 
+                distance_mm= 20, 
+                speed_mm_s= 110, 
                 target_angle= -90+ adjust_for_mission)
         shared_all.turn_to_direction( gyro=gyro, target_angle=0+ adjust_for_mission)
+        shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
+                stop_on_color=Color.GREEN, alternative_color=Color.GREEN)
         shared_all.move_to_color(color_sensor=color_sensor_center,
                 stop_on_color=Color.BLUE, alternative_color=Color.BLUE)
-        shared_all.move_straight(distance_mm=10, speed_mm_s=-120)
+        shared_all.move_straight(distance_mm=10, speed_mm_s=-80)
+
 
 def shake():
     shared_all.move_straight(distance_mm=10, speed_mm_s=20)
@@ -54,19 +61,19 @@ def shake():
 
     shared_all.move_straight(distance_mm=10, speed_mm_s=-20)
     right_motor.run_angle( 120,  30, Stop.BRAKE, True)
-    shared_all.move_crane_to_floor(rack_motor)
+    shared_all.move_crane_to_floor(rack_motor, release_angle=0)
 
     shared_all.move_straight(distance_mm=10, speed_mm_s=-120)
-    shared_all.move_crane_to_floor(rack_motor)
+    shared_all.move_crane_to_floor(rack_motor, release_angle=0)
 
 
 def run(adjust_for_mission=0):
-    shared_all.turn_to_direction( gyro=gyro, target_angle=10)
+    shared_all.turn_to_direction( gyro=gyro, target_angle=8)
     shared_all.move_crane_to_floor(rack_motor)
     shake()
     #pull bsck
-    shared_all.drive_raising_crane(duration_ms=1900, robot_distance_mm=-100, robot_turn_angle=5, 
-            motor=rack_motor, crane_angle=-5)
+    shared_all.drive_raising_crane(duration_ms=1900, robot_distance_mm=-140, robot_turn_angle=5, 
+            motor=rack_motor, crane_angle=-15)
     #release
     shared_all.drive_raising_crane(duration_ms=1900, robot_distance_mm=5, robot_turn_angle=0, 
             motor=rack_motor, crane_angle=15)

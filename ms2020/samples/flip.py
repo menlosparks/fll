@@ -21,7 +21,7 @@ from robot_setup import rack_motor
 from robot_setup import crane_motor
 from robot_setup import gyro
 from robot_setup import touch_sensor
-from robot_setup import color_sensor_left
+from robot_setup import color_sensor_back
 from robot_setup import color_sensor_right
 from robot_setup import color_sensor_center
 from robot_setup import touch_sensor
@@ -46,7 +46,7 @@ def flip_small():
 def flip_phone():
     shared_all.move_crane_to_floor(crane_motor)
     shared_all.move_straight(distance_mm=60, speed_mm_s=90)
-    shared_all.drive_raising_crane(duration_ms=250, robot_distance_mm=20, robot_turn_angle=0, 
+    shared_all.drive_raising_crane(duration_ms=350, robot_distance_mm=20, robot_turn_angle=0, 
         motor=crane_motor, crane_angle=120)
     shared_all.move_crane_to_top(crane_motor)
 

@@ -13,5 +13,5 @@ from pybricks.parameters import Port
 
 
 def sound_happy():
-    brick.sound.beep(1100, 80, SOUND_VOLUME)
-    brick.sound.beep(900, 80, SOUND_VOLUME)
+    brick.sound.beep(1100, 80, 7)
+    brick.sound.beep(900, 80, 7)
