@@ -21,7 +21,7 @@ from robot_setup import rack_motor
 from robot_setup import crane_motor
 from robot_setup import gyro
 from robot_setup import touch_sensor
-from robot_setup import color_sensor_left
+from robot_setup import color_sensor_back
 from robot_setup import color_sensor_right
 from robot_setup import color_sensor_center
 from robot_setup import touch_sensor
@@ -36,3 +36,19 @@ from robot_setup import DEGREES_PER_MM
 
 ##### Do not change above this line ##########################################
 
+def align():
+    shared_all.move_straight_target_direction(gyro = gyro, 
+            distance_mm=150, 
+            speed_mm_s=180, 
+        target_angle= -90)
+def run():
+        shared_all.move_straight_target_direction(gyro = gyro, 
+            distance_mm=150, 
+            speed_mm_s=180, 
+        target_angle= -90)
+
+## Below lines only for testing
+## Comment out when done testing. Do not upload to Git hub without commenting.
+shared_all.calibrate_gyro(0)
+align()
+run()
