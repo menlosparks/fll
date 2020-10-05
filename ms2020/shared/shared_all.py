@@ -73,8 +73,7 @@ def any_button_pressed():
 
     while not any(brick.buttons()):
         wait(150)
-    return brick.buttons()
-    brick.light(None)
+    return brick.buttons().copy()
 
 #(kp, ki, kd, tight_loop_limit, angle_tolerance, speed_tolerance, stall_speed, stall_time)
 
