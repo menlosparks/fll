@@ -34,7 +34,16 @@ color_sensor_center = ColorSensor(Port.S4)
 touch_sensor= None ##TouchSensor(Port.S3)
 ultrasound=  None## nxt.UltrasonicSensor(Port.S2)
 
-
+WHITE_MIN_INTENSITY = {
+  color_sensor_back: 50,
+  color_sensor_right: 50,
+  color_sensor_center:  50
+}
+BLACK_MAX_INTENSITY = {
+  color_sensor_back: 20,
+  color_sensor_right: 30,
+  color_sensor_center:  30
+}
 # crane motor 
 # ------------------------
 # Run settings:      Max speed        400       Acceleration     800

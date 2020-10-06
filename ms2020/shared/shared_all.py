@@ -35,6 +35,8 @@ from robot_setup import AXLE_TRACK_MM
 from robot_setup import SENSOR_TO_AXLE
 from robot_setup import WHEEL_CIRCUM_MM
 from robot_setup import DEGREES_PER_MM
+from robot_setup import WHITE_MIN_INTENSITY
+from robot_setup import BLACK_MAX_INTENSITY
 
 
 DEFAULT_SPEED=300
@@ -270,15 +272,21 @@ def move_to_color(
     color_sensor,
     stop_on_color,
     alternative_color = None,
-    speed_mm_s = DEFAULT_COLOR_FIND_SPEED):
+    speed_mm_s = DEFAULT_COLOR_FIND_SPEED,
+    min_intensity=0,
+    max_intensity=100):
  
     alternative_color = alternative_color if alternative_color != None else stop_on_color
     robot.drive(speed_mm_s, 0)
     # Check if color reached.
-    while color_sensor.color() != stop_on_color and color_sensor.color() != alternative_color:
+    while (color_sensor.color() != stop_on_color 
+        and color_sensor.color() != alternative_color
+        and not (color_sensor.reflection() in range (min_intensity, max_intensity))):
         wait(10)
     robot.stop(stop_type=Stop.BRAKE)
-    log_string('Color found: ' + str(color_sensor.color()) +'(' + str(color_sensor.reflection()) + ')'
+    log_string('Color found:(' + str(color_sensor.color()) 
+    +' ' + str(color_sensor.reflection()) + ')'
+    +' ' + str(color_sensor.ambient()) + ')'
     + ' finding ' + str(stop_on_color) + ' or ' + str(stop_on_color))
 
 
@@ -287,12 +295,16 @@ def move_to_color_reverse(
     color_sensor,
     stop_on_color,
     alternative_color = None,
-    speed_mm_s = DEFAULT_COLOR_FIND_SPEED):
+    speed_mm_s = DEFAULT_COLOR_FIND_SPEED,
+    min_intensity=0,
+    max_intensity=100):
     move_to_color(
         color_sensor,
         stop_on_color,
         alternative_color,
-        speed_mm_s = -1 * speed_mm_s)
+        speed_mm_s = -1 * speed_mm_s,
+        min_intensity=min_intensity,
+        max_intensity=max_intensity)
 
 
 

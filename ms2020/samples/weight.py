@@ -42,7 +42,7 @@ def align(adjust_for_mission=0):
     shared_all.move_to_color(color_sensor=color_sensor_center,
         stop_on_color=Color.WHITE, alternative_color=Color.WHITE)
 
-    shared_all.move_straight(distance_mm=80, speed_mm_s=120)
+    shared_all.move_straight(distance_mm=120, speed_mm_s=140)
     shared_all.move_crane_to_top(crane_motor)
     shared_all.turn_to_direction( gyro=gyro, target_angle=180+ adjust_for_mission) 
     shared_all.move_straight(distance_mm=230, speed_mm_s=-200)
@@ -70,17 +70,19 @@ def run(adjust_for_mission=0):
 
     #lift weight and back up
     crane_motor.stop()
-    crane_motor.run_time(270, 700)
+    shared_all.move_crane_down( motor = crane_motor, degrees = 10)
+    crane_motor.run_time(720, 900)
     # shared_all.drive_raising_crane(duration_ms=700 , robot_distance_mm=0, robot_turn_angle=0, 
     #     motor=crane_motor, crane_angle=130)
-    shared_all.move_crane_down( motor = crane_motor, degrees = 50)
-    shared_all.move_straight(distance_mm=55, speed_mm_s=-120)
+    shared_all.move_crane_to_floor(crane_motor)
+    shared_all.move_crane_up( motor = crane_motor, degrees = 40)
+    shared_all.move_straight(distance_mm=70, speed_mm_s=-120)
 
-    shared_all.turn(-90)
+    shared_all.turn(-100)
     shared_all.move_crane_to_top(crane_motor)
     shared_all.move_straight_target_direction(gyro = gyro, 
         distance_mm= 70, 
         speed_mm_s= -140, 
-        target_angle= 180+ adjust_for_mission)
+        target_angle= 170+ adjust_for_mission)
 
 
