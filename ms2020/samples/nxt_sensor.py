@@ -32,6 +32,8 @@ from robot_setup import AXLE_TRACK_MM
 from robot_setup import SENSOR_TO_AXLE
 from robot_setup import WHEEL_CIRCUM_MM
 from robot_setup import DEGREES_PER_MM
+from robot_setup import WHITE_MIN_INTENSITY
+from robot_setup import BLACK_MAX_INTENSITY
  
 ##### Do not change above this line ##########################################
 

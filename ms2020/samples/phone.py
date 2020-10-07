@@ -32,6 +32,8 @@ from robot_setup import AXLE_TRACK_MM
 from robot_setup import SENSOR_TO_AXLE
 from robot_setup import WHEEL_CIRCUM_MM
 from robot_setup import DEGREES_PER_MM
+from robot_setup import WHITE_MIN_INTENSITY
+from robot_setup import BLACK_MAX_INTENSITY
  
 import shared_all
 import flip
@@ -39,9 +41,12 @@ import flip
 
 def align(adjust_for_mission=0):
     shared_all.turn_to_direction( gyro=gyro, target_angle=180+ adjust_for_mission) 
-    shared_all.move_to_color(color_sensor=color_sensor_right,
-        stop_on_color=Color.WHITE, alternative_color=Color.WHITE, speed_mm_s=25)
-    shared_all.move_straight(distance_mm= 32, speed_mm_s= -80)
+
+    shared_all.move_to_color(color_sensor=color_sensor_center,
+        stop_on_color=Color.WHITE, alternative_color=Color.WHITE, speed_mm_s=25,
+         min_intensity=robot_setup.WHITE_MIN_INTENSITY[color_sensor_center])
+
+    shared_all.move_straight(distance_mm= 50, speed_mm_s= -80)
     shared_all.move_crane_to_floor(crane_motor)
     shared_all.turn_arc(distance=162, angle=67, speed_mm_s =70)
 

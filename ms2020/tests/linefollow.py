@@ -33,6 +33,8 @@ from robot_setup import AXLE_TRACK_MM
 from robot_setup import SENSOR_TO_AXLE
 from robot_setup import WHEEL_CIRCUM_MM
 from robot_setup import DEGREES_PER_MM
+from robot_setup import WHITE_MIN_INTENSITY
+from robot_setup import BLACK_MAX_INTENSITY
  
 import shared_all
 
@@ -41,8 +43,8 @@ import shared_all
 
 
 shared_all.follow_line_border(
-    color_sensor = color_sensor_right,
-    distance_mm=500,
-    speed_mm_s=120,
+    color_sensor = color_sensor_center,
+    distance_mm=400,
+    speed_mm_s=100,
     border_on_right=False)
 

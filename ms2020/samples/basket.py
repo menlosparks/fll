@@ -32,6 +32,8 @@ from robot_setup import AXLE_TRACK_MM
 from robot_setup import SENSOR_TO_AXLE
 from robot_setup import WHEEL_CIRCUM_MM
 from robot_setup import DEGREES_PER_MM
+from robot_setup import WHITE_MIN_INTENSITY
+from robot_setup import BLACK_MAX_INTENSITY
  
 import shared_all
 
@@ -43,8 +45,11 @@ def align(adjust_for_mission=0):
             distance_mm=110, 
             speed_mm_s=120, 
         target_angle= -90 + adjust_for_mission)
+        
     shared_all.move_to_color(color_sensor=color_sensor_right,
-        stop_on_color=Color.WHITE, alternative_color=Color.WHITE, speed_mm_s=30)
+        stop_on_color=Color.WHITE, alternative_color=Color.BLACK, speed_mm_s=30,
+        min_intensity=robot_setup.WHITE_MIN_INTENSITY)
+
     shared_all.move_straight(distance_mm=7, speed_mm_s=-90)
     shared_all.turn_to_direction(gyro = gyro, 
             target_angle= -137 + adjust_for_mission,

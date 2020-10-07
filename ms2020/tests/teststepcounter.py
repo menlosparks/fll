@@ -53,7 +53,8 @@ shared_all.calibrate_gyro()
 
 
 bus_service_1.base_to_stepcounter()
-stepcounter.step()
+stepcounter.run()
+bus_service_1.stepcounter_to_treadmill()
 
 import treadmill
 treadmill.align()

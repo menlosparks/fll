@@ -8,13 +8,13 @@ import shared_all
 import bus_service_1
 import treadmill
 
-INITIAL_ANGLE=0
-shared_all.calibrate_gyro(INITIAL_ANGLE)
+shared_all.calibrate_gyro(0)
 
+bus_service_1.stepcounter_to_treadmill()
 treadmill.align()
-treadmill.run()
-bus_service_1.treadmill_to_row()
+# treadmill.run()
+# bus_service_1.treadmill_to_row()
 
-import row
-row.align()
-row.run()
+# import row
+# row.align()
+# row.run()

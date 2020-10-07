@@ -33,10 +33,22 @@ from robot_setup import AXLE_TRACK_MM
 from robot_setup import SENSOR_TO_AXLE
 from robot_setup import WHEEL_CIRCUM_MM
 from robot_setup import DEGREES_PER_MM
+from robot_setup import WHITE_MIN_INTENSITY
+from robot_setup import BLACK_MAX_INTENSITY
  
 import shared_all
 
 ##### Do not change above this line ##########################################
+
+def print_colors():
+    shared_all.log_string(
+            'Bk:(' + str(color_sensor_back.color()) + ' ' + str(color_sensor_back.reflection())  
+             +  ' ' + str(color_sensor_back.ambient()) + ')'
+             + ' Cent:(' + str(color_sensor_center.color()) + ' ' + str(color_sensor_center.reflection())  
+             +  ' ' + str(color_sensor_center.ambient()) + ')'
+             + ' Rt:(' + str(color_sensor_right.color()) + ' ' + str(color_sensor_right.reflection())
+             +  ' ' + str(color_sensor_right.ambient()) + ')'  
+            )
 
 
 def color_test(distance_mm, speed_mm_s):
@@ -45,18 +57,12 @@ def color_test(distance_mm, speed_mm_s):
     motor_target_angle = int(DEGREES_PER_MM * distance_mm)
 
     while (abs(left_motor.angle()) < abs(motor_target_angle)):
-        shared_all.log_string(
-            'Bk:(' + str(color_sensor_back.color()) + ' ' + str(color_sensor_back.reflection())  
-             +  ' ' + str(color_sensor_back.ambient()) + ')'
-             + ' Cent:(' + str(color_sensor_center.color()) + ' ' + str(color_sensor_center.reflection())  
-             +  ' ' + str(color_sensor_center.ambient()) + ')'
-             + ' Rt:(' + str(color_sensor_right.color()) + ' ' + str(color_sensor_right.reflection())
-             +  ' ' + str(color_sensor_right.ambient()) + ')'  
-            )
+        print_colors()
         robot.drive(speed_mm_s, 0)
         wait(200)
 
     robot.stop(stop_type=Stop.BRAKE)
+    print_colors()
 
 color_test( distance_mm=100, speed_mm_s=30)
 wait(999999)

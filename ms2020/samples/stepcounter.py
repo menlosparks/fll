@@ -32,12 +32,14 @@ from robot_setup import AXLE_TRACK_MM
 from robot_setup import SENSOR_TO_AXLE
 from robot_setup import WHEEL_CIRCUM_MM
 from robot_setup import DEGREES_PER_MM
+from robot_setup import WHITE_MIN_INTENSITY
+from robot_setup import BLACK_MAX_INTENSITY
  
 import shared_all
 
 ##### Do not change above this line ##########################################
 
-def step():
+def run():
 
     shared_all.move_straight_target_direction(gyro = gyro, 
         distance_mm=190, 

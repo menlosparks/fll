@@ -274,20 +274,29 @@ def move_to_color(
     alternative_color = None,
     speed_mm_s = DEFAULT_COLOR_FIND_SPEED,
     min_intensity=0,
-    max_intensity=100):
- 
+    max_intensity=100,
+    max_distance_mm=9999):
+    left_motor.reset_angle(0)
+    motor_target_angle = int(DEGREES_PER_MM * max_distance_mm)
+
     alternative_color = alternative_color if alternative_color != None else stop_on_color
     robot.drive(speed_mm_s, 0)
-    # Check if color reached.
-    while (color_sensor.color() != stop_on_color 
-        and color_sensor.color() != alternative_color
-        and not (color_sensor.reflection() in range (min_intensity, max_intensity))):
+    # Check if color reached or the angle of the left motor reaches target.
+    color=color_sensor.color()
+    intensity=color_sensor.reflection()
+    while (not color in (stop_on_color, alternative_color)
+        and not (intensity in range (min_intensity, max_intensity))
+        and  (abs(left_motor.angle()) < abs(motor_target_angle)))   :
         wait(10)
+        color=color_sensor.color()
+        intensity=color_sensor.reflection()
+
     robot.stop(stop_type=Stop.BRAKE)
-    log_string('Color found:(' + str(color_sensor.color()) 
-    +' ' + str(color_sensor.reflection()) + ')'
+
+    log_string('Color found:(' + str(color) 
+    +' ' + str(intensity) + ')'
     +' ' + str(color_sensor.ambient()) + ')'
-    + ' finding ' + str(stop_on_color) + ' or ' + str(stop_on_color))
+    + ' finding ' + str(stop_on_color) + ' or ' + str(alternative_color))
 
 
 
@@ -297,14 +306,16 @@ def move_to_color_reverse(
     alternative_color = None,
     speed_mm_s = DEFAULT_COLOR_FIND_SPEED,
     min_intensity=0,
-    max_intensity=100):
+    max_intensity=100,
+    max_distance_mm=9999):
     move_to_color(
         color_sensor,
         stop_on_color,
         alternative_color,
         speed_mm_s = -1 * speed_mm_s,
         min_intensity=min_intensity,
-        max_intensity=max_intensity)
+        max_intensity=max_intensity,
+        max_distance_mm=max_distance_mm)
 
 
 
@@ -388,21 +399,31 @@ def follow_line_border(
 
     left_motor.reset_angle(0)
     motor_target_angle = int(DEGREES_PER_MM * distance_mm)
-    target_intensity = color_sensor.reflection()
+    target_intensity = 100
+
+    kp=0.05
+    ki=kp * 0.000
+    kd=kp * 0.000
+    integral=0
+    prev_error=0
 
     border_side = 1 if border_on_right else -1
     # Keep moving till the angle of the left motor reaches target
     while (abs(left_motor.angle()) < abs(motor_target_angle)):
 
-        darkness = target_intensity - color_sensor.reflection()
-        if color_sensor.color() == Color.WHITE:
-            robot.drive(speed_mm_s, 0)
-        elif color_sensor.color() == Color.BLACK:
-            robot.drive(speed_mm_s, border_side * abs(darkness))
-        else :
-            robot.drive(speed_mm_s, -1 * border_side * abs(darkness))
-
-        wait(100)
+        color = color_sensor.color()
+        intensity = color_sensor.reflection()
+        error = border_side * abs(target_intensity - intensity)
+        if color not in (Color.WHITE,  Color.BLACK):
+            error = -1 * error
+        
+        angular_speed = kp * error + ki*integral + kd*(error-prev_error)
+        log_string('Lfol: (' + str(color) + ' ' + str(intensity) + ')' 
+            + ' err:' + str(error)+ ' spd:' + str(angular_speed))
+        robot.drive(speed_mm_s, angular_speed)
+        wait(20)
+        prev_error = error
+        integral += error
 
     robot.stop(stop_type=Stop.BRAKE)
 
