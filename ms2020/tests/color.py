@@ -42,9 +42,10 @@ import shared_all
 
 def print_colors():
     shared_all.log_string(
-            'Bk:(' + str(color_sensor_back.color()) + ' ' + str(color_sensor_back.reflection())  
-             +  ' ' + str(color_sensor_back.ambient()) + ')'
-             + ' Cent:(' + str(color_sensor_center.color()) + ' ' + str(color_sensor_center.reflection())  
+            # 'Bk:(' + str(color_sensor_back.color()) + ' ' + str(color_sensor_back.reflection())  
+            #  +  ' ' + str(color_sensor_back.ambient()) + ')'
+            #  + 
+             ' Cent:(' + str(color_sensor_center.color()) + ' ' + str(color_sensor_center.reflection())  
              +  ' ' + str(color_sensor_center.ambient()) + ')'
              + ' Rt:(' + str(color_sensor_right.color()) + ' ' + str(color_sensor_right.reflection())
              +  ' ' + str(color_sensor_right.ambient()) + ')'  

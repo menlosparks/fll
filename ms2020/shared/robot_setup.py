@@ -28,7 +28,7 @@ crane_motor= Motor(Port.B, Direction.CLOCKWISE, [12,36])
 rack_motor= Motor(Port.A, Direction.COUNTERCLOCKWISE,  [8,16])
 crane_motor.set_dc_settings(90, 30)
 gyro= GyroSensor(Port.S1, Direction.COUNTERCLOCKWISE)
-color_sensor_back = ColorSensor(Port.S2)
+color_sensor_back =  None ##ColorSensor(Port.S2)
 color_sensor_right = ColorSensor(Port.S3)
 color_sensor_center = ColorSensor(Port.S4)
 touch_sensor= None ##TouchSensor(Port.S3)
@@ -36,13 +36,13 @@ ultrasound=  None## nxt.UltrasonicSensor(Port.S2)
 
 WHITE_MIN_INTENSITY = {
   color_sensor_back: 50,
-  color_sensor_right: 50,
-  color_sensor_center:  50
+  color_sensor_right: 70,
+  color_sensor_center:  70
 }
 BLACK_MAX_INTENSITY = {
   color_sensor_back: 20,
-  color_sensor_right: 30,
-  color_sensor_center:  30
+  color_sensor_right: 20,
+  color_sensor_center:  20
 }
 # crane motor 
 # ------------------------

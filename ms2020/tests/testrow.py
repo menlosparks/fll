@@ -10,7 +10,7 @@ import bus_service_1
 import row
 
 
-shared_all.calibrate_gyro(-90)
+shared_all.calibrate_gyro(180)
 
 row.align(adjust_for_mission=0)
 row.run()

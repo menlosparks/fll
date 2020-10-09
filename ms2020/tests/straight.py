@@ -52,6 +52,9 @@ import slide
 import bench
 import basket
 
+# right_motor.run_time(360,1000)
+# wait(3000)
+# left_motor.run_time(360,1000)
 shared_all.move_straight(distance_mm = 400, speed_mm_s = 140)
 wait(3000)
 shared_all.move_straight(distance_mm = 400, speed_mm_s = -140)

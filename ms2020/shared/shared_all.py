@@ -94,13 +94,22 @@ def set_motor_regular(motor):
     motor.set_pid_settings(400, 600, 5, 100, 3, 5, 2,200)
 
 def calibrate_gyro(new_gyro_angle=0):
-    brick.sound.beep(300, 60, SOUND_VOLUME)
+    gyro_speed = gyro.speed()
+    gyro_angle = gyro.angle()
+    log_string('calibrating gyro speed ' + str(gyro_speed) + ' angle:' + str(gyro_angle))
+    if gyro_speed == 0 and gyro_angle == new_gyro_angle :
+        log_string('No calibration required')
+        return
 
-    log_string('calibrating gyro speed ' + str(gyro.speed()) + ' angle:' + str(gyro.angle()))
+    brick.sound.beep(300, 30, SOUND_VOLUME)
+
+    cntr=0
+    while (gyro.speed() > 0 and cntr < 5):
+        cntr +=1
+        wait(10)
     gyro.reset_angle(new_gyro_angle)
     wait(40)
     log_string('After reset gyro speed ' + str(gyro.speed()) + ' angle:' + str(gyro.angle()))
-    wait(40)
 
 def push_back_reset_gyro(distance_mm, reset_gyro = True, new_gyro_angle = 0 ):
     move_straight(distance_mm = distance_mm , speed_mm_s= -80)
@@ -188,8 +197,9 @@ def move_straight_target_direction(gyro, distance_mm, speed_mm_s, target_angle):
     prev_error=0
 
     while (abs(left_motor.angle()) < abs(motor_target_angle)):
-        error = target_angle - gyro.angle()
-        log_string('Gyro :' + str(gyro.angle()) + ' err: '+ str(error))
+        gyro_angle = gyro.angle()
+        error = target_angle - gyro_angle
+        log_string('Gyro :' + str(gyro_angle) + ' err: '+ str(error))
         adj_angular_speed =  error * kp   + (integral_error + error) * ki + (error - prev_error) * kd
         robot.drive(speed_mm_s, adj_angular_speed)
         wait(50)
@@ -276,6 +286,7 @@ def move_to_color(
     min_intensity=0,
     max_intensity=100,
     max_distance_mm=9999):
+
     left_motor.reset_angle(0)
     motor_target_angle = int(DEGREES_PER_MM * max_distance_mm)
 
@@ -284,8 +295,8 @@ def move_to_color(
     # Check if color reached or the angle of the left motor reaches target.
     color=color_sensor.color()
     intensity=color_sensor.reflection()
-    while (not color in (stop_on_color, alternative_color)
-        and not (intensity in range (min_intensity, max_intensity))
+    while ((not color in (stop_on_color, alternative_color)
+        or not (intensity in range (min_intensity, max_intensity)))
         and  (abs(left_motor.angle()) < abs(motor_target_angle)))   :
         wait(10)
         color=color_sensor.color()
@@ -296,7 +307,9 @@ def move_to_color(
     log_string('Color found:(' + str(color) 
     +' ' + str(intensity) + ')'
     +' ' + str(color_sensor.ambient()) + ')'
-    + ' finding ' + str(stop_on_color) + ' or ' + str(alternative_color))
+    + ' finding ' + str(stop_on_color) + ' or ' + str(alternative_color)
+    + ' in range ' + str(min_intensity) + ' or ' + str(max_intensity)
+    )
 
 
 

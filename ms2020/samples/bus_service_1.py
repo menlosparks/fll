@@ -78,12 +78,21 @@ def stepcounter_to_treadmill(adjust_for_mission=0):
 
 def treadmill_to_row(adjust_for_mission=0):
 
-    shared_all.turn_arc(distance=60,angle=90, speed_mm_s=100) # turn in an arc
+    shared_all.turn_arc(distance=110,angle=55, speed_mm_s=100) # turn in an arc
+    shared_all.turn(angle=-55, speed_deg_s=120)
+    # shared_all.turn_arc(distance=55,angle=-55, speed_mm_s=100) # turn in an arc
+    shared_all.turn_to_direction( gyro=gyro, target_angle= 180 + adjust_for_mission)
 
     # shared_all.turn_to_direction( gyro=gyro, target_angle=-90+ adjust_for_mission)
     shared_all.move_straight(180, -180)
 
-    shared_all.push_back_reset_gyro(distance_mm=60, reset_gyro = True, new_gyro_angle=-90)
+    shared_all.push_back_reset_gyro(distance_mm=60, reset_gyro = True, new_gyro_angle=180)
+    shared_all.move_straight(distance_mm=70, speed_mm_s=100)
+    shared_all.move_to_color(color_sensor=color_sensor_center,
+        stop_on_color=Color.BLACK, alternative_color=Color.BLACK,
+         max_intensity=robot_setup.BLACK_MAX_INTENSITY[color_sensor_center],
+         max_distance_mm=40)
+
 
 
 def push_tires(adjust_for_mission=0):
@@ -102,11 +111,11 @@ def push_small_tire(adjust_for_mission=0):
 
 def row_to_weight(adjust_for_mission=0):
 
-    shared_all.turn_to_direction( gyro=gyro, target_angle=-130)
-    shared_all.move_straight(distance_mm=90, speed_mm_s=100)
-    # push_small_tire()
+    shared_all.turn(angle=-40)
+    shared_all.turn_arc(distance=60 , angle=-60, speed_mm_s=80)
+
     shared_all.move_straight_target_direction(gyro = gyro, 
-        distance_mm= 80, 
+        distance_mm= 70, 
         speed_mm_s= 160, 
         target_angle= -90+ adjust_for_mission)
 
