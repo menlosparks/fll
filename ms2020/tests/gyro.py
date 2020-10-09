@@ -40,7 +40,6 @@ import shared_all
 
 ##### Do not change above this line ##########################################
 
-
 import bus_service_1
 import bus_service_2
 import stepcounter
@@ -54,7 +53,10 @@ import basket
  
 shared_all.calibrate_gyro(0)
 
+
 shared_all.log_string('Stright 40cm to 0 and back')
+
+
 shared_all.move_straight_target_direction(gyro=gyro,
     distance_mm=400, speed_mm_s=160, target_angle=0)
 wait(3000)

@@ -39,7 +39,7 @@ import shared_all
 
 ##### Do not change above this line ##########################################
 def align(adjust_for_mission=0):
-    shared_all.move_straight(distance_mm=170, speed_mm_s=120)
+    shared_all.move_straight(distance_mm=190, speed_mm_s=120)
     shared_all.move_straight_target_direction(gyro = gyro, 
         distance_mm= 80, 
         speed_mm_s= -140, 

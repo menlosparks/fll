@@ -41,30 +41,24 @@ import shared_all
 
 
 def align(adjust_for_mission=0):
+    shared_all.turn( angle=-30)
     shared_all.move_to_color(color_sensor=color_sensor_center,
-        stop_on_color=Color.WHITE, alternative_color=Color.WHITE,
-         min_intensity=robot_setup.WHITE_MIN_INTENSITY[color_sensor_center],
-         max_distance_mm=80)
-
-    shared_all.move_straight(distance_mm=60, speed_mm_s = 130)
-
-    shared_all.turn(-90)
-    shared_all.move_straight(distance_mm=170, speed_mm_s = -170)
-    shared_all.push_back_reset_gyro(distance_mm = 60, reset_gyro = False, new_gyro_angle =-90 )
-    shared_all.move_straight(distance_mm=140, speed_mm_s = 150)
-
+        stop_on_color=Color.BLACK, alternative_color=Color.BLACK,
+         max_intensity=robot_setup.BLACK_MAX_INTENSITY[color_sensor_center],
+         max_distance_mm=180)
+    
+    # shared_all.move_straight(distance_mm=10, speed_mm_s=30)
     shared_all.turn_to_direction( gyro=gyro, target_angle=180+ adjust_for_mission) 
     shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
-        stop_on_color=Color.WHITE, alternative_color=Color.WHITE,
+        stop_on_color=Color.BLACK, alternative_color=Color.BLACK,
          min_intensity=robot_setup.WHITE_MIN_INTENSITY[color_sensor_center],
-         max_distance_mm=80)
-    shared_all.move_straight(distance_mm=10, speed_mm_s=-90)
+         max_distance_mm=180)
 
 
 def run(adjust_for_mission=0):
     shared_all.turn(5)
 # 
-    shared_all.move_straight(distance_mm=160, speed_mm_s=-190)
+    shared_all.move_straight(distance_mm=190, speed_mm_s=-210)
     right_motor.run_angle( -90,  50, Stop.BRAKE, True)
 
     left_motor.run_angle( -210,  3*360, Stop.BRAKE, True)
@@ -74,6 +68,15 @@ def run(adjust_for_mission=0):
     shared_all.turn_to_direction( gyro=gyro, target_angle= 180 + adjust_for_mission)
 
 
+
+
+def alignreverse(adjust_for_mission=0):
+    shared_all.turn( angle=-30)
+    shared_all.move_to_color(color_sensor=color_sensor_center,
+        stop_on_color=Color.BLACK, alternative_color=Color.BLACK,
+         max_intensity=robot_setup.BLACK_MAX_INTENSITY[color_sensor_center],
+         max_distance_mm=180)
+    shared_all.turn_to_direction( gyro=gyro, target_angle=180+ adjust_for_mission) 
 
 
 def alignold(adjust_for_mission=0):
