@@ -49,22 +49,31 @@ def base_to_treadmill(adjust_for_mission=0):
     shared_all.move_to_color(color_sensor=color_sensor_center,
         stop_on_color=Color.BLACK, alternative_color=Color.BLACK)
 
-def base_to_stepcounter(adjust_for_mission=0):
+def base_to_stepcounter_reverse(adjust_for_mission=0):
+    shared_all.move_straight_target_direction(gyro = gyro, 
+        distance_mm=550, 
+        speed_mm_s=-150, 
+        target_angle=180)
+
+def base_to_stepcounter_forward(adjust_for_mission=0):
     shared_all.move_straight_target_direction(gyro = gyro, 
         distance_mm=550, 
         speed_mm_s=150, 
         target_angle=0)
+
+def base_to_stepcounter(adjust_for_mission=0):
+    base_to_stepcounter_reverse(adjust_for_mission)
 
 def stepcounter_to_treadmill_reverse(adjust_for_mission=0):
 
     # shared_all.turn( angle=-45)
     shared_all.move_straight(distance_mm=160,speed_mm_s=150)
     shared_all.turn( angle=-10)
-    shared_all.turn_arc(distance=330,angle=-45, speed_mm_s=-150) 
+    shared_all.turn_arc(distance=300,angle=-45, speed_mm_s=-150) 
     # shared_all.turn( angle=-45)
     shared_all.move_straight_target_direction(gyro = gyro, 
         distance_mm= 400, 
-        speed_mm_s= -150, 
+        speed_mm_s= -170, 
         target_angle=180)
     shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
         stop_on_color=Color.WHITE, alternative_color=Color.WHITE,

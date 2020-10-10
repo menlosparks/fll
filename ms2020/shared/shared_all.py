@@ -129,12 +129,20 @@ def turn_arc(distance,angle, speed_mm_s):
 
 def turn_to_direction( gyro, target_angle, speed_mm_s = DEFAULT_SPEED):
 
-    target_angle = adjust_gyro_target_angle(target_angle)
-    log_string('turn_to_direction  Adjtgt :' +str(target_angle))
+    gyro_angle=gyro.angle()
 
-    turn(target_angle - gyro.angle())
+    target_angle = adjust_gyro_target_angle(target_angle, gyro_angle)
+    log_string('turn_to_direction  Adjtgt :' +str(target_angle) + ' gyro:' + str(gyro_angle))
 
-    log_string('turn_to_direction  after turn :' +str(gyro.angle()))
+    if (abs(target_angle-gyro_angle) > 15):
+        turn(target_angle - gyro_angle)
+
+    gyro_angle=gyro.angle()
+
+    if (abs(target_angle-gyro_angle) <=1):
+        return target_angle
+
+    log_string('turn_to_direction  after turn :' +str(gyro_angle))
 
     max_attempts=10 # limit oscialltions to 10, not forever
     kp=1.5
@@ -143,22 +151,23 @@ def turn_to_direction( gyro, target_angle, speed_mm_s = DEFAULT_SPEED):
     integral_error=0
     prev_error=0
 
-    while ( abs(target_angle - gyro.angle()) > 1 and max_attempts >0):
-        error=target_angle - gyro.angle()
+    while ( abs(target_angle - gyro_angle) > 1 and max_attempts >0):
+        error=target_angle - gyro_angle
         adj_angular_speed = error * kp   + (integral_error + error) * ki + (error - prev_error) * kd
         robot.drive(0, adj_angular_speed)
         wait(100)
         max_attempts -= 1
         integral_error += error
         prev_error = error
+        gyro_angle=gyro.angle()
 
     robot.stop(stop_type=Stop.BRAKE)
 
-    adjusted_angle = gyro.angle()
     log_string('turn_to_direction done-- Adjusted target: ' + str(target_angle) 
-        + ' now: ' + str(adjusted_angle)
+        + ' now: ' + str(gyro_angle)
         + ' remain attempts : ' + str(max_attempts)
         )
+    return target_angle
 
 
 
@@ -175,7 +184,6 @@ def turn( angle, speed_deg_s = DEFAULT_ANGULAR_SPEED):
     speed_deg_s = -1 * speed_deg_s if angle < 0 else speed_deg_s
     # time=int(1000 * (floatspeed_deg_s(angle)/float(speed_deg_s)))
     time=abs(int(1000 * (angle/speed_deg_s)))
-    log_string('Time of turn ' +str(time))
     robot.drive_time(0, speed_deg_s, time)
     robot.stop(stop_type=Stop.BRAKE)
 
@@ -183,10 +191,11 @@ def turn( angle, speed_deg_s = DEFAULT_ANGULAR_SPEED):
 
 def move_straight_target_direction(gyro, distance_mm, speed_mm_s, target_angle):
 
-    target_angle = adjust_gyro_target_angle(target_angle)
-    log_string('move_straight_target_direction  Adjtgt :' +str(target_angle))
+    # gyro_angle = gyro.angle()
+    # target_angle = adjust_gyro_target_angle(target_angle, gyro_angle)
 
-    turn_to_direction( gyro, target_angle)
+    target_angle = turn_to_direction( gyro, target_angle)
+    log_string('move_straight_target_direction  Adjtgt :' +str(target_angle))
 
     left_motor.reset_angle(0)
     motor_target_angle = int(DEGREES_PER_MM * distance_mm)
@@ -220,7 +229,7 @@ def move_straight_target_direction(gyro, distance_mm, speed_mm_s, target_angle):
 def move_reverse(
     max_distance, 
     speed_mm_s = DEFAULT_SPEED):
-    move_straight( -1 * max_distance, speed_mm_s)
+    move_straight( max_distance,  -1 *speed_mm_s)
 
 
 def move_straight(distance_mm, speed_mm_s):
@@ -285,7 +294,7 @@ def move_to_color(
     speed_mm_s = DEFAULT_COLOR_FIND_SPEED,
     min_intensity=0,
     max_intensity=100,
-    max_distance_mm=9999):
+    max_distance_mm=300):
 
     left_motor.reset_angle(0)
     motor_target_angle = int(DEGREES_PER_MM * max_distance_mm)
@@ -440,8 +449,8 @@ def follow_line_border(
 
     robot.stop(stop_type=Stop.BRAKE)
 
-def adjust_gyro_target_angle(target_angle):
-    start_angle = gyro.angle()
+def adjust_gyro_target_angle(target_angle, current_gyro_angle):
+    start_angle = current_gyro_angle
     angle_change = target_angle - start_angle
 
     if (angle_change >180 ):

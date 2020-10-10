@@ -39,14 +39,15 @@ import shared_all
 
 ##### Do not change above this line ##########################################
 
+DIRECTION=180
 def run():
 
     shared_all.move_straight_target_direction(gyro = gyro, 
         distance_mm=190, 
-        speed_mm_s=25, 
-        target_angle=0)
+        speed_mm_s=-18, 
+        target_angle=DIRECTION)
 
-    shared_all.move_straight(distance_mm=90, speed_mm_s=-140)
-    shared_all.turn_to_direction( gyro = gyro, target_angle = 0)
+    # shared_all.move_straight(distance_mm=90, speed_mm_s=-140)
+    shared_all.turn_to_direction( gyro = gyro, target_angle = DIRECTION)
 
 

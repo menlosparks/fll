@@ -51,7 +51,7 @@ def align(adjust_for_mission=0):
 
     shared_all.push_back_reset_gyro(distance_mm = 80,  reset_gyro = True,  new_gyro_angle =180 )
     shared_all.move_straight_target_direction(gyro = gyro, 
-        distance_mm= 65, 
+        distance_mm= 15, 
         speed_mm_s= 110, 
         target_angle= 180+ adjust_for_mission)
 

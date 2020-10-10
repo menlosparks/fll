@@ -49,14 +49,14 @@ import weight
 import slide
 import bench
 import basket
-shared_all.calibrate_gyro()
+
+shared_all.calibrate_gyro(180)
 
 
 bus_service_1.base_to_stepcounter()
 stepcounter.run()
 bus_service_1.stepcounter_to_treadmill()
 
-import treadmill
 treadmill.align()
 treadmill.run()
 bus_service_1.treadmill_to_row()
