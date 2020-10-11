@@ -42,9 +42,9 @@ def align(adjust_for_mission=0):
     shared_all.move_straight_target_direction(gyro = gyro, 
         distance_mm= 170, 
         speed_mm_s= 130, 
-        target_angle= -137+ adjust_for_mission)
-    shared_all.turn(angle=140, speed_deg_s=210)
-    shared_all.turn_to_direction( gyro=gyro, target_angle=0+ adjust_for_mission)
+        target_angle= -130+ adjust_for_mission)
+    shared_all.turn(angle=130, speed_deg_s=190)
+    shared_all.turn_to_direction( gyro=gyro, target_angle=10+ adjust_for_mission)
 
 
 #     shared_all.move_straight(distance_mm=170, speed_mm_s=120)
@@ -81,8 +81,8 @@ def run(adjust_for_mission=0):
     shake()
 
     #pull bsck
-    shared_all.drive_raising_crane(duration_ms=1900, robot_distance_mm=-120, robot_turn_angle=-15, 
-            motor=rack_motor, crane_angle=-15)
+    shared_all.drive_raising_crane(duration_ms=1900, robot_distance_mm=-120, robot_turn_angle=-10, 
+            motor=rack_motor, crane_angle=-40)
     #release
     shared_all.drive_raising_crane(duration_ms=1900, robot_distance_mm=5, robot_turn_angle=0, 
             motor=rack_motor, crane_angle=15)

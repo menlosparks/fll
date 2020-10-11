@@ -122,9 +122,11 @@ def reuse_treadmill_align(adjust_for_mission=0):
 def treadmill_to_row_simple(adjust_for_mission=0):
 
     shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
-        stop_on_color=Color.WHITE, alternative_color=Color.WHITE,
-         min_intensity=robot_setup.WHITE_MIN_INTENSITY[color_sensor_center],
-         max_distance_mm=180)
+        stop_on_color=Color.WHITE, alternative_color=Color.BLACK,
+         max_intensity=robot_setup.BLACK_MAX_INTENSITY[color_sensor_center],
+         max_distance_mm=50)
+    shared_all.move_straight(distance_mm=40, speed_mm_s=70)
+
     # reuse_treadmill_align(adjust_for_mission)
 
 def treadmill_to_row(adjust_for_mission=0):
@@ -184,21 +186,26 @@ def push_small_tire(adjust_for_mission=0):
 
 def row_to_weight_curved(adjust_for_mission=0):
 
-    shared_all.turn(angle=-40)
-    shared_all.move_straight(distance_mm=420, speed_mm_s=190)
-    shared_all.turn_arc(distance=110 , angle=-140, speed_mm_s=150)
-    shared_all.push_back_reset_gyro(distance_mm = 80, reset_gyro = True, new_gyro_angle =180 )
+    shared_all.turn(angle=-55)
+    shared_all.move_straight(distance_mm=280, speed_mm_s=170)
+    # shared_all.move_to_color(color_sensor=color_sensor_center,
+    #     stop_on_color=Color.BLACK, alternative_color=Color.BLACK,
+    #      max_intensity=robot_setup.BLACK_MAX_INTENSITY[color_sensor_center],
+    #      max_distance_mm=70)
+
+    shared_all.turn(angle=-75, speed_deg_s=180)
+    # shared_all.turn_arc(distance=100 , angle=-70, speed_mm_s=150)
+    shared_all.move_straight_target_direction(gyro = gyro, 
+        distance_mm= 230, 
+        speed_mm_s= -160, 
+        target_angle= -170+ adjust_for_mission)
+
+    shared_all.push_back_reset_gyro(distance_mm = 50, reset_gyro = True, new_gyro_angle =180 )
 
 
 def row_to_weight(adjust_for_mission=0):
 
-    shared_all.turn(angle=-40)
-    shared_all.turn_arc(distance=50 , angle=-60, speed_mm_s=80)
-
-    shared_all.move_straight_target_direction(gyro = gyro, 
-        distance_mm= 70, 
-        speed_mm_s= 160, 
-        target_angle= -90+ adjust_for_mission)
+    row_to_weight_curved(adjust_for_mission)
 
 
 def row_to_weight_right_angleTurns(adjust_for_mission=0):

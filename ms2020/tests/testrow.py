@@ -7,10 +7,10 @@ sys.path.append('../samples')
 
 import shared_all
 import bus_service_1
-import row
+import row, weight, phone, slide
 
 
-shared_all.calibrate_gyro(-90)
+shared_all.calibrate_gyro(180)
 
 bus_service_1.treadmill_to_row()
 row.align()
