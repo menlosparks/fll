@@ -51,7 +51,7 @@ def align(adjust_for_mission=0):
     shared_all.turn_to_direction( gyro=gyro, target_angle=180+ adjust_for_mission) 
     shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
         stop_on_color=Color.BLACK, alternative_color=Color.BLACK,
-         min_intensity=robot_setup.WHITE_MIN_INTENSITY[color_sensor_center],
+         max_intensity=robot_setup.BLACK_MAX_INTENSITY[color_sensor_center],
          max_distance_mm=180)
 
 

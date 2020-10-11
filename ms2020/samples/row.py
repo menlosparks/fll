@@ -39,22 +39,26 @@ import shared_all
 
 ##### Do not change above this line ##########################################
 def align(adjust_for_mission=0):
-    shared_all.move_straight(distance_mm=190, speed_mm_s=120)
     shared_all.move_straight_target_direction(gyro = gyro, 
-        distance_mm= 80, 
-        speed_mm_s= -140, 
-        target_angle= -90+ adjust_for_mission)
-    shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
-        stop_on_color=Color.WHITE, alternative_color=Color.WHITE,
-         min_intensity=robot_setup.WHITE_MIN_INTENSITY[color_sensor_center],
-         max_distance_mm=110)
-    
-    shared_all.move_straight_target_direction(gyro = gyro, 
-                distance_mm= 220, 
-                speed_mm_s= 140, 
-                target_angle= -90+ adjust_for_mission)
-
+        distance_mm= 170, 
+        speed_mm_s= 130, 
+        target_angle= -137+ adjust_for_mission)
+    shared_all.turn(angle=140, speed_deg_s=210)
     shared_all.turn_to_direction( gyro=gyro, target_angle=0+ adjust_for_mission)
+
+
+#     shared_all.move_straight(distance_mm=170, speed_mm_s=120)
+#     shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
+#         stop_on_color=Color.WHITE, alternative_color=Color.WHITE,
+#          min_intensity=robot_setup.WHITE_MIN_INTENSITY[color_sensor_center],
+#          max_distance_mm=110)
+    
+#     shared_all.move_straight_target_direction(gyro = gyro, 
+#                 distance_mm= 220, 
+#                 speed_mm_s= 140, 
+#                 target_angle= -90+ adjust_for_mission)
+
+#     shared_all.turn_to_direction( gyro=gyro, target_angle=0+ adjust_for_mission)
 
 
 def shake():
@@ -72,11 +76,12 @@ def shake():
 
 
 def run(adjust_for_mission=0):
-    shared_all.turn_to_direction( gyro=gyro, target_angle=10)
-    shared_all.move_crane_to_floor(rack_motor)
+#     shared_all.turn_to_direction( gyro=gyro, target_angle=10)
+    shared_all.move_rack_to_floor()
     shake()
+
     #pull bsck
-    shared_all.drive_raising_crane(duration_ms=1900, robot_distance_mm=-120, robot_turn_angle=10, 
+    shared_all.drive_raising_crane(duration_ms=1900, robot_distance_mm=-120, robot_turn_angle=-15, 
             motor=rack_motor, crane_angle=-15)
     #release
     shared_all.drive_raising_crane(duration_ms=1900, robot_distance_mm=5, robot_turn_angle=0, 
@@ -91,6 +96,25 @@ def run(adjust_for_mission=0):
 # run()
 
 #### Old code ###############
+
+def align_color_and_rightturns(adjust_for_mission=0):
+    shared_all.move_straight(distance_mm=170, speed_mm_s=120)
+    shared_all.move_straight_target_direction(gyro = gyro, 
+        distance_mm= 80, 
+        speed_mm_s= -140, 
+        target_angle= -90+ adjust_for_mission)
+    shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
+        stop_on_color=Color.WHITE, alternative_color=Color.WHITE,
+         min_intensity=robot_setup.WHITE_MIN_INTENSITY[color_sensor_center],
+         max_distance_mm=110)
+    
+    shared_all.move_straight_target_direction(gyro = gyro, 
+                distance_mm= 220, 
+                speed_mm_s= 140, 
+                target_angle= -90+ adjust_for_mission)
+
+    shared_all.turn_to_direction( gyro=gyro, target_angle=0+ adjust_for_mission)
+
 def alignold(adjust_for_mission=0):
         shared_all.move_straight(distance_mm=180, speed_mm_s=150)
         shared_all.turn_to_direction( gyro=gyro, target_angle=0+ adjust_for_mission)
