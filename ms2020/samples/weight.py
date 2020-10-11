@@ -41,15 +41,6 @@ import shared_all
 
 def align(adjust_for_mission=0):
 
-    shared_all.move_to_color(color_sensor=color_sensor_center,
-        stop_on_color=Color.WHITE, alternative_color=Color.WHITE)
-
-    shared_all.move_straight(distance_mm=120, speed_mm_s=140)
-    shared_all.move_crane_to_top(crane_motor)
-    shared_all.turn_to_direction( gyro=gyro, target_angle=180+ adjust_for_mission) 
-    shared_all.move_straight(distance_mm=230, speed_mm_s=-200)
-
-    shared_all.push_back_reset_gyro(distance_mm = 80,  reset_gyro = True,  new_gyro_angle =180 )
     shared_all.move_straight_target_direction(gyro = gyro, 
         distance_mm= 15, 
         speed_mm_s= 110, 
@@ -87,4 +78,28 @@ def run(adjust_for_mission=0):
         speed_mm_s= -140, 
         target_angle= 170+ adjust_for_mission)
 
+def align_right_turns(adjust_for_mission=0):
+
+
+    shared_all.move_to_color(color_sensor=color_sensor_center,
+        stop_on_color=Color.BLACK, alternative_color=Color.BLACK,
+         max_intensity=robot_setup.BLACK_MAX_INTENSITY[color_sensor_center],
+         max_distance_mm=70)
+
+
+    shared_all.move_straight(distance_mm=100, speed_mm_s=140)
+    shared_all.move_crane_to_top(crane_motor)
+    shared_all.turn_to_direction( gyro=gyro, target_angle=180+ adjust_for_mission) 
+    shared_all.move_straight(distance_mm=390, speed_mm_s=-200)
+
+    shared_all.push_back_reset_gyro(distance_mm = 60,  reset_gyro = True,  new_gyro_angle =180 )
+    shared_all.move_straight_target_direction(gyro = gyro, 
+        distance_mm= 15, 
+        speed_mm_s= 110, 
+        target_angle= 180+ adjust_for_mission)
+
+    shared_all.move_straight_target_direction(gyro = gyro, 
+        distance_mm= 30, 
+        speed_mm_s= -110, 
+        target_angle= -90+ adjust_for_mission)
 
