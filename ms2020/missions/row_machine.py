@@ -42,10 +42,10 @@ def align():
    shared_all.move_straight(distance_mm=63, speed_mm_s=100)
    
 def run():
-   shared_all.move_crane_to_floor(rack_motor)
+   shared_all.move_rack_to_floor()
    shared_all.turn(angle=-5, speed_deg_s=30)
    shared_all.turn(angle=5, speed_deg_s=30)
-   shared_all.drive_raising_crane(duration_ms=1500, robot_distance_mm=100, robot_turn_angle=0, 
+   shared_all.drive_raising_crane(duration_ms=1500, robot_distance_mm=-100, robot_turn_angle=0, 
                         motor= rack_motor, crane_angle=-10)
 
 
