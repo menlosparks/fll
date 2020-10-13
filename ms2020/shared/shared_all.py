@@ -538,4 +538,8 @@ def move_to_obstacle(
         wait(10)
 
     robot.stop(stop_type=Stop.BRAKE)
+
+def fastflip():
+    shared_all.move_crane_down( motor=crane_motor, degrees=20)
+    crane_motor.run_angle(720, 100)
     
