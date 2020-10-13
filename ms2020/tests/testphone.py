@@ -59,4 +59,8 @@ phone.align(adjust_for_mission=0)
 phone.run()
 bus_service_1.phone_to_slide()
 
+slide.align()
+slide.run()
+slide.take_slide_to_home()
+
 

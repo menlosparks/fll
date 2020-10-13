@@ -65,14 +65,14 @@ def shake():
     shared_all.move_straight(distance_mm=10, speed_mm_s=20)
 
     left_motor.run_angle( 120,  30, Stop.BRAKE, True)
-    shared_all.move_crane_to_floor(rack_motor)
+    shared_all.move_rack_to_floor()
 
     shared_all.move_straight(distance_mm=10, speed_mm_s=-20)
     right_motor.run_angle( 120,  30, Stop.BRAKE, True)
-    shared_all.move_crane_to_floor(rack_motor, release_angle=0)
+    shared_all.move_rack_to_floor(release_angle=0)
 
     shared_all.move_straight(distance_mm=10, speed_mm_s=-120)
-    shared_all.move_crane_to_floor(rack_motor, release_angle=0)
+    shared_all.move_rack_to_floor(release_angle=0)
 
 
 def run(adjust_for_mission=0):
@@ -124,7 +124,7 @@ def alignold(adjust_for_mission=0):
 
 def runold(adjust_for_mission=0):
     shared_all.turn_to_direction( gyro=gyro, target_angle=-37+ adjust_for_mission)
-    shared_all.move_crane_to_floor(rack_motor)
+    shared_all.move_rack_to_floor()
     shake()
     shared_all.drive_raising_crane(duration_ms=1900, robot_distance_mm=-80, robot_turn_angle=-20, 
             motor=rack_motor, crane_angle=-5)

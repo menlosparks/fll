@@ -96,9 +96,9 @@ def set_motor_regular(motor):
 def calibrate_gyro(new_gyro_angle=0):
     gyro_speed = gyro.speed()
     gyro_angle = gyro.angle()
-    log_string('calibrating gyro speed ' + str(gyro_speed) + ' angle:' + str(gyro_angle))
+    log_string('calib sp: ' + str(gyro_speed) + ' ang:' + str(gyro_angle))
     if gyro_speed == 0 and gyro_angle == new_gyro_angle :
-        log_string('No calibration required')
+        log_string('No calibration ')
         return
 
     brick.sound.beep(300, 30, SOUND_VOLUME)
@@ -109,7 +109,7 @@ def calibrate_gyro(new_gyro_angle=0):
         wait(10)
     gyro.reset_angle(new_gyro_angle)
     wait(40)
-    log_string('After reset gyro speed ' + str(gyro.speed()) + ' angle:' + str(gyro.angle()))
+    log_string('Aft rst gy spd ' + str(gyro.speed()) + ' ang:' + str(gyro.angle()))
 
 def push_back_reset_gyro(distance_mm, reset_gyro = True, new_gyro_angle = 0 ):
     move_straight(distance_mm = distance_mm , speed_mm_s= -80)
@@ -163,9 +163,9 @@ def turn_to_direction( gyro, target_angle, speed_mm_s = DEFAULT_SPEED):
 
     robot.stop(stop_type=Stop.BRAKE)
 
-    log_string('turn_to_direction done-- Adjusted target: ' + str(target_angle) 
-        + ' now: ' + str(gyro_angle)
-        + ' remain attempts : ' + str(max_attempts)
+    log_string('TTD done-Adjted:' + str(target_angle) 
+        + ' gy: ' + str(gyro_angle)
+        + ' remain:' + str(max_attempts)
         )
     return target_angle
 
@@ -195,7 +195,7 @@ def move_straight_target_direction(gyro, distance_mm, speed_mm_s, target_angle):
     # target_angle = adjust_gyro_target_angle(target_angle, gyro_angle)
 
     target_angle = turn_to_direction( gyro, target_angle)
-    log_string('move_straight_target_direction  Adjtgt :' +str(target_angle))
+    log_string('MSTD  Adjtgt :' +str(target_angle))
 
     left_motor.reset_angle(0)
     motor_target_angle = int(DEGREES_PER_MM * distance_mm)
@@ -213,12 +213,12 @@ def move_straight_target_direction(gyro, distance_mm, speed_mm_s, target_angle):
         robot.drive(speed_mm_s, adj_angular_speed)
         wait(50)
         if right_motor.stalled() or left_motor.stalled():
-            log_string('move_straight_target_direction motor stalled ')
+            log_string('MSTD motor stalled ')
             return
         integral_error += error
         prev_error = error
 
-    log_string('move_straight_target_direction -- done gyro.angle(): ' + str(gyro.angle()))
+    log_string('MSTD dne gy:' + str(gyro.angle()))
 
     robot.stop(stop_type=Stop.BRAKE)
 
@@ -313,11 +313,11 @@ def move_to_color(
 
     robot.stop(stop_type=Stop.BRAKE)
 
-    log_string('Color found:(' + str(color) 
+    log_string('Cor fnd:(' + str(color) 
     +' ' + str(intensity) + ')'
     +' ' + str(color_sensor.ambient()) + ')'
-    + ' finding ' + str(stop_on_color) + ' or ' + str(alternative_color)
-    + ' in range ' + str(min_intensity) + ' or ' + str(max_intensity)
+    + ' find ' + str(stop_on_color) + ' or ' + str(alternative_color)
+    + ' in range(' + str(min_intensity) + '-' + str(max_intensity)
     )
 
 
@@ -458,9 +458,9 @@ def adjust_gyro_target_angle(target_angle, current_gyro_angle):
     if (angle_change < -180 ):
         angle_change = angle_change + 360
     target_angle = angle_change + start_angle
-    log_string('adjust_gyro_target_angle start_angle:' + str(start_angle) 
-        + ' angle_change:' +str(angle_change)
-        + ' Adj :' +str(target_angle)
+    log_string('adjust start:' + str(start_angle) 
+        + ' ang chg:' +str(angle_change)
+        + ' Adj:' +str(target_angle)
         )
     return target_angle
 

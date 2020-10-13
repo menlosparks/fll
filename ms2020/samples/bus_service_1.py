@@ -176,7 +176,7 @@ def push_tires(adjust_for_mission=0):
     shared_all.move_straight(distance_mm=130, speed_mm_s=-100)
 
 def push_small_tire(adjust_for_mission=0):
-    shared_all.move_crane_to_floor(rack_motor)
+    shared_all.move_rack_to_floor()
     shared_all.drive_raising_crane(duration_ms=1900, robot_distance_mm=30, robot_turn_angle=-35, 
             motor=rack_motor, crane_angle=-5)
     shared_all.move_crane_to_top(rack_motor)
