@@ -41,20 +41,49 @@ import shared_all
 ##### Do not change above this line ##########################################
 
 
+shared_all.log_string('crane ang start ' +str(crane_motor.angle()))
 
 shared_all.move_crane_to_floor(crane_motor)
-shared_all.move_crane_up(crane_motor, 90)
-shared_all.move_crane_to_top(crane_motor)
+shared_all.log_string('crane ang flr ' +str(crane_motor.angle()))
+
+shared_all.start_moving_crane_to_top(motor = crane_motor)
+shared_all.move_straight(distance_mm=70, speed_mm_s=-50)
+shared_all.log_string('crane ang top ' +str(crane_motor.angle()))
+
+shared_all.start_moving_crane_to_angle(motor = crane_motor, target_angle=50)
+shared_all.move_straight(distance_mm=70, speed_mm_s=150)
+shared_all.log_string('crane ang at 50 ' +str(crane_motor.angle()))
+
+shared_all.log_string('arm ang strt ' +str(rack_motor.angle()))
 
 shared_all.move_rack_to_top()
+shared_all.log_string('arm ang top ' +str(rack_motor.angle()))
 
 shared_all.move_rack_to_floor()
+shared_all.log_string('arm ang flr ' +str(rack_motor.angle()))
 shared_all.move_crane_up(rack_motor, 90)
+shared_all.log_string('arm ang flr+90 ' +str(rack_motor.angle()))
 shared_all.move_crane_down(rack_motor, 90)
+shared_all.log_string('arm ang -90 ' +str(rack_motor.angle()))
 shared_all.move_rack_to_top()
+shared_all.log_string('arm ang top ' +str(rack_motor.angle()))
 shared_all.log_string('crane motor ' +str(crane_motor))
 shared_all.log_string('rack motor ' +str(rack_motor))
 shared_all.log_string('left motor ' +str(left_motor))
 shared_all.log_string('right motor ' +str(right_motor))
 
 
+shared_all.move_crane_to_floor(crane_motor)
+crane_motor.reset_angle(0)
+shared_all.log_string('crane ang flr ' +str(crane_motor.angle()))
+
+shared_all.move_crane_to_top(motor = crane_motor)
+shared_all.log_string('crane ang top ' +str(crane_motor.angle()))
+
+shared_all.move_rack_to_floor()
+rack_motor.reset_angle(0)
+shared_all.log_string('rack ang flr ' +str(rack_motor.angle()))
+
+shared_all.move_rack_to_top()
+shared_all.log_string('rack ang top ' +str(rack_motor.angle()))
+shared_all.log_string('rack  top ' +str(rack_motor.angle()) + 'crane top ' +str(crane_motor.angle()))

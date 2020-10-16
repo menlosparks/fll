@@ -39,25 +39,51 @@ from robot_setup import BLACK_MAX_INTENSITY
 ##### Do not change above this line ##########################################
 
 def align(adjust_for_mission=0):
-    shared_all.move_to_color_reverse(color_sensor=color_sensor_right,
-        stop_on_color=Color.BLACK, alternative_color=Color.BLACK)
 
+    shared_all.turn(-90, speed_deg_s=140)
+    shared_all.move_straight(distance_mm=50, speed_mm_s=100)
+    shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
+         stop_on_color=Color.BLACK, alternative_color=Color.BLACK, speed_mm_s=60,
+         max_intensity=robot_setup.BLACK_MAX_INTENSITY[color_sensor_center],
+         max_distance_mm=80)
+    shared_all.move_straight(distance_mm=70, speed_mm_s=-100)
 
-    ######## shared_all.turn(90)
-    shared_all.turn_to_direction( gyro=gyro, target_angle=180+ adjust_for_mission) 
-    shared_all.move_straight_target_direction(gyro = gyro, 
-        distance_mm= 130, 
-        speed_mm_s= 200, 
-        target_angle= 180+ adjust_for_mission)
-
-
+    shared_all.turn(90, speed_deg_s=140)
     shared_all.move_to_color(color_sensor=color_sensor_center,
-        stop_on_color=Color.BLACK, alternative_color=Color.BLACK)
-    shared_all.move_straight(distance_mm=110, speed_mm_s=80)
+        stop_on_color=Color.BLACK, alternative_color=Color.BLACK, speed_mm_s=60,
+         max_intensity=robot_setup.BLACK_MAX_INTENSITY[color_sensor_center],
+         max_distance_mm=60)
+    shared_all.move_straight_target_direction(gyro = gyro, 
+        distance_mm= 40, 
+        speed_mm_s= 130, 
+        target_angle= 180+ adjust_for_mission)
+    shared_all.turn(-42, speed_deg_s=100)
+    shared_all.move_straight(distance_mm=60, speed_mm_s=-100)
+    shared_all.move_rack_to_floor()
 
-    shared_all.turn(-30)
-    shared_all.move_straight(distance_mm=110, speed_mm_s=-100)
-    shared_all.turn_to_direction( gyro=gyro, target_angle=150+ adjust_for_mission) 
+
+
+
+    # shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
+    #     stop_on_color=Color.BLACK, alternative_color=Color.BLACK, speed_mm_s=25,
+    #      max_intensity=robot_setup.BLACK_MAX_INTENSITY[color_sensor_center],
+    #      max_distance_mm=60)
+
+    # shared_all.move_straight(distance_mm=50, speed_mm_s=-100)
+    # shared_all.move_straight_target_direction(gyro = gyro, 
+    #     distance_mm= 130, 
+    #     speed_mm_s= 180, 
+    #     target_angle= 180+ adjust_for_mission)
+    # shared_all.move_straight_target_direction(gyro = gyro, 
+    #     distance_mm= 130, 
+    #     speed_mm_s= 160, 
+    #     target_angle= 180+ adjust_for_mission)
+
+
+    # shared_all.move_to_color_reverse(color_sensor=color_sensor_right,
+    #     stop_on_color=Color.BLACK, alternative_color=Color.BLACK)
+
+
 
 
 

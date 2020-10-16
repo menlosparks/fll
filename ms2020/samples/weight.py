@@ -46,37 +46,38 @@ def align(adjust_for_mission=0):
         speed_mm_s= 110, 
         target_angle= 180+ adjust_for_mission)
 
+    shared_all.move_crane_to_top(motor=crane_motor)
+    shared_all.turn(60, speed_deg_s=160)
     shared_all.move_straight_target_direction(gyro = gyro, 
-        distance_mm= 30, 
+        distance_mm= 10, 
         speed_mm_s= -110, 
         target_angle= -90+ adjust_for_mission)
 
 
 def run(adjust_for_mission=0):
     
-
-    shared_all.move_crane_to_floor(crane_motor)
-    shared_all.move_crane_up( motor = crane_motor, degrees = 50)
+    shared_all.start_moving_crane_to_angle(motor = crane_motor, target_angle = 25)
     shared_all.move_to_color(color_sensor=color_sensor_center,
-        stop_on_color=Color.RED, alternative_color=Color.YELLOW)
+        stop_on_color=Color.GREEN, alternative_color=Color.GREEN, max_distance_mm=60)
+    shared_all.move_to_color(color_sensor=color_sensor_center,
+        stop_on_color=Color.RED, alternative_color=Color.YELLOW, max_distance_mm=170)
     shared_all.turn_arc(distance= 30,angle = 15, speed_mm_s= 60)
 
     #lift weight and back up
     crane_motor.stop()
     shared_all.move_crane_down( motor = crane_motor, degrees = 10)
     crane_motor.run_time(720, 900)
-    # shared_all.drive_raising_crane(duration_ms=700 , robot_distance_mm=0, robot_turn_angle=0, 
-    #     motor=crane_motor, crane_angle=130)
-    shared_all.move_crane_to_floor(crane_motor)
-    shared_all.move_crane_up( motor = crane_motor, degrees = 40)
+
+    # shared_all.move_crane_to_floor(crane_motor)
+    # shared_all.move_crane_up( motor = crane_motor, degrees = 40)
+    shared_all.start_moving_crane_to_angle(motor = crane_motor, target_angle = 25)
     shared_all.move_straight(distance_mm=70, speed_mm_s=-120)
 
-    shared_all.turn(-100)
-    shared_all.move_crane_to_top(crane_motor)
-    shared_all.move_straight_target_direction(gyro = gyro, 
-        distance_mm= 70, 
-        speed_mm_s= -140, 
-        target_angle= 170+ adjust_for_mission)
+    # turn west and back up
+    shared_all.turn(-140, speed_deg_s=200)
+    shared_all.start_moving_crane_to_top(motor = crane_motor)
+    shared_all.move_straight(distance_mm=70, speed_mm_s=-150)
+    shared_all.turn_arc(distance=50, angle=60, speed_mm_s=190)
 
 def align_right_turns(adjust_for_mission=0):
 

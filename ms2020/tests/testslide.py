@@ -12,6 +12,6 @@ import slide
 INITIAL_ANGLE=180
 shared_all.calibrate_gyro(INITIAL_ANGLE)
 
+# bus_service_1.phone_to_slide()
 slide.align()
-slide.run()
-slide.take_slide_to_home()
+# slide.rske_slide_to_home()

@@ -54,7 +54,7 @@ import basket
 
 shared_all.calibrate_gyro(180)
 
-# bus_service_1.weight_to_phone(adjust_for_mission=0)
+bus_service_1.weight_to_phone(adjust_for_mission=0)
 phone.align(adjust_for_mission=0)
 phone.run()
 bus_service_1.phone_to_slide()

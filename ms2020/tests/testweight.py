@@ -42,9 +42,9 @@ import bus_service_1
 import weight
 import phone
 
-shared_all.calibrate_gyro(10)
+shared_all.calibrate_gyro(180)
 
-bus_service_1.row_to_weight()
+# bus_service_1.row_to_weight()
 weight.align()
 weight.run()
 

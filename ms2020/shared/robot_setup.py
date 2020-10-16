@@ -19,6 +19,9 @@ SENSOR_TO_AXLE=68
 WHEEL_CIRCUM_MM=3.149*89
 # 360 degrees -> WHEEL_CIRCUM_MM so   1 degree -> ?
 DEGREES_PER_MM=360/WHEEL_CIRCUM_MM
+
+ARM_TOP_ANGLE=190
+CRANE_TOP_ANGLE=95
  
 #drive motors
 right_motor= Motor(Port.C, Direction.CLOCKWISE)
@@ -33,6 +36,14 @@ color_sensor_right = ColorSensor(Port.S3)
 color_sensor_center = ColorSensor(Port.S4)
 touch_sensor= None ##TouchSensor(Port.S3)
 ultrasound=  None## nxt.UltrasonicSensor(Port.S2)
+
+
+
+crane_motor.reset_angle(CRANE_TOP_ANGLE)
+rack_motor.reset_angle(ARM_TOP_ANGLE)
+
+def get_top_angle(motor):
+    return CRANE_TOP_ANGLE if motor == crane_motor else ARM_TOP_ANGLE
 
 WHITE_MIN_INTENSITY = {
   color_sensor_back: 50,

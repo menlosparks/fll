@@ -480,29 +480,44 @@ def drive_raising_crane(duration_ms, robot_distance_mm, robot_turn_angle,
     left_motor.stop(Stop.BRAKE)
     right_motor.stop(Stop.BRAKE)
 
+def start_moving_crane_to_angle(motor, target_angle):
+    speed_deg_s = 210 if target_angle > 90 else 130 
+    motor.run_target(speed_deg_s, target_angle, Stop.BRAKE, False)
 
+def start_moving_crane_to_top(motor):
+    top_angle = robot_setup.get_top_angle(motor)
+    start_moving_crane_to_angle(motor, top_angle - 10 )
 
-def move_crane_to_top( motor, release_angle = 10):
+def move_crane_to_top( motor, release_angle = 5):
     motor.run_until_stalled(500, Stop.COAST, 50)
     if release_angle > 0:
         move_crane_down( motor, degrees = release_angle)
+    motor.reset_angle(robot_setup.get_top_angle(motor))
+    log_string('Reset mot ang:' + str(motor.angle()))
 
-def move_crane_to_floor( motor, release_angle = 10):
+def move_crane_to_floor( motor, release_angle = 5):
     motor.run_until_stalled(-300, Stop.COAST, 35)
     if release_angle > 0:
         move_crane_up( motor, degrees = release_angle)
+    motor.reset_angle(0)
+    log_string('Reset mot ang 0')
 
 def move_rack_to_top(release_angle = 5 ):
     rack_motor.run_until_stalled(500, Stop.COAST, 50)
     if release_angle > 0:
         move_crane_down( rack_motor, degrees = release_angle)
+    rack_motor.reset_angle(robot_setup.get_top_angle(rack_motor))
+    log_string('Reset rack ang:' + str(rack_motor.angle()))
 
-def move_rack_to_floor(release_angle = 10 ):
-    move_crane_down(rack_motor, 40)
+def move_rack_to_floor(release_angle = 5 ):
+
+    if rack_motor.angle() > 140:
+        move_crane_down(rack_motor, 70)
     rack_motor.run_until_stalled(-300, Stop.COAST, 50)
     if release_angle > 0:
         move_crane_up( rack_motor, degrees = release_angle)
-
+    rack_motor.reset_angle(0)
+    log_string('REset mot ang 0')
 
 def move_crane_up( motor, degrees):
     motor.run_angle(180,  degrees, Stop.BRAKE)
@@ -538,8 +553,10 @@ def move_to_obstacle(
         wait(10)
 
     robot.stop(stop_type=Stop.BRAKE)
-
+    
 def fastflip():
     shared_all.move_crane_down( motor=crane_motor, degrees=20)
     crane_motor.run_angle(720, 100)
+    
+
     
