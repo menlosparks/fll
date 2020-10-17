@@ -45,7 +45,7 @@ def run ():
     
     shared_all.move_crane_up (motor=rack_motor, degrees=40)
     shared_all.drive_raising_crane (duration_ms=700, robot_distance_mm=5, robot_turn_angle=0, 
-                        motor=rack_motor, crane_angle=60)
+                        motor=rack_motor, crane_angle=50)
     shared_all.drive_raising_crane (duration_ms=700, robot_distance_mm=40, robot_turn_angle=0, 
                         motor=rack_motor, crane_angle=-20)
       ## Below lines only for testing
