@@ -40,6 +40,10 @@ import shared_all
 def run (): 
     shared_all.move_crane_to_floor (motor=rack_motor)
     shared_all.move_straight(distance_mm=50, speed_mm_s=120)
+    
+    while shared_all.did_motor_stall(motor =rack_motor , max_degrees =30 , speed = 80):
+        shared_all.move_straight(distance_mm=4, speed_mm_s=-20)
+
     shared_all.move_crane_up (motor=rack_motor, degrees=17)
     shared_all.drive_raising_crane (duration_ms=1000, robot_distance_mm=20, robot_turn_angle=0, 
                         motor=rack_motor, crane_angle=45)
