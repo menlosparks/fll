@@ -43,7 +43,7 @@ def align(adjust_for_mission=0):
         distance_mm= 170, 
         speed_mm_s= 130, 
         target_angle= -130+ adjust_for_mission)
-    shared_all.turn(angle=130, speed_deg_s=190)
+    shared_all.turn(angle=110, speed_deg_s=150)
     shared_all.turn_to_direction( gyro=gyro, target_angle=10+ adjust_for_mission)
 
 

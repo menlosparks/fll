@@ -53,31 +53,28 @@ import basket
 import utime 
 
 shared_all.calibrate_gyro(0)
-shared_all.move_reverse(max_distance=20)
-
-shared_all.log_string('Gyr ang ' +str(gyro.angle()) )
-for x in range(20):
+time1=utime.ticks_ms()
+for x in range(10):
     gyro.angle()
-shared_all.log_string('Aft 10 meas Gyr ang ' +str(gyro.angle()) )
 
-shared_all.log_string('Stright 40cm to 90 and back ' )
+time2=utime.ticks_ms()
+for x in range(10):
+    a=time1+1
 
-shared_all.move_straight_target_direction(gyro=gyro,
-    distance_mm=200, speed_mm_s=160, target_angle=0)
-wait(3000)
-shared_all.log_string('Aft strg Gyr ang ' +str(gyro.angle()) )
+time3=utime.ticks_ms()
+for x in range(10):
+    a = color_sensor_center.color()
+time4=utime.ticks_ms()
+for x in range(10):
+    a = color_sensor_center.reflection()
+time5=utime.ticks_ms()
+for x in range(10):
+    shared_all.log_string('Log it s '+ str(time5) + ' ' + str(time4))
+time6=utime.ticks_ms()
 
-shared_all.move_straight_target_direction(gyro=gyro,
-    distance_mm=150, speed_mm_s=160, target_angle=90)
+shared_all.log_string('Time for 10 angle reads '+ str(utime.ticks_diff(time2, time1)))
+shared_all.log_string('Time for 10 adds '+ str(utime.ticks_diff(time3, time2)))
+shared_all.log_string('Time for 10 color reads '+ str(utime.ticks_diff(time4, time3)))
+shared_all.log_string('Time for 10 intensity reads '+ str(utime.ticks_diff(time5, time4)))
+shared_all.log_string('Time for 10 logs '+ str(utime.ticks_diff(time6, time5)))
 
-shared_all.log_string('Aft 90 Gyr ang ' +str(gyro.angle()) )
-
-
-wait(3000)
-shared_all.move_straight_target_direction(gyro=gyro,
-    distance_mm=150, speed_mm_s=160, target_angle=-90)
-shared_all.log_string('Aft uturn Gyr ang ' +str(gyro.angle()) )
-wait(3000)
-shared_all.move_straight_target_direction(gyro=gyro,
-    distance_mm=150, speed_mm_s=-160, target_angle=0)
-shared_all.log_string('Aft rev Gyr ang ' +str(gyro.angle()) )

@@ -41,14 +41,6 @@ import shared_all
 
 ##### Do not change above this line ##########################################
 
-def base_to_treadmill(adjust_for_mission=0):
-    shared_all.move_straight_target_direction(gyro = gyro, 
-        distance_mm=1050, 
-        speed_mm_s=150, 
-        target_angle=0)
-    shared_all.move_to_color(color_sensor=color_sensor_center,
-        stop_on_color=Color.BLACK, alternative_color=Color.BLACK)
-
 def base_to_stepcounter_reverse(adjust_for_mission=0):
     shared_all.move_straight_target_direction(gyro = gyro, 
         distance_mm=570, 
@@ -63,6 +55,16 @@ def base_to_stepcounter_forward(adjust_for_mission=0):
 
 def base_to_stepcounter(adjust_for_mission=0):
     base_to_stepcounter_reverse(adjust_for_mission)
+
+def base_to_treadmill(adjust_for_mission=0):
+    shared_all.move_straight_target_direction(gyro = gyro, 
+        distance_mm= 1370, 
+        speed_mm_s= -220, 
+        target_angle=180)
+    shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
+        stop_on_color=Color.WHITE, alternative_color=Color.WHITE,
+         min_intensity=robot_setup.WHITE_MIN_INTENSITY[color_sensor_center],
+         max_distance_mm=180)
 
 def stepcounter_to_treadmill_reverse(adjust_for_mission=0):
 

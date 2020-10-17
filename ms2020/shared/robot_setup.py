@@ -8,15 +8,16 @@ from pybricks.parameters import Port, Stop, Direction, Button, Color
 from pybricks.tools import wait, StopWatch
 from pybricks.robotics import DriveBase
 from pybricks.ev3devices import Motor
-
+import math
  
 SOUND_VOLUME=7
 WHEEL_DIAMETER_MM=89
-AXLE_TRACK_MM=135
+AXLE_TRACK_MM=130
 SENSOR_TO_AXLE=68
 
 # Get wheel circumference
-WHEEL_CIRCUM_MM=3.149*89
+WHEEL_CIRCUM_MM=math.pi*WHEEL_DIAMETER_MM
+AXLE_TURN_CIRCUM=math.pi*AXLE_TRACK_MM
 # 360 degrees -> WHEEL_CIRCUM_MM so   1 degree -> ?
 DEGREES_PER_MM=360/WHEEL_CIRCUM_MM
 

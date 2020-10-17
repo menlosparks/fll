@@ -174,6 +174,20 @@ def turn_to_direction( gyro, target_angle, speed_mm_s = DEFAULT_SPEED):
 
 def turn( angle, speed_deg_s = DEFAULT_ANGULAR_SPEED):
 
+
+    wheel_target_distance_mm = (angle/360.0) * robot_setup.AXLE_TURN_CIRCUM
+    wheel_target_angle = robot_setup.DEGREES_PER_MM * wheel_target_distance_mm;
+    time=abs(int(1000 * (angle/speed_deg_s)))
+    time_sec=abs(int((angle/speed_deg_s)))
+    motor_speed_deg_s = abs(wheel_target_angle/time_sec)
+    left_motor.run_angle(motor_speed_deg_s, wheel_target_angle, Stop.BRAKE, False)
+    right_motor.run_angle(-1*motor_speed_deg_s,  wheel_target_angle, Stop.BRAKE, True)
+
+
+
+
+def turnold( angle, speed_deg_s = DEFAULT_ANGULAR_SPEED):
+
     if angle == 0 :
         return
     if angle > 0:    # right turns are a bit under-steered
