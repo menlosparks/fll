@@ -42,6 +42,7 @@ def run ():
     shared_all.move_straight(distance_mm=60, speed_mm_s=120)
     
     while shared_all.did_motor_stall(motor =rack_motor , max_degrees =50 , speed = 320):
+        # log_string('stalled - step back')
         shared_all.move_straight(distance_mm=6, speed_mm_s=-20)
 
     shared_all.move_crane_to_angle(motor=rack_motor, target_angle=75)
