@@ -94,27 +94,56 @@ def getNormalizedAngle(targetAngle, currentAngle):
 
 def didMotorStall(motor, maxDegrees, speed):
     motorInitAngle=motor.angle()
-    speed = speed * (-1 if maxDegrees < 0 else 1)
-    motor.run(speed)
+    motor.run( speed * (-1 if maxDegrees < 0 else 1))
     angleChg = abs(motor.angle() - motorInitAngle)
 
-    while(angleChg < abs(maxDegrees) and not motor.stalled()):
+    while(abs(motor.angle() - motorInitAngle) < abs(maxDegrees) and not motor.stalled()):
         wait(100)
-        # if ( motor.stalled() ):
-        #    log('DMoS stlld spd:' + str(motor.speed()) + ' angch:'  + str(tgtAngleChg))
-        # #    motor.stop(Stop.BRAKE)
-        #    return True
-        log('DMoS not stlld spd:' + str(motor.speed()) + ' angch:'  + str(angleChg))
-        angleChg = abs(motor.angle() - motorInitAngle)
-
 
     if ( motor.stalled() ):
-        log('DMoS stlld spd:' + str(motor.speed()) + ' angch:'  + str(angleChg))
         return True
-    log('NOt stlld - brkg')
     motor.stop(Stop.BRAKE)
-    log('Done brkg')
     return False
+
+
+def moveToClr(
+    robot,
+    leftM, rightM, axle, wheelDiam,
+    sensor,
+    mainClr,
+    altClr,
+    speedMM,
+    lowerIntens=0,
+    upperIntens=100,
+    maxDistMM=300):
+
+    wheelCircum=math.pi*wheelDiam
+    axleTurnCircum=math.pi*axle
+    degreesPerMM=360/wheelCircum
+
+    leftM.reset_angle(0)
+    targetAngle = int(degreesPerMM * maxDistMM)
+
+    altClr = altClr if altClr != None else mainClr
+    robot.drive(speedMM, 0)
+    # Check if color reached or the angle of the left motor reaches target.
+    color=sensor.color()
+    intensity=sensor.reflection()
+    while ((not color in (mainClr, altClr)
+        or not (intensity in range (lowerIntens, upperIntens)))
+        and  (abs(leftM.angle()) < abs(targetAngle)))   :
+        wait(10)
+        color=sensor.color()
+        intensity=sensor.reflection()
+
+    robot.stop(stop_type=Stop.BRAKE)
+
+    log('ev3 Cor fnd:(' + str(color) 
+        +' ' + str(intensity) + ')'
+        +' ' + str(sensor.ambient()) + ')'
+        + ' find ' + str(mainClr) + ' or ' + str(altClr)
+        + ' in range(' + str(lowerIntens) + '-' + str(upperIntens)
+        )
 
 
 # sweep and steop forward till color is found
@@ -190,3 +219,48 @@ def follow_line_border(
         integral += error
 
     robot.stop(stop_type=Stop.BRAKE)
+
+
+def turn_to_color(robot, 
+    color_sensor,
+    stop_on_color,
+    rotate_dir,
+    angular_speed_deg_s):
+ 
+    robot.drive(0, rotate_dir * angular_speed_deg_s)
+    # Check if color reached.
+    while color_sensor.color() != stop_on_color:
+        wait(10)
+    robot.stop(stop_type=Stop.BRAKE)
+
+def turn_to_color_right(robot, 
+    color_sensor,
+    stop_on_color,
+    angular_speed_deg_s):
+ 
+    turn_to_color(robot,  color_sensor, stop_on_color, 1, angular_speed_deg_s)
+
+def turn_to_color_left(robot, 
+    color_sensor,
+    stop_on_color,
+    angular_speed_deg_s):
+ 
+    turn_to_color(robot,  color_sensor, stop_on_color, -1, angular_speed_deg_s )
+
+
+
+def move_to_obstacle(
+    robot,
+    obstacle_sensor,
+    stop_on_obstacle_at,
+    speed_mm_s):
+ 
+    robot.drive(speed_mm_s, 0)
+    sign = -1 if speed_mm_s < 0 else 1
+    # Check if obstacle too close.
+    while sign * obstacle_sensor.distance() > sign * stop_on_obstacle_at:
+        log('obstacle_sensor at ' + str(obstacle_sensor.distance()))
+        wait(10)
+
+    robot.stop(Stop.BRAKE)
+    

@@ -95,22 +95,7 @@ def set_motor_regular(motor):
 
 def calibrate_gyro(new_gyro_angle=0):
     ev3ext3rdpar.calibrateGyro(gyro, new_gyro_angle)
-    # gyro_speed = gyro.speed()
-    # gyro_angle = gyro.angle()
-    # log_string('calib sp: ' + str(gyro_speed) + ' ang:' + str(gyro_angle))
-    # if gyro_speed == 0 and gyro_angle == new_gyro_angle :
-    #     log_string('No calibration ')
-    #     return
 
-    # brick.sound.beep(300, 30, SOUND_VOLUME)
-
-    # cntr=0
-    # while (gyro.speed() > 0 and cntr < 5):
-    #     cntr +=1
-    #     wait(10)
-    # gyro.reset_angle(new_gyro_angle)
-    # wait(40)
-    # log_string('Aft rst gy spd ' + str(gyro.speed()) + ' ang:' + str(gyro.angle()))
 
 def push_back_reset_gyro(distance_mm, reset_gyro = True, new_gyro_angle = 0 ):
     move_straight(distance_mm = distance_mm , speed_mm_s= -80)
@@ -187,32 +172,20 @@ def turn( angle, speed_deg_s = DEFAULT_ANGULAR_SPEED):
     ev3ext3rdpar.pivot(left_motor, right_motor,
         robot_setup.AXLE_TRACK_MM, robot_setup.WHEEL_DIAMETER_MM, angle, speed_deg_s)
 
+# def turnold( angle, speed_deg_s = DEFAULT_ANGULAR_SPEED):
 
-    # wheel_target_distance_mm = (angle/360.0) * robot_setup.AXLE_TURN_CIRCUM
-    # wheel_target_angle = robot_setup.DEGREES_PER_MM * wheel_target_distance_mm;
+#     if angle == 0 :
+#         return
+#     if angle > 0:    # right turns are a bit under-steered
+#         angle = int( angle)
+#     else:
+#         angle = int(angle / 1)
 
-    # time_sec= abs(angle/speed_deg_s)
-    # motor_speed_deg_s = abs(wheel_target_angle/time_sec)
-    # left_motor.run_angle(motor_speed_deg_s, wheel_target_angle, Stop.BRAKE, False)
-    # right_motor.run_angle(-1*motor_speed_deg_s,  wheel_target_angle, Stop.BRAKE, True)
-
-
-
-
-def turnold( angle, speed_deg_s = DEFAULT_ANGULAR_SPEED):
-
-    if angle == 0 :
-        return
-    if angle > 0:    # right turns are a bit under-steered
-        angle = int( angle)
-    else:
-        angle = int(angle / 1)
-
-    speed_deg_s = -1 * speed_deg_s if angle < 0 else speed_deg_s
-    # time=int(1000 * (floatspeed_deg_s(angle)/float(speed_deg_s)))
-    time=abs(int(1000 * (angle/speed_deg_s)))
-    robot.drive_time(0, speed_deg_s, time)
-    robot.stop(stop_type=Stop.BRAKE)
+#     speed_deg_s = -1 * speed_deg_s if angle < 0 else speed_deg_s
+#     # time=int(1000 * (floatspeed_deg_s(angle)/float(speed_deg_s)))
+#     time=abs(int(1000 * (angle/speed_deg_s)))
+#     robot.drive_time(0, speed_deg_s, time)
+#     robot.stop(stop_type=Stop.BRAKE)
 
 
 #mstd MSTD
@@ -271,52 +244,7 @@ def move_reverse(
 
 
 def did_motor_stall(motor, max_degrees, speed):
-    robot_setup.set_motor_medium_params(motor, stall_speed=speed/3)
-    motor_start_angle=motor.angle()
-    speed = speed * (-1 if max_degrees < 0 else 1)
-    motor.run(speed)
-    angle_change = abs(motor.angle() - motor_start_angle)
-
-    while(angle_change < abs(max_degrees)):
-        wait(100)
-        if ( motor.stalled() ):
-        #    log_string('DMoS stlld spd:' + str(motor.speed()) + ' angch:'  + str(angle_change))
-           motor.stop(Stop.BRAKE)
-           return True
-        # log_string('DMoS not stlld spd:' + str(motor.speed()) + ' angch:'  + str(angle_change))
-        angle_change = abs(motor.angle() - motor_start_angle)
-    
-    # log_string('NOt stlld - brkg')
-    motor.stop(Stop.BRAKE)
-    # log_string('Done brkg')
-    return False
-
-
-def turn_to_color(
-    color_sensor,
-    stop_on_color,
-    rotate_dir = 1,
-    angular_speed_deg_s = DEFAULT_ANGULAR_SPEED):
- 
-    robot.drive(0, rotate_dir * angular_speed_deg_s)
-    # Check if color reached.
-    while color_sensor.color() != stop_on_color:
-        wait(10)
-    robot.stop(stop_type=Stop.BRAKE)
-
-def turn_to_color_right(
-    color_sensor,
-    stop_on_color,
-    angular_speed_deg_s = DEFAULT_ANGULAR_SPEED):
- 
-    turn_to_color( color_sensor, stop_on_color, 1, angular_speed_deg_s)
-
-def turn_to_color_left(
-    color_sensor,
-    stop_on_color,
-    angular_speed_deg_s = DEFAULT_ANGULAR_SPEED):
- 
-    turn_to_color( color_sensor, stop_on_color, -1, angular_speed_deg_s )
+    return ev3ext3rdpar.didMotorStall(motor, max_degrees, speed)
 
 
 def move_to_color(
@@ -328,29 +256,40 @@ def move_to_color(
     max_intensity=100,
     max_distance_mm=300):
 
-    left_motor.reset_angle(0)
-    motor_target_angle = int(DEGREES_PER_MM * max_distance_mm)
+    ev3ext3rdpar.moveToClr(
+        robot,
+        left_motor, right_motor, robot_setup.AXLE_TRACK_MM, robot_setup.WHEEL_DIAMETER_MM,
+        color_sensor,
+        stop_on_color,
+        alternative_color,
+        speed_mm_s,
+        min_intensity,
+        max_intensity,
+        max_distance_mm)
 
-    alternative_color = alternative_color if alternative_color != None else stop_on_color
-    robot.drive(speed_mm_s, 0)
-    # Check if color reached or the angle of the left motor reaches target.
-    color=color_sensor.color()
-    intensity=color_sensor.reflection()
-    while ((not color in (stop_on_color, alternative_color)
-        or not (intensity in range (min_intensity, max_intensity)))
-        and  (abs(left_motor.angle()) < abs(motor_target_angle)))   :
-        wait(10)
-        color=color_sensor.color()
-        intensity=color_sensor.reflection()
+    # left_motor.reset_angle(0)
+    # motor_target_angle = int(DEGREES_PER_MM * max_distance_mm)
 
-    robot.stop(stop_type=Stop.BRAKE)
+    # alternative_color = alternative_color if alternative_color != None else stop_on_color
+    # robot.drive(speed_mm_s, 0)
+    # # Check if color reached or the angle of the left motor reaches target.
+    # color=color_sensor.color()
+    # intensity=color_sensor.reflection()
+    # while ((not color in (stop_on_color, alternative_color)
+    #     or not (intensity in range (min_intensity, max_intensity)))
+    #     and  (abs(left_motor.angle()) < abs(motor_target_angle)))   :
+    #     wait(10)
+    #     color=color_sensor.color()
+    #     intensity=color_sensor.reflection()
 
-    log_string('Cor fnd:(' + str(color) 
-    +' ' + str(intensity) + ')'
-    +' ' + str(color_sensor.ambient()) + ')'
-    + ' find ' + str(stop_on_color) + ' or ' + str(alternative_color)
-    + ' in range(' + str(min_intensity) + '-' + str(max_intensity)
-    )
+    # robot.stop(stop_type=Stop.BRAKE)
+
+    # log_string('Cor fnd:(' + str(color) 
+    # +' ' + str(intensity) + ')'
+    # +' ' + str(color_sensor.ambient()) + ')'
+    # + ' find ' + str(stop_on_color) + ' or ' + str(alternative_color)
+    # + ' in range(' + str(min_intensity) + '-' + str(max_intensity)
+    # )
 
 
 
@@ -451,20 +390,6 @@ def wiggle():
     right_motor.run_angle(120,  10, Stop.BRAKE, True)
 
 
-def move_to_obstacle(
-    obstacle_sensor,
-    stop_on_obstacle_at,
-    speed_mm_s):
- 
-    robot.drive(speed_mm_s, 0)
-    sign = -1 if speed_mm_s < 0 else 1
-    # Check if obstacle too close.
-    while sign * obstacle_sensor.distance() > sign * stop_on_obstacle_at:
-        log_string('obstacle_sensor at ' + str(obstacle_sensor.distance()))
-        wait(10)
-
-    robot.stop(stop_type=Stop.BRAKE)
-    
 def fastflip():
     shared_all.move_crane_down( motor=crane_motor, degrees=20)
     crane_motor.run_angle(720, 100)
@@ -472,20 +397,20 @@ def fastflip():
 
     
     
-def adjust_gyro_target_angle(target_angle, current_gyro_angle):
-    start_angle = current_gyro_angle
-    angle_change = target_angle - start_angle
+# def adjust_gyro_target_angle(target_angle, current_gyro_angle):
+#     start_angle = current_gyro_angle
+#     angle_change = target_angle - start_angle
 
-    if (angle_change >180 ):
-        angle_change = angle_change - 360
-    if (angle_change < -180 ):
-        angle_change = angle_change + 360
-    target_angle = angle_change + start_angle
-    log_string('adjust start:' + str(start_angle) 
-        + ' ang chg:' +str(angle_change)
-        + ' Adj:' +str(target_angle)
-        )
-    return target_angle
+#     if (angle_change >180 ):
+#         angle_change = angle_change - 360
+#     if (angle_change < -180 ):
+#         angle_change = angle_change + 360
+#     target_angle = angle_change + start_angle
+#     log_string('adjust start:' + str(start_angle) 
+#         + ' ang chg:' +str(angle_change)
+#         + ' Adj:' +str(target_angle)
+#         )
+#     return target_angle
 
 
 
