@@ -1,59 +1,59 @@
 #!/usr/bin/env pybricks-micropython
+ 
 import sys
 import os
-import inspect
 from pybricks import ev3brick as brick
 from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor,
-                                InfraredSensor, UltrasonicSensor, GyroSensor)
+                               InfraredSensor, UltrasonicSensor, GyroSensor)
 from pybricks.parameters import Port, Stop, Direction, Button, Color
 from pybricks.tools import wait, StopWatch
 from pybricks.robotics import DriveBase
 from pybricks.ev3devices import Motor
-
-sys.path.append('../shared')
  
+sys.path.append('../shared')
 import robot_setup
-
+import shared_all
+ 
 from robot_setup import left_motor
 from robot_setup import right_motor
 from robot_setup import robot
+from robot_setup import rack_motor
 from robot_setup import crane_motor
+from robot_setup import gyro
+from robot_setup import touch_sensor
+from robot_setup import color_sensor_right
+from robot_setup import color_sensor_center
+from robot_setup import touch_sensor
+from robot_setup import ultrasound
+ 
 from robot_setup import SOUND_VOLUME
 from robot_setup import WHEEL_DIAMETER_MM
 from robot_setup import AXLE_TRACK_MM
 from robot_setup import SENSOR_TO_AXLE
 from robot_setup import WHEEL_CIRCUM_MM
 from robot_setup import DEGREES_PER_MM
+ 
+##### Do not change above this line ##########################################
 
-def log_string(message):
-    print(message)
-    brick.display.text(message)
+def align():
 
-DEFAULT_SPEED=300
+    shared_all.move_straight(distance_mm=290, speed_mm_s=150)
 
-#Do not change above this line
+    shared_all.move_to_color(color_sensor=color_sensor_right, stop_on_color=Color.GREEN,
+                        max_distance_mm=600)
+    shared_all.move_straight(distance_mm=35, speed_mm_s=100)                    
+    # wait(1000)
+    # wait(10)
 
-def move_crane_up( crane_motor, degrees):
-    log_string('Angle at start ' + str(crane_motor.angle()))
-    wait(100)
-    crane_motor.run_angle(90,  degrees, Stop.BRAKE)
-    log_string('Angle at end ' + str(crane_motor.angle()))
+def run():
+    shared_all.move_crane_to_top(crane_motor)
+    shared_all.move_crane_to_floor(crane_motor)
+    turn(-10)
 
-def move_straight(max_distance, speed_mm_s = DEFAULT_SPEED):
-    left_motor.reset_angle(0)
-    right_motor.reset_angle(0)
-    log_string('Move stratight at speed '+ str(speed_mm_s) + ' dist ' + str(max_distance))
-    duration = abs(int(1000 * max_distance / speed_mm_s))
-    robot.drive_time(speed_mm_s, 0, duration)
-    robot.stop(stop_type=Stop.BRAKE)
+    shared_all.move_straight(distance_mm=300, speed_mm_s=-190,)
 
-def move_crane_to_top( crane_motor):
-    crane_motor.run_until_stalled(180, Stop.COAST, 50)
-    move_crane_up( crane_motor, degrees = 5)
-
-move_straight(max_distance=700, speed_mm_s=100,)
-wait(1000)
-move_crane_to_top(crane_motor)
-wait(10)
-
-move_straight(max_distance=700, speed_mm_s=-100,)
+## Below lines only for testing
+## Comment out when done testing. Do not upload to Git hub without commenting.
+shared_all.calibrate_gyro(-90)
+align()
+run()
