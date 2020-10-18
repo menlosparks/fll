@@ -224,7 +224,7 @@ def row_to_weight_right_angleTurns(adjust_for_mission=0):
 
 
 def weight_to_phone(adjust_for_mission=0):
-    shared_all.push_back_reset_gyro(distance_mm = 30, reset_gyro = True, new_gyro_angle =180 )
+    shared_all.push_back_reset_gyro(distance_mm = 70, reset_gyro = True, new_gyro_angle =180 )
     shared_all.move_straight_target_direction(gyro = gyro, 
         distance_mm= 310, 
         speed_mm_s= 180, 
@@ -242,7 +242,8 @@ def phone_to_slide(adjust_for_mission=0):
 
     shared_all.move_to_color(color_sensor=color_sensor_center,
         stop_on_color=Color.BLACK, alternative_color=Color.BLACK, speed_mm_s=25,
-         max_intensity=robot_setup.BLACK_MAX_INTENSITY[color_sensor_center])
+         max_intensity=robot_setup.BLACK_MAX_INTENSITY[color_sensor_center],
+         max_distance_mm=140)
 
 
 

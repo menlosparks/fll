@@ -12,10 +12,11 @@ from pybricks.robotics import DriveBase
 from pybricks.ev3devices import Motor
 from pybricks.parameters import Port
 from pybricks.parameters import Port
+import math
  
 sys.path.append('../shared')
 import robot_setup
- 
+import ev3ext3rdpar
 from robot_setup import left_motor
 from robot_setup import right_motor
 from robot_setup import robot
@@ -67,8 +68,7 @@ def sound_alarm():
     brick.sound.beep(300, 90, SOUND_VOLUME)
 
 def log_string(message):
-    print(message)
-    brick.display.text(message)
+    ev3ext3rdpar.log(message)
 
 def any_button_pressed():
     brick.light(Color.RED)
@@ -94,44 +94,54 @@ def set_motor_regular(motor):
     motor.set_pid_settings(400, 600, 5, 100, 3, 5, 2,200)
 
 def calibrate_gyro(new_gyro_angle=0):
-    gyro_speed = gyro.speed()
-    gyro_angle = gyro.angle()
-    log_string('calib sp: ' + str(gyro_speed) + ' ang:' + str(gyro_angle))
-    if gyro_speed == 0 and gyro_angle == new_gyro_angle :
-        log_string('No calibration ')
-        return
+    ev3ext3rdpar.calibrateGyro(gyro, new_gyro_angle)
+    # gyro_speed = gyro.speed()
+    # gyro_angle = gyro.angle()
+    # log_string('calib sp: ' + str(gyro_speed) + ' ang:' + str(gyro_angle))
+    # if gyro_speed == 0 and gyro_angle == new_gyro_angle :
+    #     log_string('No calibration ')
+    #     return
 
-    brick.sound.beep(300, 30, SOUND_VOLUME)
+    # brick.sound.beep(300, 30, SOUND_VOLUME)
 
-    cntr=0
-    while (gyro.speed() > 0 and cntr < 5):
-        cntr +=1
-        wait(10)
-    gyro.reset_angle(new_gyro_angle)
-    wait(40)
-    log_string('Aft rst gy spd ' + str(gyro.speed()) + ' ang:' + str(gyro.angle()))
+    # cntr=0
+    # while (gyro.speed() > 0 and cntr < 5):
+    #     cntr +=1
+    #     wait(10)
+    # gyro.reset_angle(new_gyro_angle)
+    # wait(40)
+    # log_string('Aft rst gy spd ' + str(gyro.speed()) + ' ang:' + str(gyro.angle()))
 
 def push_back_reset_gyro(distance_mm, reset_gyro = True, new_gyro_angle = 0 ):
     move_straight(distance_mm = distance_mm , speed_mm_s= -80)
-    left_motor.run_angle( -140,  60, Stop.BRAKE, True)
-    right_motor.run_angle( -140,  60, Stop.BRAKE, True)
+    left_motor.run_angle( -90,  60, Stop.BRAKE, True)
+    right_motor.run_angle( -90,  60, Stop.BRAKE, True)
     if reset_gyro == True:
         calibrate_gyro(new_gyro_angle)
 
+def turn_arc_new(distance,angle, speed_mm_s):
+    ev3ext3rdpar.arc(left_motor, right_motor, robot_setup.AXLE_TRACK_MM,
+        robot_setup.WHEEL_DIAMETER_MM, distance, angle, speed_mm_s)
+
+
+
 def turn_arc(distance,angle, speed_mm_s):
+    turn_arc_new(distance,angle, speed_mm_s)
+    # turn_arc_old(distance,angle, speed_mm_s)
+
+def turn_arc_old(distance,angle, speed_mm_s):
 
     duration_ms = 1000* abs(distance / speed_mm_s)
     steering_speed = (angle / duration_ms) * 1000
     robot.drive_time(speed_mm_s, steering_speed, duration_ms)
 
 
-
-
 def turn_to_direction( gyro, target_angle, speed_mm_s = DEFAULT_SPEED):
 
     gyro_angle=gyro.angle()
+    # target_angle = adjust_gyro_target_angle(target_angle, gyro_angle)
 
-    target_angle = adjust_gyro_target_angle(target_angle, gyro_angle)
+    target_angle = ev3ext3rdpar.getNormalizedAngle(target_angle, gyro_angle)
     log_string('TTD  Adjtgt :' +str(target_angle) + ' gyr:' + str(gyro_angle))
 
     if (abs(target_angle-gyro_angle) > 15):
@@ -174,15 +184,17 @@ def turn_to_direction( gyro, target_angle, speed_mm_s = DEFAULT_SPEED):
 
 
 def turn( angle, speed_deg_s = DEFAULT_ANGULAR_SPEED):
+    ev3ext3rdpar.pivot(left_motor, right_motor,
+        robot_setup.AXLE_TRACK_MM, robot_setup.WHEEL_DIAMETER_MM, angle, speed_deg_s)
 
 
-    wheel_target_distance_mm = (angle/360.0) * robot_setup.AXLE_TURN_CIRCUM
-    wheel_target_angle = robot_setup.DEGREES_PER_MM * wheel_target_distance_mm;
+    # wheel_target_distance_mm = (angle/360.0) * robot_setup.AXLE_TURN_CIRCUM
+    # wheel_target_angle = robot_setup.DEGREES_PER_MM * wheel_target_distance_mm;
 
-    time_sec= abs(angle/speed_deg_s)
-    motor_speed_deg_s = abs(wheel_target_angle/time_sec)
-    left_motor.run_angle(motor_speed_deg_s, wheel_target_angle, Stop.BRAKE, False)
-    right_motor.run_angle(-1*motor_speed_deg_s,  wheel_target_angle, Stop.BRAKE, True)
+    # time_sec= abs(angle/speed_deg_s)
+    # motor_speed_deg_s = abs(wheel_target_angle/time_sec)
+    # left_motor.run_angle(motor_speed_deg_s, wheel_target_angle, Stop.BRAKE, False)
+    # right_motor.run_angle(-1*motor_speed_deg_s,  wheel_target_angle, Stop.BRAKE, True)
 
 
 
@@ -206,8 +218,6 @@ def turnold( angle, speed_deg_s = DEFAULT_ANGULAR_SPEED):
 #mstd MSTD
 def move_straight_target_direction(gyro, distance_mm, speed_mm_s, target_angle):
 
-    # gyro_angle = gyro.angle()
-    # target_angle = adjust_gyro_target_angle(target_angle, gyro_angle)
 
     target_angle = turn_to_direction( gyro, target_angle)
     log_string('MSTD  Adjtgt :' +str(target_angle))
@@ -241,12 +251,6 @@ def move_straight_target_direction(gyro, distance_mm, speed_mm_s, target_angle):
 
 
 
-def move_reverse(
-    max_distance, 
-    speed_mm_s = DEFAULT_SPEED):
-    move_straight( max_distance,  -1 *speed_mm_s)
-
-
 def move_straight(distance_mm, speed_mm_s):
 
     left_motor.reset_angle(0)
@@ -258,6 +262,12 @@ def move_straight(distance_mm, speed_mm_s):
         wait(40)
 
     robot.stop(stop_type=Stop.BRAKE)
+
+def move_reverse(
+    max_distance, 
+    speed_mm_s = DEFAULT_SPEED):
+    move_straight( max_distance,  -1 *speed_mm_s)
+
 
 
 def did_motor_stall(motor, max_degrees, speed):
@@ -363,128 +373,7 @@ def move_to_color_reverse(
 
 
 
-# sweep and steop forward till color is found
-def search_for_color(
-    color_sensor,
-    stop_on_color):
 
-    if  color_sensor.color() == stop_on_color: # if already there
-        return True
-
- 
-    forward_steps =0 
-    while forward_steps < 3:
-        sweep_width = 1
-        sweep_attempts = 0
-        sweep_speed = 45
-
-        while sweep_attempts < 5:
-            log_string('Sweep sweep_width ' + str(sweep_width))
-            robot.drive_time(0, sweep_speed, sweep_width * 100) #sweep right
-            if  color_sensor.color() == stop_on_color:
-                robot.stop(stop_type=Stop.BRAKE)
-                return True
-            robot.drive_time(0, -1 * sweep_speed, sweep_width * 100) #sweep left
-            if  color_sensor.color() == stop_on_color:
-                robot.stop(stop_type=Stop.BRAKE)
-                return True
-           
-            sweep_width += 1
-            sweep_attempts += 1
-        
-        # reset to point at mid point
-        robot.drive_time(0, sweep_speed, int(sweep_width * 100 / 2))
-        # step forward by 1 cm to sweep again
-        robot.drive_time(100, 0, 100)
-        forward_steps += 1
-
-    sound_alarm()
-    return False
-
-
-
-# Used by line follower to align with the general direction of the line
-def align_with_line_to_left(
-    color_sensor,
-    line_color = Color.BLACK,
-    border_color = Color.WHITE):
-
-    #Find left white border of line
-    move_to_color( color_sensor, border_color)
-    move_to_color( color_sensor, line_color)
-    move_to_color( color_sensor, border_color)
- 
-    #move forward half the length of tank and rotate
-    move_straight( SENSOR_TO_AXLE)    
-    turn_to_color_right( color_sensor, border_color) 
-
-def align_with_line_to_right(
-    color_sensor,
-    line_color = Color.BLACK,
-    border_color = Color.WHITE):
-
-    #Find left white border of line
-    move_to_color(color_sensor=color_sensor,
-        stop_on_color=border_color)
-
-    #move forward half the length of tank and rotate
-    move_straight(distance_mm=SENSOR_TO_AXLE, speed_mm_s=50)
-    turn_to_color_left( color_sensor, line_color) 
-    turn_to_color_left( color_sensor, border_color) 
-
-
-
-
-def follow_line_border(
-    color_sensor,
-    distance_mm,
-    speed_mm_s,
-    border_on_right=True):
-
-    left_motor.reset_angle(0)
-    motor_target_angle = int(DEGREES_PER_MM * distance_mm)
-    target_intensity = 100
-
-    kp=0.05
-    ki=kp * 0.000
-    kd=kp * 0.000
-    integral=0
-    prev_error=0
-
-    border_side = 1 if border_on_right else -1
-    # Keep moving till the angle of the left motor reaches target
-    while (abs(left_motor.angle()) < abs(motor_target_angle)):
-
-        color = color_sensor.color()
-        intensity = color_sensor.reflection()
-        error = border_side * abs(target_intensity - intensity)
-        if color not in (Color.WHITE,  Color.BLACK):
-            error = -1 * error
-        
-        angular_speed = kp * error + ki*integral + kd*(error-prev_error)
-        log_string('Lfol: (' + str(color) + ' ' + str(intensity) + ')' 
-            + ' err:' + str(error)+ ' spd:' + str(angular_speed))
-        robot.drive(speed_mm_s, angular_speed)
-        wait(20)
-        prev_error = error
-        integral += error
-
-    robot.stop(stop_type=Stop.BRAKE)
-
-def adjust_gyro_target_angle(target_angle, current_gyro_angle):
-    start_angle = current_gyro_angle
-    angle_change = target_angle - start_angle
-
-    if (angle_change >180 ):
-        angle_change = angle_change - 360
-    if (angle_change < -180 ):
-        angle_change = angle_change + 360
-    target_angle = angle_change + start_angle
-    log_string('adjust start:' + str(start_angle) 
-        + ' ang chg:' +str(angle_change)
-        + ' Adj:' +str(target_angle)
-        )
-    return target_angle
 
 
 def drive_raising_crane(duration_ms, robot_distance_mm, robot_turn_angle, 
@@ -515,7 +404,7 @@ def start_moving_crane_to_top(motor):
     start_moving_crane_to_angle(motor, top_angle - 10 )
 
 def move_crane_to_top( motor, release_angle = 5):
-    motor.run_until_stalled(500, Stop.COAST, 50)
+    motor.run_until_stalled(400, Stop.COAST, 40)
     if release_angle > 0:
         move_crane_down( motor, degrees = release_angle)
     motor.reset_angle(robot_setup.get_top_angle(motor))
@@ -562,9 +451,6 @@ def wiggle():
     right_motor.run_angle(120,  10, Stop.BRAKE, True)
 
 
-### Run this at start up
-#calibrate_gyro()
- 
 def move_to_obstacle(
     obstacle_sensor,
     stop_on_obstacle_at,
@@ -585,3 +471,51 @@ def fastflip():
     
 
     
+    
+def adjust_gyro_target_angle(target_angle, current_gyro_angle):
+    start_angle = current_gyro_angle
+    angle_change = target_angle - start_angle
+
+    if (angle_change >180 ):
+        angle_change = angle_change - 360
+    if (angle_change < -180 ):
+        angle_change = angle_change + 360
+    target_angle = angle_change + start_angle
+    log_string('adjust start:' + str(start_angle) 
+        + ' ang chg:' +str(angle_change)
+        + ' Adj:' +str(target_angle)
+        )
+    return target_angle
+
+
+
+# Used by line follower to align with the general direction of the line
+def align_with_line_to_left(
+    color_sensor,
+    line_color = Color.BLACK,
+    border_color = Color.WHITE):
+
+    #Find left white border of line
+    move_to_color( color_sensor, border_color)
+    move_to_color( color_sensor, line_color)
+    move_to_color( color_sensor, border_color)
+ 
+    #move forward half the length of tank and rotate
+    move_straight( SENSOR_TO_AXLE)    
+    turn_to_color_right( color_sensor, border_color) 
+
+def align_with_line_to_right(
+    color_sensor,
+    line_color = Color.BLACK,
+    border_color = Color.WHITE):
+
+    #Find left white border of line
+    move_to_color(color_sensor=color_sensor,
+        stop_on_color=border_color)
+
+    #move forward half the length of tank and rotate
+    move_straight(distance_mm=SENSOR_TO_AXLE, speed_mm_s=50)
+    turn_to_color_left( color_sensor, line_color) 
+    turn_to_color_left( color_sensor, border_color) 
+
+

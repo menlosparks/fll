@@ -41,11 +41,12 @@ import shared_all
 import bus_service_1
 import weight
 import phone
+import slide
 
-shared_all.calibrate_gyro(180)
+shared_all.calibrate_gyro(-90)
 
 # bus_service_1.row_to_weight()
-weight.align()
+# weight.align()
 weight.run()
 
 bus_service_1.weight_to_phone()

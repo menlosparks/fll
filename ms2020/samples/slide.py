@@ -40,6 +40,7 @@ from robot_setup import BLACK_MAX_INTENSITY
 
 def align(adjust_for_mission=0):
 
+    SLIDE_ALIGN_DIRECTION=138
     shared_all.turn(-90, speed_deg_s=140)
     shared_all.move_straight(distance_mm=50, speed_mm_s=100)
     shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
@@ -57,8 +58,11 @@ def align(adjust_for_mission=0):
         distance_mm= 40, 
         speed_mm_s= 130, 
         target_angle= 180+ adjust_for_mission)
-    shared_all.turn(-42, speed_deg_s=100)
-    shared_all.move_straight(distance_mm=60, speed_mm_s=-100)
+    shared_all.turn(SLIDE_ALIGN_DIRECTION - 180, speed_deg_s=100)
+    shared_all.move_straight_target_direction(gyro = gyro, 
+        distance_mm= 60, 
+        speed_mm_s= -110, 
+        target_angle= SLIDE_ALIGN_DIRECTION+ adjust_for_mission)
     shared_all.move_rack_to_floor()
 
 

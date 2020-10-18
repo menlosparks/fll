@@ -54,7 +54,6 @@ import utime
 
 shared_all.calibrate_gyro(0)
 shared_all.move_reverse(max_distance=20)
-
 shared_all.log_string('Gyr ang ' +str(gyro.angle()) )
 for x in range(20):
     gyro.angle()
@@ -81,3 +80,4 @@ wait(3000)
 shared_all.move_straight_target_direction(gyro=gyro,
     distance_mm=150, speed_mm_s=-160, target_angle=0)
 shared_all.log_string('Aft rev Gyr ang ' +str(gyro.angle()) )
+

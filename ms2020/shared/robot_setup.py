@@ -32,11 +32,13 @@ crane_motor= Motor(Port.B, Direction.CLOCKWISE, [12,36])
 rack_motor= Motor(Port.A, Direction.COUNTERCLOCKWISE,  [8,16])
 crane_motor.set_dc_settings(90, 30)
 gyro= GyroSensor(Port.S1, Direction.COUNTERCLOCKWISE)
-color_sensor_back =  None ##ColorSensor(Port.S2)
 color_sensor_right = ColorSensor(Port.S2)
 color_sensor_center = ColorSensor(Port.S3)
+
+#Discarded sensors
 touch_sensor= None ##TouchSensor(Port.S3)
 ultrasound=  None## nxt.UltrasonicSensor(Port.S2)
+color_sensor_back =  None ##ColorSensor(Port.S2)
 
 
 
@@ -98,8 +100,8 @@ def set_motor_large_params(motor, kp=500, ki=800, kd=5, tight_loop_limit=100, an
 def set_motor_large_run_settings(motor, max_speed=800, acceleration = 1600):
     motor.set_run_settings(max_speed, acceleration)
 
-set_motor_large_run_settings(left_motor, acceleration=320)
-set_motor_large_run_settings(right_motor, acceleration=320)
+set_motor_large_run_settings(left_motor, acceleration=300)
+set_motor_large_run_settings(right_motor, acceleration=300)
 
 # right motor 
 # ------------------------

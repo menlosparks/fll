@@ -47,7 +47,7 @@ def align(adjust_for_mission=0):
         target_angle= 180+ adjust_for_mission)
 
     shared_all.move_crane_to_top(motor=crane_motor)
-    shared_all.turn(60, speed_deg_s=160)
+    shared_all.turn(90, speed_deg_s=160)
     shared_all.move_straight_target_direction(gyro = gyro, 
         distance_mm= 10, 
         speed_mm_s= -110, 
@@ -66,7 +66,7 @@ def run(adjust_for_mission=0):
     #lift weight and back up
     crane_motor.stop()
     shared_all.move_crane_down( motor = crane_motor, degrees = 10)
-    crane_motor.run_time(720, 900)
+    crane_motor.run_time(600, 900)
 
     # shared_all.move_crane_to_floor(crane_motor)
     # shared_all.move_crane_up( motor = crane_motor, degrees = 40)
