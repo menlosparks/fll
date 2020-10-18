@@ -132,7 +132,7 @@ def turn_to_direction( gyro, target_angle, speed_mm_s = DEFAULT_SPEED):
     gyro_angle=gyro.angle()
 
     target_angle = adjust_gyro_target_angle(target_angle, gyro_angle)
-    log_string('turn_to_direction  Adjtgt :' +str(target_angle) + ' gyro:' + str(gyro_angle))
+    log_string('TTD  Adjtgt :' +str(target_angle) + ' gyr:' + str(gyro_angle))
 
     if (abs(target_angle-gyro_angle) > 15):
         turn(target_angle - gyro_angle)
@@ -140,9 +140,10 @@ def turn_to_direction( gyro, target_angle, speed_mm_s = DEFAULT_SPEED):
     gyro_angle=gyro.angle()
 
     if (abs(target_angle-gyro_angle) <=1):
+        log_string('TTD not needed gyr:' +str(gyro_angle))
         return target_angle
 
-    log_string('turn_to_direction  after turn :' +str(gyro_angle))
+    log_string('TTD needed gyr:' +str(gyro_angle))
 
     max_attempts=10 # limit oscialltions to 10, not forever
     kp=1.5
@@ -177,8 +178,8 @@ def turn( angle, speed_deg_s = DEFAULT_ANGULAR_SPEED):
 
     wheel_target_distance_mm = (angle/360.0) * robot_setup.AXLE_TURN_CIRCUM
     wheel_target_angle = robot_setup.DEGREES_PER_MM * wheel_target_distance_mm;
-    time=abs(int(1000 * (angle/speed_deg_s)))
-    time_sec=abs(int((angle/speed_deg_s)))
+
+    time_sec= abs(angle/speed_deg_s)
     motor_speed_deg_s = abs(wheel_target_angle/time_sec)
     left_motor.run_angle(motor_speed_deg_s, wheel_target_angle, Stop.BRAKE, False)
     right_motor.run_angle(-1*motor_speed_deg_s,  wheel_target_angle, Stop.BRAKE, True)
@@ -202,7 +203,7 @@ def turnold( angle, speed_deg_s = DEFAULT_ANGULAR_SPEED):
     robot.stop(stop_type=Stop.BRAKE)
 
 
-
+#mstd MSTD
 def move_straight_target_direction(gyro, distance_mm, speed_mm_s, target_angle):
 
     # gyro_angle = gyro.angle()
@@ -260,17 +261,24 @@ def move_straight(distance_mm, speed_mm_s):
 
 
 def did_motor_stall(motor, max_degrees, speed):
-    motor.reset_angle(0)
+    robot_setup.set_motor_medium_params(motor, stall_speed=speed/3)
+    motor_start_angle=motor.angle()
     speed = speed * (-1 if max_degrees < 0 else 1)
     motor.run(speed)
+    angle_change = abs(motor.angle() - motor_start_angle)
 
-    while(abs(motor.angle()) < abs(max_degrees)):
-        if ( motor.stalled() == True):
-            motor.stop(stop_type=Stop.BRAKE)
-            return True
+    while(angle_change < abs(max_degrees)):
         wait(100)
+        if ( motor.stalled() ):
+        #    log_string('DMoS stlld spd:' + str(motor.speed()) + ' angch:'  + str(angle_change))
+           motor.stop(Stop.BRAKE)
+           return True
+        # log_string('DMoS not stlld spd:' + str(motor.speed()) + ' angch:'  + str(angle_change))
+        angle_change = abs(motor.angle() - motor_start_angle)
     
-    motor.stop(stop_type=Stop.BRAKE)
+    # log_string('NOt stlld - brkg')
+    motor.stop(Stop.BRAKE)
+    # log_string('Done brkg')
     return False
 
 
@@ -498,6 +506,10 @@ def start_moving_crane_to_angle(motor, target_angle):
     speed_deg_s = 210 if target_angle > 90 else 130 
     motor.run_target(speed_deg_s, target_angle, Stop.BRAKE, False)
 
+def move_crane_to_angle(motor, target_angle):
+    speed_deg_s = 210 if target_angle > 90 else 130 
+    motor.run_target(speed_deg_s, target_angle, Stop.BRAKE, True)
+
 def start_moving_crane_to_top(motor):
     top_angle = robot_setup.get_top_angle(motor)
     start_moving_crane_to_angle(motor, top_angle - 10 )
@@ -525,9 +537,8 @@ def move_rack_to_top(release_angle = 5 ):
 
 def move_rack_to_floor(release_angle = 5 ):
 
-    if rack_motor.angle() > 140:
-        move_crane_down(rack_motor, 70)
-    rack_motor.run_until_stalled(-300, Stop.COAST, 50)
+    motor_duty = 80 if rack_motor.angle() > 140 else 50
+    rack_motor.run_until_stalled(-300, Stop.COAST, motor_duty)
     if release_angle > 0:
         move_crane_up( rack_motor, degrees = release_angle)
     rack_motor.reset_angle(0)

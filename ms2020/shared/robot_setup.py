@@ -33,8 +33,8 @@ rack_motor= Motor(Port.A, Direction.COUNTERCLOCKWISE,  [8,16])
 crane_motor.set_dc_settings(90, 30)
 gyro= GyroSensor(Port.S1, Direction.COUNTERCLOCKWISE)
 color_sensor_back =  None ##ColorSensor(Port.S2)
-color_sensor_right = ColorSensor(Port.S3)
-color_sensor_center = ColorSensor(Port.S4)
+color_sensor_right = ColorSensor(Port.S2)
+color_sensor_center = ColorSensor(Port.S3)
 touch_sensor= None ##TouchSensor(Port.S3)
 ultrasound=  None## nxt.UltrasonicSensor(Port.S2)
 
@@ -56,6 +56,27 @@ BLACK_MAX_INTENSITY = {
   color_sensor_right: 20,
   color_sensor_center:  20
 }
+
+def set_motor_medium_params(motor, kp=400, ki=600, kd=5, tight_loop_limit=100, angle_tolerance=2, 
+  speed_tolerance=5, stall_speed=2,
+  stall_time=200):
+
+  motor.set_pid_settings(kp, ki, kd, tight_loop_limit, angle_tolerance, 
+      speed_tolerance, stall_speed,stall_time)
+
+
+def set_motor_large_params(motor, kp=500, ki=800, kd=5, tight_loop_limit=100, angle_tolerance=3, 
+  speed_tolerance=5, stall_speed=2,
+  stall_time=200):
+
+  motor.set_pid_settings(kp, ki, kd, tight_loop_limit, angle_tolerance, 
+      speed_tolerance, stall_speed,stall_time)
+
+
+def set_motor_medium_run_settings(motor, max_speed=400, acceleration = 800):
+    motor.set_run_settings(max_speed, acceleration)
+
+
 # crane motor 
 # ------------------------
 # Run settings:      Max speed        400       Acceleration     800
@@ -66,6 +87,19 @@ BLACK_MAX_INTENSITY = {
 # Angle tolerance  3    Speed tolerance  5
 # Stall speed      2     Stall time       200
 
+
+def set_motor_large_params(motor, kp=500, ki=800, kd=5, tight_loop_limit=100, angle_tolerance=3, 
+  speed_tolerance=5, stall_speed=2,
+  stall_time=200):
+
+  motor.set_pid_settings(kp, ki, kd, tight_loop_limit, angle_tolerance, 
+      speed_tolerance, stall_speed,stall_time)
+
+def set_motor_large_run_settings(motor, max_speed=800, acceleration = 1600):
+    motor.set_run_settings(max_speed, acceleration)
+
+set_motor_large_run_settings(left_motor, acceleration=320)
+set_motor_large_run_settings(right_motor, acceleration=320)
 
 # right motor 
 # ------------------------
