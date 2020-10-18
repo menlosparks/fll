@@ -39,16 +39,13 @@ import shared_all
 
 def run (): 
     shared_all.move_rack_to_floor ()
-    shared_all.move_straight(distance_mm=50, speed_mm_s=120)
+    shared_all.move_straight(distance_mm=60, speed_mm_s=120)
     
-    while shared_all.did_motor_stall(motor =rack_motor , max_degrees =30 , speed = 80):
+    while shared_all.did_motor_stall(motor =rack_motor , max_degrees =50 , speed = 320):
         shared_all.move_straight(distance_mm=6, speed_mm_s=-20)
 
-    shared_all.move_crane_up (motor=rack_motor, degrees=20)
-    shared_all.drive_raising_crane (duration_ms=900, robot_distance_mm=20, robot_turn_angle=0, 
-                        motor=rack_motor, crane_angle=20)
     shared_all.move_crane_to_angle(motor=rack_motor, target_angle=75)
-    shared_all.drive_raising_crane (duration_ms=900, robot_distance_mm=40, robot_turn_angle=0, 
+    shared_all.drive_raising_crane (duration_ms=900, robot_distance_mm=80, robot_turn_angle=0, 
                         motor=rack_motor, crane_angle=-20)
 
 
