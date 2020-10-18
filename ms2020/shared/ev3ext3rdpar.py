@@ -91,6 +91,32 @@ def getNormalizedAngle(targetAngle, currentAngle):
     return targetAngle
 
 
+
+def didMotorStall(motor, maxDegrees, speed):
+    motorInitAngle=motor.angle()
+    speed = speed * (-1 if maxDegrees < 0 else 1)
+    motor.run(speed)
+    angleChg = abs(motor.angle() - motorInitAngle)
+
+    while(angleChg < abs(maxDegrees) and not motor.stalled()):
+        wait(100)
+        # if ( motor.stalled() ):
+        #    log('DMoS stlld spd:' + str(motor.speed()) + ' angch:'  + str(tgtAngleChg))
+        # #    motor.stop(Stop.BRAKE)
+        #    return True
+        log('DMoS not stlld spd:' + str(motor.speed()) + ' angch:'  + str(angleChg))
+        angleChg = abs(motor.angle() - motorInitAngle)
+
+
+    if ( motor.stalled() ):
+        log('DMoS stlld spd:' + str(motor.speed()) + ' angch:'  + str(angleChg))
+        return True
+    log('NOt stlld - brkg')
+    motor.stop(Stop.BRAKE)
+    log('Done brkg')
+    return False
+
+
 # sweep and steop forward till color is found
 def search_for_color(
     robot,
