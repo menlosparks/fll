@@ -50,30 +50,54 @@ import slide
 import bench
 import basket
 
-# shared_all.turn_arc(distance=60, angle=-10, speed_mm_s =-90)
-# wait(2000)
-shared_all.turn(110, 190)
-wait(2000)
 
-shared_all.log_string('Arc reverse turns 90 deg 12 cm')
-shared_all.turn_arc(distance  =120 ,angle =90 , speed_mm_s=-130)
-wait(2000)
-shared_all.turn_arc(distance  =120 ,angle =-90 , speed_mm_s=-130)
-wait(2000)
 
-shared_all.log_string('Arc turns 90 deg 12 cm')
-shared_all.turn_arc(distance  =120 ,angle =90 , speed_mm_s=130)
-wait(2000)
-shared_all.turn_arc(distance  =120 ,angle =-90 , speed_mm_s=130)
-wait(2000)
+def turn_arc_rev_90():
+    shared_all.log_string('Arc reverse turns 90 deg 12 cm')
+    shared_all.turn_arc(distance  =120 ,angle =90 , speed_mm_s=-130)
+    wait(2000)
+    shared_all.turn_arc(distance  =120 ,angle =-90 , speed_mm_s=-130)
+    wait(2000)
 
-shared_all.turn_arc(distance  =50 ,angle =90 , speed_mm_s=130)
-wait(2000)
-shared_all.turn_arc(distance  =50 ,angle =-90 , speed_mm_s=130)
-wait(2000)
+def turn_arc_90():
 
-shared_all.log_string('POint turns 90 deg')
-shared_all.turn(90)
+    shared_all.log_string('Arc turns 90 deg 12 cm')
+    shared_all.turn_arc(distance  =120 ,angle =90 , speed_mm_s=130)
+    wait(2000)
+    shared_all.turn_arc(distance  =120 ,angle =-90 , speed_mm_s=130)
+    wait(2000)
 
-wait(3000)
-shared_all.turn(-90)
+def turn_smallarc_90():
+    shared_all.turn_arc(distance  =50 ,angle =90 , speed_mm_s=130)
+    wait(2000)
+    shared_all.turn_arc(distance  =50 ,angle =-90 , speed_mm_s=130)
+    wait(2000)
+
+def turn_points_90():
+    shared_all.log_string('POint turns 90 deg')
+    shared_all.turn(110, 190)
+    wait(2000)
+    shared_all.turn(90)
+
+    wait(3000)
+    shared_all.turn(-90)
+
+#BUtton 1: Rev arc 90  BUt 2:
+while True:
+    buttons = shared_all.any_button_pressed()
+
+    shared_all.log_string('Button pressed ' + str(buttons))
+    if Button.UP in buttons: ## but 1
+        turn_arc_rev_90()
+    if Button.RIGHT in buttons: ## but 2
+        turn_arc_90()
+    if  Button.DOWN in buttons: ## but 3
+        turn_smallarc_90()
+    if  Button.LEFT in buttons: ## but 4
+        turn_points_90()
+    if  Button.CENTER in buttons: ## but 5
+        turn_arc_rev_90()
+        turn_arc_90()
+        turn_smallarc_90()
+        turn_points_90()
+

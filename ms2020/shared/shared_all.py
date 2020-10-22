@@ -104,11 +104,14 @@ def push_back_reset_gyro(distance_mm, reset_gyro = True, new_gyro_angle = 0 ):
     if reset_gyro == True:
         calibrate_gyro(new_gyro_angle)
 
+
+def turn( angle, speed_deg_s = DEFAULT_ANGULAR_SPEED):
+    ev3ext3rdpar.pivot(left_motor, right_motor,
+        robot_setup.AXLE_TRACK_MM, robot_setup.WHEEL_DIAMETER_MM, angle, speed_deg_s)
+
 def turn_arc_new(distance,angle, speed_mm_s):
     ev3ext3rdpar.arc(left_motor, right_motor, robot_setup.AXLE_TRACK_MM,
         robot_setup.WHEEL_DIAMETER_MM, distance, angle, speed_mm_s)
-
-
 
 def turn_arc(distance,angle, speed_mm_s):
     turn_arc_new(distance,angle, speed_mm_s)
@@ -121,108 +124,89 @@ def turn_arc_old(distance,angle, speed_mm_s):
     robot.drive_time(speed_mm_s, steering_speed, duration_ms)
 
 
-def turn_to_direction( gyro, target_angle, speed_mm_s = DEFAULT_SPEED):
+def turn_to_direction( gyro, target_angle, speed_deg_s=DEFAULT_ANGULAR_SPEED):
+    ev3ext3rdpar.pointGyro(robot,left_motor, right_motor, robot_setup.AXLE_TRACK_MM,
+            robot_setup.WHEEL_DIAMETER_MM,
+            gyro, target_angle, speed_deg_s )
+    # gyro_angle=gyro.angle()
+    # # target_angle = adjust_gyro_target_angle(target_angle, gyro_angle)
 
-    gyro_angle=gyro.angle()
-    # target_angle = adjust_gyro_target_angle(target_angle, gyro_angle)
+    # target_angle = ev3ext3rdpar.getNormalizedAngle(target_angle, gyro_angle)
+    # log_string('TTD  Adjtgt :' +str(target_angle) + ' gyr:' + str(gyro_angle))
 
-    target_angle = ev3ext3rdpar.getNormalizedAngle(target_angle, gyro_angle)
-    log_string('TTD  Adjtgt :' +str(target_angle) + ' gyr:' + str(gyro_angle))
+    # if (abs(target_angle-gyro_angle) > 15):
+    #     turn(target_angle - gyro_angle)
 
-    if (abs(target_angle-gyro_angle) > 15):
-        turn(target_angle - gyro_angle)
+    # gyro_angle=gyro.angle()
 
-    gyro_angle=gyro.angle()
+    # if (abs(target_angle-gyro_angle) <=1):
+    #     log_string('TTD not needed gyr:' +str(gyro_angle))
+    #     return target_angle
 
-    if (abs(target_angle-gyro_angle) <=1):
-        log_string('TTD not needed gyr:' +str(gyro_angle))
-        return target_angle
+    # log_string('TTD needed gyr:' +str(gyro_angle))
 
-    log_string('TTD needed gyr:' +str(gyro_angle))
+    # max_attempts=10 # limit oscialltions to 10, not forever
+    # kp=1.5
+    # ki=0.1
+    # kd=0.1
+    # integral_error=0
+    # prev_error=0
 
-    max_attempts=10 # limit oscialltions to 10, not forever
-    kp=1.5
-    ki=0.1
-    kd=0.1
-    integral_error=0
-    prev_error=0
+    # while ( abs(target_angle - gyro_angle) > 1 and max_attempts >0):
+    #     error=target_angle - gyro_angle
+    #     adj_angular_speed = error * kp   + (integral_error + error) * ki + (error - prev_error) * kd
+    #     robot.drive(0, adj_angular_speed)
+    #     wait(100)
+    #     max_attempts -= 1
+    #     integral_error += error
+    #     prev_error = error
+    #     gyro_angle=gyro.angle()
 
-    while ( abs(target_angle - gyro_angle) > 1 and max_attempts >0):
-        error=target_angle - gyro_angle
-        adj_angular_speed = error * kp   + (integral_error + error) * ki + (error - prev_error) * kd
-        robot.drive(0, adj_angular_speed)
-        wait(100)
-        max_attempts -= 1
-        integral_error += error
-        prev_error = error
-        gyro_angle=gyro.angle()
+    # robot.stop(stop_type=Stop.BRAKE)
 
-    robot.stop(stop_type=Stop.BRAKE)
-
-    log_string('TTD done-Adjted:' + str(target_angle) 
-        + ' gy: ' + str(gyro_angle)
-        + ' remain:' + str(max_attempts)
-        )
-    return target_angle
+    # log_string('TTD done-Adjted:' + str(target_angle) 
+    #     + ' gy: ' + str(gyro_angle)
+    #     + ' remain:' + str(max_attempts)
+    #     )
+    # return target_angle
 
 
-
-
-def turn( angle, speed_deg_s = DEFAULT_ANGULAR_SPEED):
-    ev3ext3rdpar.pivot(left_motor, right_motor,
-        robot_setup.AXLE_TRACK_MM, robot_setup.WHEEL_DIAMETER_MM, angle, speed_deg_s)
-
-# def turnold( angle, speed_deg_s = DEFAULT_ANGULAR_SPEED):
-
-#     if angle == 0 :
-#         return
-#     if angle > 0:    # right turns are a bit under-steered
-#         angle = int( angle)
-#     else:
-#         angle = int(angle / 1)
-
-#     speed_deg_s = -1 * speed_deg_s if angle < 0 else speed_deg_s
-#     # time=int(1000 * (floatspeed_deg_s(angle)/float(speed_deg_s)))
-#     time=abs(int(1000 * (angle/speed_deg_s)))
-#     robot.drive_time(0, speed_deg_s, time)
-#     robot.stop(stop_type=Stop.BRAKE)
 
 
 #mstd MSTD
 def move_straight_target_direction(gyro, distance_mm, speed_mm_s, target_angle):
 
+    ev3ext3rdpar.movePointingGyro(robot,left_motor, right_motor, robot_setup.AXLE_TRACK_MM,
+            robot_setup.WHEEL_DIAMETER_MM,
+            gyro, distance_mm, speed_mm_s, target_angle)
 
-    target_angle = turn_to_direction( gyro, target_angle)
-    log_string('MSTD  Adjtgt :' +str(target_angle))
+    # target_angle = turn_to_direction( gyro, target_angle)
+    # log_string('MSTD  Adjtgt :' +str(target_angle))
 
-    left_motor.reset_angle(0)
-    motor_target_angle = int(DEGREES_PER_MM * distance_mm)
-    kp=1.5
-    ki=0.1
-    kd=0.1
-    integral_error=0
-    prev_error=0
+    # left_motor.reset_angle(0)
+    # motor_target_angle = int(DEGREES_PER_MM * distance_mm)
+    # kp=1.5
+    # ki=0.1
+    # kd=0.1
+    # integral_error=0
+    # prev_error=0
 
-    while (abs(left_motor.angle()) < abs(motor_target_angle)):
-        gyro_angle = gyro.angle()
-        error = target_angle - gyro_angle
-        log_string('Gyro :' + str(gyro_angle) + ' err: '+ str(error))
-        adj_angular_speed =  error * kp   + (integral_error + error) * ki + (error - prev_error) * kd
-        robot.drive(speed_mm_s, adj_angular_speed)
-        wait(50)
-        if right_motor.stalled() or left_motor.stalled():
-            log_string('MSTD motor stalled ')
-            return
-        integral_error += error
-        prev_error = error
+    # while (abs(left_motor.angle()) < abs(motor_target_angle)):
+    #     gyro_angle = gyro.angle()
+    #     error = target_angle - gyro_angle
+    #     log_string('Gyro :' + str(gyro_angle) + ' err: '+ str(error))
+    #     adj_angular_speed =  error * kp   + (integral_error + error) * ki + (error - prev_error) * kd
+    #     robot.drive(speed_mm_s, adj_angular_speed)
+    #     wait(50)
+    #     if right_motor.stalled() or left_motor.stalled():
+    #         log_string('MSTD motor stalled ')
+    #         return
+    #     integral_error += error
+    #     prev_error = error
 
-    log_string('MSTD dne gy:' + str(gyro.angle()))
+    # log_string('MSTD dne gy:' + str(gyro.angle()))
 
-    robot.stop(stop_type=Stop.BRAKE)
-
-
-
-
+    # robot.stop(stop_type=Stop.BRAKE)
 
 def move_straight(distance_mm, speed_mm_s):
 

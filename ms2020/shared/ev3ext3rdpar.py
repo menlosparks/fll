@@ -14,7 +14,7 @@ def log(message):
     brick.display.text(message)
 
 
-def pivot(leftM, rightM, axle, wheelDiam, angle, speed_deg_s):
+def pivot(leftM, rightM, axle, wheelDiam, angle, speedDegS):
 
     wheelCircum=math.pi*wheelDiam
     axleTurnCircum=math.pi*axle
@@ -23,7 +23,7 @@ def pivot(leftM, rightM, axle, wheelDiam, angle, speed_deg_s):
     wheelTgtDistanceMM = (angle/360.0) * axleTurnCircum
     wheelTgtAngle = degreesPerMM * wheelTgtDistanceMM
 
-    time_sec= abs(angle/speed_deg_s)
+    time_sec= abs(angle/speedDegS)
     motor_speed_deg_s = abs(wheelTgtAngle/time_sec)
     leftM.run_angle(motor_speed_deg_s, wheelTgtAngle, Stop.BRAKE, False)
     rightM.run_angle(-1*motor_speed_deg_s,  wheelTgtAngle, Stop.BRAKE, True)
@@ -145,6 +145,85 @@ def moveToClr(
         + ' in range(' + str(lowerIntens) + '-' + str(upperIntens)
         )
 
+def pointGyro(robot,leftM, rightM, axle, wheelDiam,   gyro, tgtAngle, speedDegS):
+
+    gyroAngle=gyro.angle()
+    # target_angle = adjust_gyro_target_angle(target_angle, gyro_angle)
+
+    tgtAngle = getNormalizedAngle(tgtAngle, gyroAngle)
+    log('TTD  Adjtgt :' +str(tgtAngle) + ' gyr:' + str(gyroAngle))
+
+    if (abs(tgtAngle-gyroAngle) > 15):
+        pivot(leftM, rightM, axle, wheelDiam, tgtAngle - gyroAngle, speedDegS)
+        # turn(tgtAngle - gyroAngle)
+
+    gyroAngle=gyro.angle()
+
+    if (abs(tgtAngle-gyroAngle) <=1):
+        log('TTD not needed gyr:' +str(gyroAngle))
+        return tgtAngle
+
+    log('TTD needed gyr:' +str(gyroAngle))
+
+    maxAttempts=10 # limit oscialltions to 10, not forever
+    kp=1.5
+    ki=0.1
+    kd=0.1
+    integral=0
+    prevErr=0
+
+    while ( abs(tgtAngle - gyroAngle) > 1 and maxAttempts >0):
+        error=tgtAngle - gyroAngle
+        adj_angular_speed = error * kp   + (integral + error) * ki + (error - prevErr) * kd
+        robot.drive(0, adj_angular_speed)
+        wait(100)
+        maxAttempts -= 1
+        integral += error
+        prevErr = error
+        gyroAngle=gyro.angle()
+
+    robot.stop(stop_type=Stop.BRAKE)
+
+    log('TTD done-Adjted:' + str(tgtAngle) 
+        + ' gy: ' + str(gyroAngle)
+        + ' remain:' + str(maxAttempts)
+        )
+    return tgtAngle
+
+def movePointingGyro(    robot,
+    leftM, rightM, axle, wheelDiam, gyro, distMM, speedMM, tgtAngle):
+
+    wheelCircum=math.pi*wheelDiam
+    axleTurnCircum=math.pi*axle
+    degreesPerMM=360/wheelCircum
+
+    tgtAngle = pointGyro(robot,leftM, rightM, axle, wheelDiam,   gyro, tgtAngle, speedDegS=75)
+    log('MSTD  Adjtgt :' +str(tgtAngle))
+
+    leftM.reset_angle(0)
+    leftMTgtAngle = int(degreesPerMM * distMM)
+    kp=1.5
+    ki=0.1
+    kd=0.1
+    integral=0
+    prevErr=0
+
+    while (abs(leftM.angle()) < abs(leftMTgtAngle)):
+        gyroAngle = gyro.angle()
+        error = tgtAngle - gyroAngle
+        log('Gyro :' + str(gyroAngle) + ' err: '+ str(error))
+        adjAngularSpeed =  error * kp   + (integral + error) * ki + (error - prevErr) * kd
+        robot.drive(speedMM, adjAngularSpeed)
+        wait(50)
+        if rightM.stalled() or leftM.stalled():
+            log('MSTD motor stalled ')
+            return
+        integral += error
+        prevErr = error
+
+    log('MSTD dne gy:' + str(gyro.angle()))
+
+    robot.stop(stop_type=Stop.BRAKE)
 
 # sweep and steop forward till color is found
 def search_for_color(
@@ -211,7 +290,7 @@ def follow_line_border(
             error = -1 * error
         
         angular_speed = kp * error + ki*integral + kd*(error-prev_error)
-        log_string('Lfol: (' + str(color) + ' ' + str(intensity) + ')' 
+        log('Lfol: (' + str(color) + ' ' + str(intensity) + ')' 
             + ' err:' + str(error)+ ' spd:' + str(angular_speed))
         robot.drive(speed_mm_s, angular_speed)
         wait(20)

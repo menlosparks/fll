@@ -66,6 +66,8 @@ shared_all.move_straight_target_direction(gyro=gyro,
 wait(3000)
 shared_all.log_string('Aft strg Gyr ang ' +str(gyro.angle()) )
 
+shared_all.turn_to_direction(gyro, target_angle=60)
+wait(3000)
 shared_all.move_straight_target_direction(gyro=gyro,
     distance_mm=150, speed_mm_s=160, target_angle=90)
 
