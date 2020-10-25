@@ -43,11 +43,13 @@ def run ():
     
     while shared_all.did_motor_stall(motor =rack_motor , max_degrees =50 , speed = 320):
         # log_string('stalled - step back')
-        shared_all.move_straight(distance_mm=6, speed_mm_s=-20)
+        shared_all.move_reverse(max_distance=6, speed_mm_s=20)
 
-    shared_all.move_crane_to_angle(motor=rack_motor, target_angle=75)
+    shared_all.move_crane_to_angle(motor=rack_motor, target_angle=90)
     shared_all.drive_raising_crane (duration_ms=900, robot_distance_mm=80, robot_turn_angle=0, 
                         motor=rack_motor, crane_angle=-20)
+    shared_all.move_crane_to_angle(motor=rack_motor, target_angle=120)
+    shared_all.move_reverse(max_distance=20, speed_mm_s=100)
 
 
 ## Below lines only for testing
