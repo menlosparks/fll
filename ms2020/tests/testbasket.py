@@ -9,9 +9,10 @@ import shared_all
 import bus_service_2
 import basket
 
-shared_all.calibrate_gyro(0)
+shared_all.calibrate_gyro(-90)
 
-bus_service_2.base_to_basket()
+bus_service_2.base_to_innov()
+bus_service_2.innov_to_basket()
 basket.align()
 basket.run()
 

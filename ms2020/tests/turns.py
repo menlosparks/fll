@@ -74,8 +74,10 @@ def turn_smallarc_90():
     wait(2000)
 
 def turn_points_90():
-    shared_all.log_string('POint turns 90 deg')
+    shared_all.move_straight(distance_mm=90, speed_mm_s=140)
     shared_all.turn(110, 190)
+    wait(2000)
+    shared_all.turn(-110, 190)
     wait(2000)
     shared_all.turn(90)
 

@@ -45,7 +45,7 @@ def align(adjust_for_mission=0):
     shared_all.move_to_color(color_sensor=color_sensor_center,
         stop_on_color=Color.BLACK, alternative_color=Color.BLACK,
          max_intensity=robot_setup.BLACK_MAX_INTENSITY[color_sensor_center],
-         max_distance_mm=180)
+         max_distance_mm=90)
     
     # shared_all.move_straight(distance_mm=10, speed_mm_s=30)
     shared_all.turn_to_direction( gyro=gyro, target_angle=180+ adjust_for_mission) 

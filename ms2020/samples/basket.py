@@ -41,26 +41,37 @@ import shared_all
 
 
 def align(adjust_for_mission=0):
-    shared_all.move_straight_target_direction(gyro = gyro, 
-            distance_mm=110, 
-            speed_mm_s=120, 
-        target_angle= -90 + adjust_for_mission)
-        
-    shared_all.move_to_color(color_sensor=color_sensor_right,
-        stop_on_color=Color.WHITE, alternative_color=Color.BLACK, speed_mm_s=30,
-        min_intensity=robot_setup.WHITE_MIN_INTENSITY)
 
-    shared_all.move_straight(distance_mm=7, speed_mm_s=-90)
     shared_all.turn_to_direction(gyro = gyro, 
-            target_angle= -137 + adjust_for_mission,
-            speed_mm_s=80)
-    shared_all.move_to_color_reverse(color_sensor=color_sensor_right,
-        stop_on_color=Color.GREEN, alternative_color=Color.GREEN, speed_mm_s=30)
-    shared_all.move_straight(distance_mm=10, speed_mm_s=-100)
+            target_angle= -133 + adjust_for_mission,
+            speed_deg_s=80)
+    shared_all.move_to_color(color_sensor=color_sensor_right,
+        stop_on_color=Color.GREEN, alternative_color=Color.GREEN, speed_mm_s=30,
+        max_distance_mm=30)
+
+
+
+    # shared_all.move_straight_target_direction(gyro = gyro, 
+    #         distance_mm=40, 
+    #         speed_mm_s=120, 
+    #     target_angle= -90 + adjust_for_mission)
+        
+    # shared_all.move_to_color(color_sensor=color_sensor_right,
+    #     stop_on_color=Color.WHITE, alternative_color=Color.BLACK, speed_mm_s=30,
+    #     min_intensity=robot_setup.WHITE_MIN_INTENSITY[color_sensor_right])
+
+
+    # if not shared_all.move_to_color_reverse(color_sensor=color_sensor_right,
+    #     stop_on_color=Color.GREEN, alternative_color=Color.GREEN, speed_mm_s=30,
+    #     max_distance_mm=50):
+    #     shared_all.move_to_color(color_sensor=color_sensor_right,
+    #         stop_on_color=Color.GREEN, alternative_color=Color.GREEN, speed_mm_s=30,
+    #         max_distance_mm=55)
+    # shared_all.move_straight(distance_mm=10, speed_mm_s=-100)
 
 def putcube():
     shared_all.drive_raising_crane(duration_ms = 1000, 
-            robot_distance_mm = 70, 
+            robot_distance_mm = 30, 
             robot_turn_angle = 0, 
             motor = crane_motor, 
             crane_angle = -80)
@@ -69,30 +80,58 @@ def putcube():
 
 def level1():
     shared_all.move_crane_to_top( motor=crane_motor)
-    shared_all.move_crane_down(rack_motor, 50)
     shared_all.move_rack_to_floor()
     shared_all.turn(angle=-10, speed_deg_s=90)
-    shared_all.move_straight(distance_mm=50, speed_mm_s=90)
+    shared_all.move_straight(distance_mm=90, speed_mm_s=90)
     shared_all.turn(angle=20, speed_deg_s=90)
-    rack_motor.stop(Stop.BRAKE)
-    shared_all.drive_raising_crane(duration_ms = 600, 
-        robot_distance_mm = -40, 
-        robot_turn_angle = 8, 
-        motor = rack_motor, 
-        crane_angle = 120)
-    shared_all.move_crane_down( motor=rack_motor, degrees=40)
-    # shared_all.drive_raising_crane(duration_ms = 600, 
-    #     robot_distance_mm = -25, 
-    #     robot_turn_angle = 7, 
-    #     motor = rack_motor, 
-    #     crane_angle = 120 )
-    shared_all.move_straight(distance_mm=60, speed_mm_s=-90)
 
-    # shared_all.drive_raising_crane(duration_ms = 250, 
-    #     robot_distance_mm = -5, 
-    #     robot_turn_angle = 2, 
-    #     motor = rack_motor, 
-    #     crane_angle = 40)
+
+
+    # rack_motor.stop(Stop.BRAKE)
+
+    # cntr=0
+    # while cntr < 4 and shared_all.did_motor_stall(motor =rack_motor , max_degrees =80 , speed = 320):
+    #    shared_all.log_string('Mtr stalled') 
+    #    shared_all.move_crane_down(rack_motor, 5)
+    #    shared_all.log_string('mved crane down') 
+    #    shared_all.move_rack_to_floor()
+    #    shared_all.move_straight(distance_mm=6, speed_mm_s=20)
+    #    cntr +=1
+
+    # shared_all.move_rack_to_floor()
+    # shared_all.move_crane_down(rack_motor, 5)
+    # rack_motor.run_time(720, 900)
+
+    shared_all.drive_raising_crane(duration_ms = 1300, 
+        robot_distance_mm = -40, 
+        robot_turn_angle = 0, 
+        motor = rack_motor, 
+        crane_angle = 80)
+    shared_all.drive_raising_crane(duration_ms = 1300, 
+        robot_distance_mm = 0, 
+        robot_turn_angle = 0, 
+        motor = rack_motor, 
+        crane_angle = 50)
+
+    shared_all.drive_raising_crane(duration_ms = 900, 
+        robot_distance_mm = 20, 
+        robot_turn_angle = 0, 
+        motor = rack_motor, 
+        crane_angle = 15)
+
+    # back up while lowering slightly
+    shared_all.drive_raising_crane(duration_ms = 800, 
+        robot_distance_mm = -70, 
+        robot_turn_angle = 0, 
+        motor = rack_motor, 
+        crane_angle = -20)
+
+
+    shared_all.move_rack_to_floor()
+    shared_all.move_straight(distance_mm=60, speed_mm_s=-90)
+    shared_all.move_rack_to_top()
+
+
 
 
 def level2():
@@ -174,3 +213,30 @@ def level2crane():
     shared_all.move_straight(distance_mm=40, speed_mm_s=-90)
     shared_all.move_crane_down( motor=rack_motor, degrees=90)
     shared_all.log_string('MOtor is ' + str(crane_motor))
+
+
+
+def align_nearboccia(adjust_for_mission=0):
+
+
+    shared_all.move_straight_target_direction(gyro = gyro, 
+            distance_mm=40, 
+            speed_mm_s=120, 
+        target_angle= -90 + adjust_for_mission)
+        
+    shared_all.move_to_color(color_sensor=color_sensor_right,
+        stop_on_color=Color.WHITE, alternative_color=Color.BLACK, speed_mm_s=30,
+        min_intensity=robot_setup.WHITE_MIN_INTENSITY[color_sensor_right])
+
+    shared_all.move_straight(distance_mm=7, speed_mm_s=-90)
+    shared_all.turn_to_direction(gyro = gyro, 
+            target_angle= -137 + adjust_for_mission,
+            speed_deg_s=80)
+
+    if not shared_all.move_to_color_reverse(color_sensor=color_sensor_right,
+        stop_on_color=Color.GREEN, alternative_color=Color.GREEN, speed_mm_s=30,
+        max_distance_mm=50):
+        shared_all.move_to_color(color_sensor=color_sensor_right,
+            stop_on_color=Color.GREEN, alternative_color=Color.GREEN, speed_mm_s=30,
+            max_distance_mm=55)
+    shared_all.move_straight(distance_mm=10, speed_mm_s=-100)

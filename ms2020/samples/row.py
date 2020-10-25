@@ -43,7 +43,7 @@ def align(adjust_for_mission=0):
         distance_mm= 170, 
         speed_mm_s= 130, 
         target_angle= -130+ adjust_for_mission)
-    shared_all.turn(angle=110, speed_deg_s=180)
+    shared_all.turn(angle=110, speed_deg_s=190)
     shared_all.turn_to_direction( gyro=gyro, target_angle=10+ adjust_for_mission)
 
 
@@ -86,7 +86,8 @@ def run(adjust_for_mission=0):
     #release
     shared_all.drive_raising_crane(duration_ms=1900, robot_distance_mm=5, robot_turn_angle=0, 
             motor=rack_motor, crane_angle=15)
-    shared_all.move_crane_to_top(rack_motor)
+    shared_all.move_crane_up(rack_motor, 180)
+    shared_all.move_rack_to_top()
 
 
 ## Below lines only for testing

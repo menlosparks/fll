@@ -14,7 +14,7 @@ def log(message):
     brick.display.text(message)
 
 
-def pivot(leftM, rightM, axle, wheelDiam, angle, speedDegS):
+def pivot(robot, leftM, rightM, axle, wheelDiam, angle, speedDegS):
 
     wheelCircum=math.pi*wheelDiam
     axleTurnCircum=math.pi*axle
@@ -23,13 +23,26 @@ def pivot(leftM, rightM, axle, wheelDiam, angle, speedDegS):
     wheelTgtDistanceMM = (angle/360.0) * axleTurnCircum
     wheelTgtAngle = degreesPerMM * wheelTgtDistanceMM
 
-    time_sec= abs(angle/speedDegS)
-    motor_speed_deg_s = abs(wheelTgtAngle/time_sec)
-    leftM.run_angle(motor_speed_deg_s, wheelTgtAngle, Stop.BRAKE, False)
-    rightM.run_angle(-1*motor_speed_deg_s,  wheelTgtAngle, Stop.BRAKE, True)
+    wait(300)
+
+    # rightMInitAngle = rightM.angle()
+    # leftMInitAngle = leftM.angle()
+    # log(' leftMInitAngle ' + str(leftMInitAngle) +' rightMInitAngle ' + str(rightMInitAngle) 
+    #      +  ' wheelTgtAngle ' + str(wheelTgtAngle))
+    # robot.drive(0, speedDegS if angle > 0 else -1 * speedDegS )
+    # # while abs(leftM.angle() - leftMInitAngle) < abs(wheelTgtAngle) and abs(rightM.angle() - rightMInitAngle) < abs(wheelTgtAngle) :
+    # while (abs(leftM.angle() - leftMInitAngle)+abs(rightM.angle() - rightMInitAngle))/2 < abs(wheelTgtAngle) :
+    #     wait(10)
+    #     # log('lft Chg ' + str(leftM.angle() - leftMInitAngle) + ' rgtChg ' + str(rightM.angle() - rightMInitAngle))
+    # robot.stop(stop_type=Stop.BRAKE)
+
+    timeSec= abs(angle/speedDegS)
+    motorSpeedDegS = abs(wheelTgtAngle/timeSec)
+    rightM.run_angle(-1*motorSpeedDegS,  wheelTgtAngle, Stop.BRAKE, False)
+    leftM.run_angle(motorSpeedDegS, wheelTgtAngle, Stop.BRAKE, True)
 
 
-def arc(leftM, rightM, axle, wheelDiam, distance,angle, speed_mm_s):
+def arc(robot, leftM, rightM, axle, wheelDiam, distance,angle, speedMMs):
     wheelCircum=math.pi*wheelDiam
     axleTurnCircum=math.pi*axle
     degreesPerMM=360/wheelCircum
@@ -40,18 +53,19 @@ def arc(leftM, rightM, axle, wheelDiam, distance,angle, speed_mm_s):
     innerradius = radius - (axle/2)
     outercircum = outerradius * 2 * math.pi
     innercircum = innerradius * 2 * math.pi
-    rightturn = True if angle*speed_mm_s > 0 else False
+    rightturn = True if angle*speedMMs > 0 else False
 
     outerarcMM = abs(angle) * outercircum / 360
     innerarcMM = abs(angle) * innercircum / 360
 
-    outer_angle_change = degreesPerMM * outerarcMM
-    inner_angle_change = degreesPerMM * innerarcMM
+    outerAngleChg = degreesPerMM * outerarcMM
+    innerAngleChg = degreesPerMM * innerarcMM
 
-    leftMAngleChange = outer_angle_change if rightturn else inner_angle_change
-    rightMAngleChange = inner_angle_change if rightturn else outer_angle_change
+    leftMAngleChange = outerAngleChg if rightturn else innerAngleChg
+    rightMAngleChange = innerAngleChg if rightturn else outerAngleChg
 
-    time_sec= distance/speed_mm_s
+    time_sec= distance/speedMMs
+
 
     leftM.run_angle(leftMAngleChange/time_sec, abs(leftMAngleChange), Stop.BRAKE, False)
     rightM.run_angle(rightMAngleChange/time_sec,  abs(rightMAngleChange), Stop.BRAKE, True)
@@ -62,7 +76,7 @@ def calibrateGyro(gyro, newAngle=0):
     gyroAngle = gyro.angle()
     log('calib sp: ' + str(gyroSpeed) + ' ang:' + str(gyroAngle))
     if gyroSpeed == 0 and gyroAngle == newAngle :
-        log('No calibration ')
+        log('No calibration needed')
         return
 
     brick.sound.beep(300, 30, 8)
@@ -101,8 +115,11 @@ def didMotorStall(motor, maxDegrees, speed):
         wait(100)
 
     if ( motor.stalled() ):
+        log('M  stalled')
         return True
+    log('M sbrkg')
     motor.stop(Stop.BRAKE)
+    log('M not stalled')
     return False
 
 
@@ -138,12 +155,14 @@ def moveToClr(
 
     robot.stop(stop_type=Stop.BRAKE)
 
-    log('ev3 Cor fnd:(' + str(color) 
-        +' ' + str(intensity) + ')'
+    log('Clr seen:(' + str(color) 
+        +' ' + str(intensity)
         +' ' + str(sensor.ambient()) + ')'
-        + ' find ' + str(mainClr) + ' or ' + str(altClr)
-        + ' in range(' + str(lowerIntens) + '-' + str(upperIntens)
+        + ' searching ' + str(mainClr) + '/' + str(altClr)
+        + ' inte(' + str(lowerIntens) + '-' + str(upperIntens)
         )
+    return  ((color == mainClr or color == altClr) 
+                  and (intensity in range (lowerIntens, upperIntens)))
 
 def pointGyro(robot,leftM, rightM, axle, wheelDiam,   gyro, tgtAngle, speedDegS):
 
@@ -154,7 +173,7 @@ def pointGyro(robot,leftM, rightM, axle, wheelDiam,   gyro, tgtAngle, speedDegS)
     log('TTD  Adjtgt :' +str(tgtAngle) + ' gyr:' + str(gyroAngle))
 
     if (abs(tgtAngle-gyroAngle) > 15):
-        pivot(leftM, rightM, axle, wheelDiam, tgtAngle - gyroAngle, speedDegS)
+        pivot(robot,leftM, rightM, axle, wheelDiam, tgtAngle - gyroAngle, speedDegS)
         # turn(tgtAngle - gyroAngle)
 
     gyroAngle=gyro.angle()
@@ -211,7 +230,7 @@ def movePointingGyro(    robot,
     while (abs(leftM.angle()) < abs(leftMTgtAngle)):
         gyroAngle = gyro.angle()
         error = tgtAngle - gyroAngle
-        log('Gyro :' + str(gyroAngle) + ' err: '+ str(error))
+        # log('Gyro :' + str(gyroAngle) + ' err: '+ str(error))
         adjAngularSpeed =  error * kp   + (integral + error) * ki + (error - prevErr) * kd
         robot.drive(speedMM, adjAngularSpeed)
         wait(50)

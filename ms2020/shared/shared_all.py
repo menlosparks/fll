@@ -106,16 +106,13 @@ def push_back_reset_gyro(distance_mm, reset_gyro = True, new_gyro_angle = 0 ):
 
 
 def turn( angle, speed_deg_s = DEFAULT_ANGULAR_SPEED):
-    ev3ext3rdpar.pivot(left_motor, right_motor,
+    ev3ext3rdpar.pivot(robot, left_motor, right_motor,
         robot_setup.AXLE_TRACK_MM, robot_setup.WHEEL_DIAMETER_MM, angle, speed_deg_s)
 
-def turn_arc_new(distance,angle, speed_mm_s):
-    ev3ext3rdpar.arc(left_motor, right_motor, robot_setup.AXLE_TRACK_MM,
+def turn_arc(distance,angle, speed_mm_s):
+    ev3ext3rdpar.arc(robot, left_motor, right_motor, robot_setup.AXLE_TRACK_MM,
         robot_setup.WHEEL_DIAMETER_MM, distance, angle, speed_mm_s)
 
-def turn_arc(distance,angle, speed_mm_s):
-    turn_arc_new(distance,angle, speed_mm_s)
-    # turn_arc_old(distance,angle, speed_mm_s)
 
 def turn_arc_old(distance,angle, speed_mm_s):
 
@@ -240,7 +237,7 @@ def move_to_color(
     max_intensity=100,
     max_distance_mm=300):
 
-    ev3ext3rdpar.moveToClr(
+    return ev3ext3rdpar.moveToClr(
         robot,
         left_motor, right_motor, robot_setup.AXLE_TRACK_MM, robot_setup.WHEEL_DIAMETER_MM,
         color_sensor,
@@ -285,7 +282,7 @@ def move_to_color_reverse(
     min_intensity=0,
     max_intensity=100,
     max_distance_mm=9999):
-    move_to_color(
+    return move_to_color(
         color_sensor,
         stop_on_color,
         alternative_color,
