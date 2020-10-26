@@ -35,16 +35,13 @@ from robot_setup import DEGREES_PER_MM
  
 ##### Do not change above this line ##########################################
 
-
 def align():
-    shared_all.move_straight(distance_mm=380, speed_mm_s=180)
-    shared_all.move_crane_to_floor( motor=crane_motor)
-    shared_all.turn_arc(distance=150,angle=83,speed_mm_s=40)
-    
-def run(): 
-    shared_all.fastflip()
-  
+    shared_all.move_reverse(max_distance, speed_mm_s)
+    #shared_all.move_crane_to_floor(motor=crane_motor)
+    #shared_all.turn_arc(distance=70,angle=-64,speed_mm_s=40)
 
+def run():
+    #shared_all.fastflip()
 
 
 
