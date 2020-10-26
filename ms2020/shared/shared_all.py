@@ -372,8 +372,8 @@ def wiggle():
 
 
 def fastflip():
-    shared_all.move_crane_down( motor=crane_motor, degrees=20)
-    crane_motor.run_angle(720, 100)
+    move_crane_down( motor=crane_motor, degrees=20)
+    crane_motor.run_angle(720, 600)
     
 
     
