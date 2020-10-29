@@ -116,3 +116,28 @@ def take_slide_to_home():
 
 
 # slide() 
+
+def alignfacing():
+    shared_all.move_straight_target_direction(gyro=gyro,
+    distance_mm=480, speed_mm_s=170, target_angle=-45)
+
+    shared_all.move_to_color(color_sensor=color_sensor_center, 
+    stop_on_color=Color.GREEN, max_distance_mm=40)
+
+    shared_all.move_straight(distance_mm=40, speed_mm_s=40)
+
+def runfacing():
+    shared_all.move_crane_down(rack_motor, 70)
+    shared_all.move_hook_to_floor()
+    shared_all.move_straight(distance_mm=20, speed_mm_s=-50)
+
+    shared_all.drive_raising_crane (duration_ms=800, robot_distance_mm=-30, robot_turn_angle=0, 
+                        motor=rack_motor, crane_angle=20)
+    shared_all.drive_raising_crane (duration_ms=1900, robot_distance_mm=-90, robot_turn_angle=0, 
+                        motor=rack_motor, crane_angle=20)
+    # shared_all.move_straight(distance_mm=40, speed_mm_s=130)
+    shared_all.move_crane_up(rack_motor, 70)
+   
+# shared_all.calibrate_gyro(new_gyro_angle=-45)
+# alignfacing()
+runfacing()

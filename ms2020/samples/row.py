@@ -38,6 +38,7 @@ from robot_setup import BLACK_MAX_INTENSITY
 import shared_all
 
 ##### Do not change above this line ##########################################
+
 def align(adjust_for_mission=0):
     shared_all.move_straight_target_direction(gyro = gyro, 
         distance_mm= 170, 
@@ -151,3 +152,13 @@ def aligntonorth(adjust_for_mission=0):
         shared_all.move_to_color(color_sensor=color_sensor_center,
                 stop_on_color=Color.BLUE, alternative_color=Color.BLUE)
         shared_all.move_straight(distance_mm=10, speed_mm_s=-80)
+
+
+def runfacingnorth():
+    shared_all.move_rack_to_floor()
+    shake()
+    shared_all.drive_raising_crane(duration_ms=1900, robot_distance_mm=10, robot_turn_angle=-70, 
+            motor=rack_motor, crane_angle=-15)
+
+# brick.light(Color.YELLOW)
+# runfacingnorth()

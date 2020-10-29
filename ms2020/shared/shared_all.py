@@ -346,8 +346,19 @@ def move_rack_to_top(release_angle = 5 ):
 
 def move_rack_to_floor(release_angle = 5 ):
 
+    log_string('setting motr duty')
     motor_duty = 80 if rack_motor.angle() > 140 else 50
+    log_string('do run_until_stalled')
     rack_motor.run_until_stalled(-300, Stop.COAST, motor_duty)
+    if release_angle > 0:
+        move_crane_up( rack_motor, degrees = release_angle)
+    rack_motor.reset_angle(0)
+    log_string('REset mot ang 0')
+
+def move_hook_to_floor(release_angle = 5 ):
+
+
+    rack_motor.run_until_stalled(-300, Stop.COAST, 40)
     if release_angle > 0:
         move_crane_up( rack_motor, degrees = release_angle)
     rack_motor.reset_angle(0)
@@ -357,7 +368,7 @@ def move_crane_up( motor, degrees):
     motor.run_angle(180,  degrees, Stop.BRAKE)
 
 def move_crane_down( motor, degrees):
-    motor.run_angle(180,  -1 * degrees)
+    motor.run_angle(180,  -1 * degrees, Stop.BRAKE)
 
 def run_to_home():
     turn_to_direction(gyro, target_angle=190)
@@ -372,8 +383,8 @@ def wiggle():
 
 
 def fastflip():
-    move_crane_down( motor=crane_motor, degrees=20)
-    crane_motor.run_angle(720, 600)
+    shared_all.move_crane_down( motor=crane_motor, degrees=20)
+    crane_motor.run_angle(720, 100)
     
 
     
