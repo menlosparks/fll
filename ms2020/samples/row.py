@@ -40,11 +40,6 @@ import shared_all
 ##### Do not change above this line ##########################################
 
 def align(adjust_for_mission=0):
-    shared_all.move_straight_target_direction(gyro = gyro, 
-        distance_mm= 170, 
-        speed_mm_s= 130, 
-        target_angle= -130+ adjust_for_mission)
-    shared_all.turn(angle=110, speed_deg_s=190)
     shared_all.turn_to_direction( gyro=gyro, target_angle=10+ adjust_for_mission)
 
 
@@ -98,6 +93,14 @@ def run(adjust_for_mission=0):
 # run()
 
 #### Old code ###############
+def alignatangle(adjust_for_mission=0):
+    shared_all.move_straight_target_direction(gyro = gyro, 
+        distance_mm= 170, 
+        speed_mm_s= 130, 
+        target_angle= -130+ adjust_for_mission)
+    shared_all.turn(angle=110, speed_deg_s=190)
+    shared_all.turn_to_direction( gyro=gyro, target_angle=10+ adjust_for_mission)
+
 
 def align_color_and_rightturns(adjust_for_mission=0):
     shared_all.move_straight(distance_mm=170, speed_mm_s=120)

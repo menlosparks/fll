@@ -132,27 +132,34 @@ def treadmill_to_row_simple(adjust_for_mission=0):
 
     # reuse_treadmill_align(adjust_for_mission)
 
+def treadmill_to_row_withalign(adjust_for_mission=0):
+
+    shared_all.move_straight(distance_mm=70, speed_mm_s=100)
+    shared_all.turn(angle=90, speed_deg_s=120) 
+
+
+    shared_all.move_straight_target_direction(gyro=gyro,
+        distance_mm=110, speed_mm_s=-160, target_angle=-90)
+    shared_all.push_back_reset_gyro(distance_mm=40, reset_gyro = True, new_gyro_angle=-90)
+    shared_all.move_straight_target_direction(gyro = gyro, 
+        distance_mm=210, 
+        speed_mm_s=180, 
+        target_angle=-90)
+
+    shared_all.turn(angle=90, speed_deg_s=120) 
+    shared_all.move_reverse(distance_mm=40, speed_mm_s=100)
+
+
+    # shared_all.turn_to_direction( gyro=gyro, target_angle= 180 + adjust_for_mission)
+    # shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
+    #     stop_on_color=Color.WHITE, alternative_color=Color.BLACK,
+    #      max_intensity=robot_setup.BLACK_MAX_INTENSITY[color_sensor_center],
+    #      max_distance_mm=120)
+
+
 def treadmill_to_row(adjust_for_mission=0):
 
     treadmill_to_row_simple(adjust_for_mission)
-
-def treadmill_to_row_proper(adjust_for_mission=0):
-
-    shared_all.turn_arc(distance=80,angle=85, speed_mm_s=100)
-    shared_all.move_straight_target_direction(gyro=gyro,
-        distance_mm=170, speed_mm_s=-160, target_angle=-90)
-    shared_all.push_back_reset_gyro(distance_mm=40, reset_gyro = True, new_gyro_angle=-90)
-
-    shared_all.move_straight_target_direction(gyro = gyro, 
-        distance_mm=130, 
-        speed_mm_s=180, 
-        target_angle=-90)
-    shared_all.turn_to_direction( gyro=gyro, target_angle= 180 + adjust_for_mission)
-    shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
-        stop_on_color=Color.WHITE, alternative_color=Color.BLACK,
-         max_intensity=robot_setup.BLACK_MAX_INTENSITY[color_sensor_center],
-         max_distance_mm=120)
-
 
 def treadmill_to_row_nearrow(adjust_for_mission=0):
 
