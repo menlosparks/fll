@@ -226,19 +226,23 @@ def movePointingGyro(    robot,
     kd=0.1
     integral=0
     prevErr=0
-
+    accelLmt = 100
+    direction = 1 if speedMM > 0 else -1
+    absCurrSpeed = accelLmt
     while (abs(leftM.angle()) < abs(leftMTgtAngle)):
         gyroAngle = gyro.angle()
         error = tgtAngle - gyroAngle
-        # log('Gyro :' + str(gyroAngle) + ' err: '+ str(error))
+        # log('Gyro :' + stcurrSpeedr(gyroAngle) + ' err: '+ str(error))
         adjAngularSpeed =  error * kp   + (integral + error) * ki + (error - prevErr) * kd
-        robot.drive(speedMM, adjAngularSpeed)
+        robot.drive(direction * absCurrSpeed, adjAngularSpeed)
         wait(50)
         if rightM.stalled() or leftM.stalled():
             log('MSTD motor stalled ')
             return
         integral += error
         prevErr = error
+        # limit on speed increase i.e. acceleration
+        absCurrSpeed = absCurrSpeed + (accelLmt/20 ) if absCurrSpeed < abs(speedMM) else abs(speedMM)
 
     log('MSTD dne gy:' + str(gyro.angle()))
 

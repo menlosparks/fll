@@ -100,8 +100,9 @@ def set_motor_large_params(motor, kp=500, ki=800, kd=5, tight_loop_limit=100, an
 def set_motor_large_run_settings(motor, max_speed=800, acceleration = 1600):
     motor.set_run_settings(max_speed, acceleration)
 
-set_motor_large_run_settings(left_motor, acceleration=600)
-set_motor_large_run_settings(right_motor, acceleration=600)
+set_motor_large_run_settings(left_motor, acceleration=200)
+set_motor_large_run_settings(right_motor, acceleration=200)
+
 
 # right large motor 
 # ------------------------

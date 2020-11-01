@@ -58,9 +58,10 @@ def base_to_stepcounter(adjust_for_mission=0):
 
 def base_to_treadmill(adjust_for_mission=0):
     # shared_all.move_straight(distance_mm=1370,speed_mm_s=-150)
+
     shared_all.move_straight_target_direction(gyro = gyro, 
         distance_mm= 1340, 
-        speed_mm_s= -330, 
+        speed_mm_s= -320, 
         target_angle=180)
     shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
         stop_on_color=Color.WHITE, alternative_color=Color.WHITE,
@@ -134,20 +135,25 @@ def treadmill_to_row_simple(adjust_for_mission=0):
 
 def treadmill_to_row_withalign(adjust_for_mission=0):
 
-    shared_all.move_straight(distance_mm=70, speed_mm_s=100)
-    shared_all.turn(angle=90, speed_deg_s=120) 
+    shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
+        stop_on_color=Color.WHITE, alternative_color=Color.BLACK,
+        speed_mm_s=30,
+         max_intensity=robot_setup.BLACK_MAX_INTENSITY[color_sensor_center],
+         max_distance_mm=50)
+    shared_all.move_straight(distance_mm=120, speed_mm_s=100)
+    shared_all.turn(angle=90, speed_deg_s=140) 
 
 
     shared_all.move_straight_target_direction(gyro=gyro,
-        distance_mm=110, speed_mm_s=-160, target_angle=-90)
+        distance_mm=100, speed_mm_s=-160, target_angle=-90)
     shared_all.push_back_reset_gyro(distance_mm=40, reset_gyro = True, new_gyro_angle=-90)
     shared_all.move_straight_target_direction(gyro = gyro, 
-        distance_mm=210, 
+        distance_mm=270, 
         speed_mm_s=180, 
         target_angle=-90)
 
     shared_all.turn(angle=90, speed_deg_s=120) 
-    shared_all.move_reverse(distance_mm=40, speed_mm_s=100)
+    shared_all.move_reverse(max_distance=40, speed_mm_s=100)
 
 
     # shared_all.turn_to_direction( gyro=gyro, target_angle= 180 + adjust_for_mission)
@@ -159,7 +165,7 @@ def treadmill_to_row_withalign(adjust_for_mission=0):
 
 def treadmill_to_row(adjust_for_mission=0):
 
-    treadmill_to_row_simple(adjust_for_mission)
+    treadmill_to_row_withalign(adjust_for_mission)
 
 def treadmill_to_row_nearrow(adjust_for_mission=0):
 

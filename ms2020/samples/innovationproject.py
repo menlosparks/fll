@@ -39,43 +39,9 @@ import shared_all
 
 ##### Do not change above this line ##########################################
 
-
-
-def align():
-    shared_all.move_crane_to_floor( motor=crane_motor)
-    shared_all.move_crane_up( motor=crane_motor, degrees=60)
-    shared_all.move_to_color(color_sensor = color_sensor_right,
-        stop_on_color = Color.GREEN,
-        alternative_color = Color.GREEN, speed_mm_s=40, max_distance_mm=60)
-    shared_all.move_straight(distance_mm=17, speed_mm_s=40)
-
-
-
 def run():
-    ##lift 
-    shared_all.move_crane_down(crane_motor, 10)
-    shared_all.drive_raising_crane(duration_ms=600, robot_distance_mm=0, robot_turn_angle=0, 
-        motor=crane_motor, crane_angle=110)
-    shared_all.move_crane_down(crane_motor, 80)
+    shared_all.move_straight(distance_mm=400, speed_mm_s=160)
 
-    #knock
-    shared_all.move_straight(distance_mm=18, speed_mm_s=-90)
-    shared_all.move_crane_to_floor(crane_motor)
-    shared_all.drive_raising_crane(duration_ms=400, robot_distance_mm=10, robot_turn_angle=-30, 
-        motor=crane_motor, crane_angle=-20)
-
-    #backup
-    shared_all.start_moving_crane_to_angle(crane_motor, 70)
-    shared_all.turn_to_direction(gyro=gyro, target_angle=-85)
-    shared_all.move_straight(distance_mm=60, speed_mm_s=-120)
-
-def drop_cubes():
-    shared_all.move_crane_down(crane_motor, 40)
-    shared_all.move_crane_to_top(crane_motor)
-
-    ## Below lines only for testing
-## Comment out when done testing. Do not upload to Git hub without commenting.
-# shared_all.calibrate_gyro(-85)
-# align()
+   
+# shared_all.calibrate_gyro(new_gyro_angle=-45)
 # run()
-

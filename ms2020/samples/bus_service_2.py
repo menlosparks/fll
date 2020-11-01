@@ -66,7 +66,7 @@ def loading_to_bench():
     
 def base_to_innov():
     shared_all.move_straight_target_direction(gyro = gyro, 
-            distance_mm=110, 
+            distance_mm=210, 
             speed_mm_s=190, 
             target_angle= -90)
     shared_all.move_to_color(color_sensor=color_sensor_center,

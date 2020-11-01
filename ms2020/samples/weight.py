@@ -39,45 +39,30 @@ import shared_all
 
 ##### Do not change above this line ##########################################
 
-def align(adjust_for_mission=0):
-
-    shared_all.move_straight_target_direction(gyro = gyro, 
-        distance_mm= 15, 
-        speed_mm_s= 110, 
-        target_angle= 180+ adjust_for_mission)
-
-    shared_all.move_crane_to_top(motor=crane_motor)
-    shared_all.turn(90, speed_deg_s=160)
-    shared_all.move_straight_target_direction(gyro = gyro, 
-        distance_mm= 10, 
-        speed_mm_s= -110, 
-        target_angle= -90+ adjust_for_mission)
-
-
-def run(adjust_for_mission=0):
-    
-    shared_all.start_moving_crane_to_angle(motor = crane_motor, target_angle = 25)
+def alignpushdown(adjust_for_mission=0):
+    shared_all.move_straight(distance_mm=50, speed_mm_s=100)
+    shared_all.turn(50, speed_deg_s=110)
     shared_all.move_to_color(color_sensor=color_sensor_center,
-        stop_on_color=Color.GREEN, alternative_color=Color.GREEN, max_distance_mm=60)
-    shared_all.move_to_color(color_sensor=color_sensor_center,
-        stop_on_color=Color.RED, alternative_color=Color.YELLOW, max_distance_mm=170)
-    shared_all.turn_arc(distance= 30,angle = 15, speed_mm_s= 60)
+        stop_on_color=Color.BLACK, alternative_color=Color.BLACK,
+         max_intensity=robot_setup.BLACK_MAX_INTENSITY[color_sensor_center],
+         max_distance_mm=120)
+    shared_all.move_straight(distance_mm=50, speed_mm_s=-100)
+    shared_all.turn(-50, speed_deg_s=110)
+    shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
+        stop_on_color=Color.BLACK, alternative_color=Color.BLACK,
+         min_intensity=robot_setup.WHITE_MIN_INTENSITY[color_sensor_center],
+         max_distance_mm=80)
+    shared_all.turn_to_direction(gyro=gyro, target_angle=-90)
 
-    #lift weight and back up
-    crane_motor.stop()
-    shared_all.move_crane_down( motor = crane_motor, degrees = 10)
-    crane_motor.run_time(600, 900)
 
-    # shared_all.move_crane_to_floor(crane_motor)
-    # shared_all.move_crane_up( motor = crane_motor, degrees = 40)
-    shared_all.start_moving_crane_to_angle(motor = crane_motor, target_angle = 25)
-    shared_all.move_straight(distance_mm=70, speed_mm_s=-120)
-
-    # turn west and back up
-    shared_all.turn(-140, speed_deg_s=200)
-    shared_all.start_moving_crane_to_top(motor = crane_motor)
-    shared_all.move_straight(distance_mm=70, speed_mm_s=-150)
-    shared_all.turn_arc(distance=50, angle=60, speed_mm_s=190)
+def runpushdown():
+    shared_all.move_rack_to_top()
+    shared_all.move_straight(distance_mm=90, speed_mm_s=120)
+    shared_all.turn(45)
+    shared_all.move_crane_down(rack_motor, 210)
+    shared_all.start_moving_crane_to_top(rack_motor)
+    shared_all.move_straight(distance_mm=90, speed_mm_s=-120)
+    shared_all.move_rack_to_top()
 
 def align_right_turns(adjust_for_mission=0):
 
@@ -104,3 +89,50 @@ def align_right_turns(adjust_for_mission=0):
         speed_mm_s= -110, 
         target_angle= -90+ adjust_for_mission)
 
+def alignold(adjust_for_mission=0):
+
+    shared_all.move_straight_target_direction(gyro = gyro, 
+        distance_mm= 15, 
+        speed_mm_s= 110, 
+        target_angle= 180+ adjust_for_mission)
+
+    shared_all.move_crane_to_top(motor=crane_motor)
+    shared_all.turn(90, speed_deg_s=160)
+    shared_all.move_straight_target_direction(gyro = gyro, 
+        distance_mm= 10, 
+        speed_mm_s= -110, 
+        target_angle= -90+ adjust_for_mission)
+
+
+def runold(adjust_for_mission=0):
+    
+    shared_all.start_moving_crane_to_angle(motor = crane_motor, target_angle = 25)
+    shared_all.move_to_color(color_sensor=color_sensor_center,
+        stop_on_color=Color.GREEN, alternative_color=Color.GREEN, max_distance_mm=60)
+    shared_all.move_to_color(color_sensor=color_sensor_center,
+        stop_on_color=Color.RED, alternative_color=Color.YELLOW, max_distance_mm=170)
+    shared_all.turn_arc(distance= 30,angle = 15, speed_mm_s= 60)
+
+    #lift weight and back up
+    crane_motor.stop()
+    shared_all.move_crane_down( motor = crane_motor, degrees = 10)
+    crane_motor.run_time(600, 900)
+
+    # shared_all.move_crane_to_floor(crane_motor)
+    # shared_all.move_crane_up( motor = crane_motor, degrees = 40)
+    shared_all.start_moving_crane_to_angle(motor = crane_motor, target_angle = 25)
+    shared_all.move_straight(distance_mm=70, speed_mm_s=-120)
+
+    # turn west and back up
+    shared_all.turn(-140, speed_deg_s=200)
+    shared_all.start_moving_crane_to_top(motor = crane_motor)
+    shared_all.move_straight(distance_mm=70, speed_mm_s=-150)
+    shared_all.turn_arc(distance=50, angle=60, speed_mm_s=190)
+
+# runpushdown()
+
+def align():
+    alignpushdown()
+
+def run():
+    runpushdown()
