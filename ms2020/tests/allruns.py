@@ -130,7 +130,9 @@ while True:
         basket()
     if Button.LEFT in buttons: ## button 4
         slide()
+
     if Button.CENTER in buttons: ## button center
+        buttons = shared_all.any_button_pressed(waiting_color=Color.YELLOW)
 
         if  Button.UP in buttons: ## BUT 1
             deepsweep()
