@@ -21,7 +21,6 @@ from robot_setup import rack_motor
 from robot_setup import crane_motor
 from robot_setup import gyro
 from robot_setup import touch_sensor
-from robot_setup import color_sensor_left
 from robot_setup import color_sensor_right
 from robot_setup import color_sensor_center
 from robot_setup import touch_sensor
@@ -37,28 +36,25 @@ from robot_setup import DEGREES_PER_MM
 ##### Do not change above this line ##########################################
 
 def weight_to_cell():  
-    shared_all.move_reverse( max_distance=25 , speed_mm_s= 50)
-    shared_all.turn(angle=-90, speed_deg_s=25 )
+    shared_all.move_reverse( max_distance=25 , speed_mm_s= 100)
+    shared_all.turn(angle=-90, speed_deg_s=100)
+    shared_all.move_reverse(max_distance=55, speed_mm_s=100)
 
 
-def blue_to_black():
-    shared_all.move_reverse(max_distance=40, speed_mm_s=25)
-    shared_all.turn(angle=-30, speed_mm_s= 30)
-    shared_all.move_straight(distance_mm=50, speed_mm_s=30)
-    shared_all.turn(angle=90, speed_deg_s= 30)
+def cell_to_black():
+    shared_all.move_reverse(max_distance=90, speed_mm_s=100)
+    shared_all.turn(angle=-195, speed_deg_s=100)
 
 
+def row_to_weight():
+    shared_all.turn(angle=-90, speed_deg_s=100)
+    shared_all.move_straight(distance_mm=40, speed_mm_s=100)
+    shared_all.turn(angle=90, speed_deg_s=100)
+    shared_all.move_straight(distance_mm=50, speed_mm_s=100)
+    shaared_all.turn(angle=-90,, speed_deg_s=100)
 
-
-
-
-
-
-
-
-## Below lines only for testing
-## Comment out when done testing. Do not upload to Git hub without commenting.
- 
 # Calibrate the gyro point in the direction at the start
 shared_all.calibrate_gyro(0)
- 
+weight_to_cell()
+cell_to_black
+row_to-weight
