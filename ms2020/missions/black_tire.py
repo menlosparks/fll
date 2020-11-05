@@ -35,13 +35,14 @@ from robot_setup import DEGREES_PER_MM
  
 ##### Do not change above this line ##########################################
 
-def align():
-    shared_all.move_reverse( max_distance=30 , speed_mm_s= 100)
-    shared_all.turn(angle=-45, speed_deg_s=100)
-    shared_all.move_straight(distance_mm=60, speed_mm_s=100)
+def run():
+    shared_all.fastflip()
 
 
-# Calibrate the gyro point in the direction at the start
+ 
+
+## Below lines only for testing
+## Comment out when done testing. Do not upload to Git hub without commenting.
 shared_all.calibrate_gyro(0)
+run()
 
-align()
