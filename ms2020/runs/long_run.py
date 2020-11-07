@@ -12,6 +12,7 @@ from pybricks.ev3devices import Motor
  
 sys.path.append('../shared')
 sys.path.append('../bus')
+sys.path.append('../missions')
 import robot_setup
 import shared_all
 import adhya_bus
@@ -43,16 +44,16 @@ def execute():
     shared_all.calibrate_gyro(0)
 
     adhya_bus.tread_to_row()
-    align()
+    tread.align()
 
     adhya_bus.weight_to_cell()
-    align()
+    weight_machine.align()
 
     adhya_bus.cell_to_black()
-    align()
+    cell_phone.align()
 
     Arnav_Bus.black_to_bocciaslide()
-    align()
+    black_tire.run()
 
 
 
