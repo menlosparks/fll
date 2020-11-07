@@ -37,7 +37,8 @@ import shared_all
 
 ##### Do not change above this line ##########################################
 
-def run (): 
+#(OLD RUN, USE FUNCTION 'run')#########
+def runold (): 
     shared_all.move_rack_to_floor ()
     shared_all.move_straight(distance_mm=60, speed_mm_s=120)
     
@@ -51,8 +52,18 @@ def run ():
     shared_all.move_crane_to_angle(motor=rack_motor, target_angle=120)
     shared_all.move_reverse(max_distance=20, speed_mm_s=100)
 
+#(NEW RUN, DO NOT USE FUNCTION 'runold') ####
 
-## Below lines only for testing
+def run ():
+    shared_all.move_straight(distance_mm=90, speed_mm_s=120):
+    shared_all.move_crane_to_floor(motor=crane_motor):
+    shared_all.drive_raising_crane(duration_ms=50, robot_distance_mm=-37, robot_turn_angle=0, 
+                        motor=crane_motor, crane_angle=80):
+    shared_all.move_straight (distance_mm=90, speed_mm_s=120)
+    
+
+
+    ## Below lines only for testing
 ## Comment out when done testing. Do not upload to Git hub without commenting.
 shared_all.calibrate_gyro(-90)
 # align()
