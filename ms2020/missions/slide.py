@@ -59,7 +59,7 @@ def run ():
     shared_all.move_crane_to_floor(motor=crane_motor):
     shared_all.drive_raising_crane(duration_ms=50, robot_distance_mm=-37, robot_turn_angle=0, 
                         motor=crane_motor, crane_angle=80):
-    shared_all.move_straight (distance_mm=90, speed_mm_s=120)
+    shared_all.move_straight (distance_mm=90, speed_mm_s=120):
     
 
 
