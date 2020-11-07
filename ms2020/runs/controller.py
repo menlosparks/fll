@@ -12,6 +12,7 @@ from pybricks.ev3devices import Motor
  
 sys.path.append('../shared')
 sys.path.append('../missions')
+sys.path.append('../runs')
 import boccia
 import bench
 import robot_setup
