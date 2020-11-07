@@ -17,6 +17,7 @@ import robot_setup
 import shared_all
 import adhya_bus
 import Arnav_Bus
+import cell_phone, weight_machine, black_tire, tread
 
 from robot_setup import left_motor
 from robot_setup import right_motor
