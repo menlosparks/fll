@@ -39,4 +39,4 @@ def boccia_slide_to_home():
     shared_all.move_straight(distance_mm=450, speed_mm_s=300)
     shared_all.turn_arc(distance=152,angle=-45, speed_mm_s=200)
     shared_all.move_straight(distance_mm=400, speed_mm_s=300)
-boccia_slide_to_home()
+# boccia_slide_to_home()
