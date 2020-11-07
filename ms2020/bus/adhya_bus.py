@@ -51,10 +51,17 @@ def row_to_weight():
     shared_all.move_straight(distance_mm=40, speed_mm_s=100)
     shared_all.turn(angle=90, speed_deg_s=100)
     shared_all.move_straight(distance_mm=50, speed_mm_s=100)
-    shaared_all.turn(angle=-90,, speed_deg_s=100)
+    shaared_all.turn(angle=-90, speed_deg_s=100)
+
+def tread_to_row():
+    shared_all.move_reverse(max_distance=50, speed_mm_s=100)
+    shared_all.turn(angle=90, speed_deg_s=100)
+    shared_all.push_back_reset_gyro(distance_mm=50, reset_gyro = True, new_gyro_angle = 0 )
+
 
 # Calibrate the gyro point in the direction at the start
-shared_all.calibrate_gyro(0)
-weight_to_cell()
-cell_to_black
-row_to-weight
+# shared_all.calibrate_gyro(0)
+# weight_to_cell()
+# cell_to_black
+# row_to-weight
+# tread_to_row
