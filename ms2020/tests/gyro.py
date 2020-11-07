@@ -52,34 +52,36 @@ import bench
 import basket
 import utime 
 
-shared_all.calibrate_gyro(0)
-shared_all.move_reverse(max_distance=20)
-shared_all.log_string('Gyr ang ' +str(gyro.angle()) )
-for x in range(20):
-    gyro.angle()
-shared_all.log_string('Aft 10 meas Gyr ang ' +str(gyro.angle()) )
+# shared_all.calibrate_gyro(0)
+# shared_all.move_reverse(max_distance=20)
+# shared_all.log_string('Gyr ang ' +str(gyro.angle()) )
+# for x in range(20):
+#     gyro.angle()
+# shared_all.log_string('Aft 10 meas Gyr ang ' +str(gyro.angle()) )
 
-shared_all.log_string('Stright 40cm to 90 and back ' )
+# shared_all.log_string('Stright 40cm to 90 and back ' )
 
 shared_all.move_straight_target_direction(gyro=gyro,
-    distance_mm=200, speed_mm_s=160, target_angle=0)
-wait(3000)
-shared_all.log_string('Aft strg Gyr ang ' +str(gyro.angle()) )
-
-shared_all.turn_to_direction(gyro, target_angle=60)
-wait(3000)
-shared_all.move_straight_target_direction(gyro=gyro,
-    distance_mm=150, speed_mm_s=160, target_angle=90)
-
-shared_all.log_string('Aft 90 Gyr ang ' +str(gyro.angle()) )
+    distance_mm=1290, speed_mm_s=160, target_angle=0)
 
 
-wait(3000)
-shared_all.move_straight_target_direction(gyro=gyro,
-    distance_mm=150, speed_mm_s=160, target_angle=-90)
-shared_all.log_string('Aft uturn Gyr ang ' +str(gyro.angle()) )
-wait(3000)
-shared_all.move_straight_target_direction(gyro=gyro,
-    distance_mm=150, speed_mm_s=-160, target_angle=0)
-shared_all.log_string('Aft rev Gyr ang ' +str(gyro.angle()) )
+# wait(3000)
+# shared_all.log_string('Aft strg Gyr ang ' +str(gyro.angle()) )
+
+# shared_all.turn_to_direction(gyro, target_angle=60)
+# wait(3000)
+# shared_all.move_straight_target_direction(gyro=gyro,
+#     distance_mm=150, speed_mm_s=160, target_angle=90)
+
+# shared_all.log_string('Aft 90 Gyr ang ' +str(gyro.angle()) )
+
+
+# wait(3000)
+# shared_all.move_straight_target_direction(gyro=gyro,
+#     distance_mm=150, speed_mm_s=160, target_angle=-90)
+# shared_all.log_string('Aft uturn Gyr ang ' +str(gyro.angle()) )
+# wait(3000)
+# shared_all.move_straight_target_direction(gyro=gyro,
+#     distance_mm=150, speed_mm_s=-160, target_angle=0)
+# shared_all.log_string('Aft rev Gyr ang ' +str(gyro.angle()) )
 

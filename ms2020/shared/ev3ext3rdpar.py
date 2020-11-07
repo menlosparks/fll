@@ -41,7 +41,7 @@ def pivot(robot, leftM, rightM, axle, wheelDiam, angle, speedDegS):
     rightM.run_angle(-1*motorSpeedDegS,  wheelTgtAngle, Stop.BRAKE, False)
     leftM.run_angle(motorSpeedDegS, wheelTgtAngle, Stop.BRAKE, True)
 
-
+## Angle -ve for pointing left, forward or backward
 def arc(robot, leftM, rightM, axle, wheelDiam, distance,angle, speedMMs):
     wheelCircum=math.pi*wheelDiam
     axleTurnCircum=math.pi*axle
@@ -227,8 +227,9 @@ def movePointingGyro(    robot,
     integral=0
     prevErr=0
     accelLmt = 100
+    absStartingSpeed = min(abs(speedMM), 150)
     direction = 1 if speedMM > 0 else -1
-    absCurrSpeed = accelLmt
+    absCurrSpeed = absStartingSpeed
     while (abs(leftM.angle()) < abs(leftMTgtAngle)):
         gyroAngle = gyro.angle()
         error = tgtAngle - gyroAngle
@@ -241,8 +242,15 @@ def movePointingGyro(    robot,
             return
         integral += error
         prevErr = error
-        # limit on speed increase i.e. acceleration
-        absCurrSpeed = absCurrSpeed + (accelLmt/20 ) if absCurrSpeed < abs(speedMM) else abs(speedMM)
+        if  ( abs(leftMTgtAngle) - abs(leftM.angle())) < 360:
+            # deceleration
+            #  absCurrSpeed = absCurrSpeed + (accelLmt/20 ) if absCurrSpeed < abs(speedMM) else abs(speedMM)
+            # absCurrSpeed = max(absCurrSpeed - ((absCurrSpeed-accelLmt)/20 ) , abs(absStartingSpeed))
+            absCurrSpeed = max(absCurrSpeed - ((accelLmt)/20 ) , abs(absStartingSpeed))
+        else :
+            # limit on speed increase i.e. acceleration
+            absCurrSpeed = min(absCurrSpeed + (accelLmt/20 ) , abs(speedMM))
+            # absCurrSpeed = absCurrSpeed + (accelLmt/20 ) if absCurrSpeed < abs(speedMM) else abs(speedMM)
 
     log('MSTD dne gy:' + str(gyro.angle()))
 

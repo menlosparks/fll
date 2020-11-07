@@ -61,7 +61,7 @@ def base_to_treadmill(adjust_for_mission=0):
 
     shared_all.move_straight_target_direction(gyro = gyro, 
         distance_mm= 1340, 
-        speed_mm_s= -320, 
+        speed_mm_s= -290, 
         target_angle=180)
     shared_all.move_to_color_reverse(color_sensor=color_sensor_center,
         stop_on_color=Color.WHITE, alternative_color=Color.WHITE,
@@ -121,6 +121,25 @@ def reuse_treadmill_align(adjust_for_mission=0):
         stop_on_color=Color.BLACK, alternative_color=Color.BLACK,
          max_intensity=robot_setup.BLACK_MAX_INTENSITY[color_sensor_center],
          max_distance_mm=180)
+
+
+def treadmill_to_weight(adjust_for_mission=0):
+
+    shared_all.move_straight(distance_mm=100, speed_mm_s=160)
+    shared_all.turn(angle=90, speed_deg_s=170)
+    shared_all.move_reverse(max_distance=100, speed_mm_s=140)
+    shared_all.push_back_reset_gyro(distance_mm=50, reset_gyro=True, new_gyro_angle=-90)
+
+    shared_all.move_straight_target_direction(gyro = gyro, 
+            distance_mm=460, 
+            speed_mm_s=150, 
+            target_angle=-90)
+
+    shared_all.move_to_color(color_sensor=color_sensor_center,
+        stop_on_color=Color.WHITE, alternative_color=Color.BLACK,
+        speed_mm_s=30,
+         max_intensity=robot_setup.BLACK_MAX_INTENSITY[color_sensor_center],
+         max_distance_mm=50)
 
 
 def treadmill_to_row_simple(adjust_for_mission=0):
@@ -219,9 +238,23 @@ def row_to_weight_curved(adjust_for_mission=0):
     shared_all.push_back_reset_gyro(distance_mm = 50, reset_gyro = True, new_gyro_angle =180 )
 
 
+def row_to_weight_pushdown(adjust_for_mission=0):
+
+    shared_all.turn(angle=-40)
+    shared_all.turn_arc(distance=50 , angle=-60, speed_mm_s=80)
+
+    shared_all.move_straight_target_direction(gyro = gyro, 
+        distance_mm= 70, 
+        speed_mm_s= 160, 
+        target_angle= -90+ adjust_for_mission)
+    shared_all.move_to_color(color_sensor=color_sensor_center,
+        stop_on_color=Color.BLACK, alternative_color=Color.BLACK,
+         max_intensity=robot_setup.BLACK_MAX_INTENSITY[color_sensor_center],
+         max_distance_mm=120)
+
 def row_to_weight(adjust_for_mission=0):
 
-    row_to_weight_curved(adjust_for_mission)
+    row_to_weight_pushdown(adjust_for_mission)
 
 
 def row_to_weight_right_angleTurns(adjust_for_mission=0):
@@ -236,13 +269,33 @@ def row_to_weight_right_angleTurns(adjust_for_mission=0):
 
 
 
-def weight_to_phone(adjust_for_mission=0):
+def weight_to_phoneold(adjust_for_mission=0):
     shared_all.push_back_reset_gyro(distance_mm = 70, reset_gyro = True, new_gyro_angle =180 )
     shared_all.move_straight_target_direction(gyro = gyro, 
         distance_mm= 310, 
         speed_mm_s= 180, 
         target_angle= 180+ adjust_for_mission)
 
+def weightpushdown_to_phone(adjust_for_mission=0):
+    shared_all.move_straight_target_direction(gyro = gyro, 
+        distance_mm= 90, 
+        speed_mm_s= 110, 
+        target_angle= -90+ adjust_for_mission)
+
+    shared_all.turn(-90)
+    shared_all.move_straight_target_direction(gyro = gyro, 
+        distance_mm= 60, 
+        speed_mm_s= 110, 
+        target_angle= 180+ adjust_for_mission)
+
+
+def weight_to_phone(adjust_for_mission=0):
+    weightpushdown_to_phone(adjust_for_mission)
+
+
+def phone_to_bigt(adjust_for_mission=0):
+
+    shared_all.move_reverse(max_distance=130, speed_mm_s=160)
 
 def phone_to_slide(adjust_for_mission=0):
 

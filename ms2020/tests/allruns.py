@@ -41,10 +41,11 @@ from robot_setup import BLACK_MAX_INTENSITY
 import shared_all
 
 ##### Do not change above this line ##########################################
-import bench, basket, slide, stepcounter, treadmill,row, weight, phone
-import missions.boccia as boccia
+import bench, basket 
+import slide, stepcounter, treadmill,row, weight, phone
+import boccia as boccia
 import bus_service_1, bus_service_2
-import  bus.Arnav_Bus as ArnavBus
+import  Arnav_Bus as ArnavBus
 
 def deepsweep():
         
@@ -57,15 +58,15 @@ def deepsweep():
     shared_all.log_string('treadmill.run()')
     treadmill.run()
 
-    shared_all.log_string('bus_service_1.treadmill_to_row()')
-    bus_service_1.treadmill_to_row()
-    shared_all.log_string('row.align()')
-    row.align()
-    shared_all.log_string('row.run()')
-    row.run()
+                    # shared_all.log_string('bus_service_1.treadmill_to_row()')
+                    # bus_service_1.treadmill_to_row()
+                    # shared_all.log_string('row.align()')
+                    # row.align()
+                    # shared_all.log_string('row.run()')
+                    # row.run()
 
-    shared_all.log_string('bus_service_1.row_to_weight()')
-    bus_service_1.row_to_weight()
+    shared_all.log_string('bus_service_1.treadmill_to_weight()')
+    bus_service_1.treadmill_to_weight()
     shared_all.log_string('weight.align()')
     weight.align()
     shared_all.log_string('weight.run()')
@@ -81,7 +82,7 @@ def deepsweep():
     ArnavBus.boccia_slide_to_home()
 
 
-def bench():
+def benchrun():
     shared_all.calibrate_gyro(-85)
 
     bus_service_2.base_to_bench()
@@ -100,14 +101,15 @@ def innov_basket():
     bus_service_2.innov_to_basket()
     basket.align()
     basket.run()
+    bus_service_2.basket_to_base()
 
-def slide():
+def sliderun():
     shared_all.calibrate_gyro(new_gyro_angle=-45)
     slide.alignfacing()
     slide.runfacing()
 
 
-def boccia():
+def bocciarun():
     shared_all.calibrate_gyro(-45)
     boccia.align()
     boccia.run()
@@ -123,13 +125,13 @@ while True:
 
     shared_all.log_string('Button pressed ' + str(buttons))
     if  Button.UP in buttons: ## BUT 1
-        boccia()
+        bocciarun()
     if Button.RIGHT in buttons: ## BUT 2
-        bench()
+        benchrun()
     if  Button.DOWN in buttons: ## BUT 3
-        basket()
+        innov_basket()
     if Button.LEFT in buttons: ## button 4
-        slide()
+        sliderun()
 
     if Button.CENTER in buttons: ## button center
         buttons = shared_all.any_button_pressed(waiting_color=Color.YELLOW)

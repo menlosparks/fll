@@ -70,11 +70,12 @@ def sound_alarm():
 def log_string(message):
     ev3ext3rdpar.log(message)
 
-def any_button_pressed():
-    brick.light(Color.RED)
+def any_button_pressed(waiting_color=Color.RED):
+    brick.light(waiting_color)
 
     while not any(brick.buttons()):
         wait(150)
+    brick.light(Color.BLACK)
     return brick.buttons().copy()
 
 #(kp, ki, kd, tight_loop_limit, angle_tolerance, speed_tolerance, stall_speed, stall_time)

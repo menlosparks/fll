@@ -46,13 +46,16 @@ def align(adjust_for_mission=0):
         stop_on_color=Color.WHITE, alternative_color=Color.WHITE, speed_mm_s=25,
          min_intensity=robot_setup.WHITE_MIN_INTENSITY[color_sensor_center])
 
-    shared_all.move_straight(distance_mm= 70, speed_mm_s= -70)
+    shared_all.move_straight(distance_mm= 60, speed_mm_s= -70)
     shared_all.move_crane_to_floor(crane_motor)
-    shared_all.turn_arc(distance=180, angle=70, speed_mm_s =70)
+    shared_all.turn_arc(distance=160, angle=80, speed_mm_s =50)
 
 def run():
     crane_motor.run_until_stalled(-300, Stop.COAST, 35)
     crane_motor.run_time(720, 700)
+    shared_all.move_crane_to_top(crane_motor)
+    # shared_all.turn_arc(distance=180, angle=-70, speed_mm_s =-120)
+
 
     #try 2nd flip
     # shared_all.move_crane_to_floor(crane_motor)

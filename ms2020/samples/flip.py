@@ -54,7 +54,7 @@ def flip_phone():
 
 def flip_bigt():
     shared_all.move_crane_to_floor(crane_motor)
-    shared_all.move_straight(distance_mm=70, speed_mm_s=50)
+    shared_all.move_straight(distance_mm=20, speed_mm_s=50)
     left_motor.run_angle( 120,  10, Stop.BRAKE, True)
     right_motor.run_angle(120,  10, Stop.BRAKE, True)
 
@@ -67,6 +67,9 @@ def flip_bigt():
 def do_flips_bigtire(adjust_for_mission=0):
     flip_bigt()
 
+def bigt_align():
+    shared_all.start_moving_crane_to_angle(crane_motor, 20)
+    shared_all.turn(-180)
 # flip_small()
 # wait(6000)
 # flip_small()

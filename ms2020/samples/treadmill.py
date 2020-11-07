@@ -61,7 +61,7 @@ def run(adjust_for_mission=0):
     shared_all.move_straight(distance_mm=190, speed_mm_s=-210)
     right_motor.run_angle( -90,  50, Stop.BRAKE, True)
 
-    left_motor.run_angle( -210,  3*360, Stop.BRAKE, True)
+    left_motor.run_angle( -270,  3*360, Stop.BRAKE, True)
 
     shared_all.move_straight(distance_mm=120, speed_mm_s=180)
     shared_all.move_straight(distance_mm=20, speed_mm_s=90)

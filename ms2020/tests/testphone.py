@@ -52,15 +52,16 @@ import bench
 import basket
 
 
-shared_all.calibrate_gyro(180)
+shared_all.calibrate_gyro(-90)
 
-bus_service_1.weight_to_phone(adjust_for_mission=0)
-phone.align(adjust_for_mission=0)
+
+shared_all.log_string('bus_service_1.weight_to_phone()')
+bus_service_1.weight_to_phone()
+shared_all.log_string('phone.align()')
+phone.align()
+shared_all.log_string('phone.run()')
 phone.run()
-bus_service_1.phone_to_slide()
-
-slide.align()
-slide.run()
-slide.take_slide_to_home()
-
+bus_service_1.phone_to_bigt()
+flip.bigt_align()
+flip.flip_bigt()
 

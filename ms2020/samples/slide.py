@@ -137,6 +137,9 @@ def runfacing():
                         motor=rack_motor, crane_angle=20)
     # shared_all.move_straight(distance_mm=40, speed_mm_s=130)
     shared_all.move_crane_up(rack_motor, 70)
+    shared_all.move_straight(distance_mm=500, speed_mm_s=-200)
+    shared_all.move_rack_to_top()
+
    
 # shared_all.calibrate_gyro(new_gyro_angle=-45)
 # alignfacing()
