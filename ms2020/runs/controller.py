@@ -39,7 +39,7 @@ from robot_setup import DEGREES_PER_MM
 ##### Do not change above this line ##########################################
 
 while True:
-    buttons = shared_all.any_button_pressed(waiting_color=Color.RED):
+    buttons = shared_all.any_button_pressed(waiting_color=Color.RED)
     if Button.UP in buttons:
         boccia.align()
         boccia.run()
