@@ -39,7 +39,7 @@ import shared_all
 #alainabus1-3 part of missions 
 
 def bballtobase ()
-    shared_all.turn(angle=60, speed_mm_s = 100):
+    shared_all.turn(angle= -60, speed_mm_s = 100):
     shared_all.move_straight (distance_mm=90, speed_mm_s=-100)
 
 def basetostep ()
@@ -54,5 +54,6 @@ def basetostep ()
 ## Comment out when done testing. Do not upload to Git hub without commenting.
 shared_all.calibrate_gyro(-90)
 # align()
+bballtobase ()
 basetostep () 
 
