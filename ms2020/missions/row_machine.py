@@ -50,9 +50,9 @@ def run():
 
 
 
-shared_all.calibrate_gyro(0)
-align()
-run()
+# shared_all.calibrate_gyro(0)
+# align()
+# run()
 
 
 

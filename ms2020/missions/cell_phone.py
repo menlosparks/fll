@@ -37,12 +37,12 @@ from robot_setup import DEGREES_PER_MM
 
 
 def align():
-    shared_all.move_straight(distance_mm=380, speed_mm_s=180)
-    shared_all.move_crane_to_floor( motor=crane_motor)
-    shared_all.turn_arc(distance=150,angle=83,speed_mm_s=40)
+    shared_all.move_straight(distance_mm=380, speed_mm_s=100)
+    shared_all.turn_arc(distance=110,angle=85,speed_mm_s=30)
     
 def run(): 
-    shared_all.fastflip()
+    shared_all.move_crane_down( motor=crane_motor, degrees=20)
+    crane_motor.run_angle(720, 100)
   
 
 
@@ -51,6 +51,6 @@ def run():
 
 ## Below lines only for testing
 ## Comment out when done testing. Do not upload to Git hub without commenting.
-shared_all.calibrate_gyro(0)
-align()
-run()
+# shared_all.calibrate_gyro(0)
+# align()
+# run()
