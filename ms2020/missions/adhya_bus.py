@@ -35,20 +35,29 @@ from robot_setup import DEGREES_PER_MM
  
 ##### Do not change above this line ##########################################
 
-def align():
-   shared_all.turn(angle=-30, speed_deg_s=150)  
-   shared_all.move_straight(distance_mm=250, speed_mm_s=150)
-   shared_all.turn_arc(distance=75,angle=55, speed_mm_s=150)
-   shared_all.move_straight(distance_mm=200, speed_mm_s=150)
-   shared_all.turn(angle=28, speed_deg_s=150)
+def weight_to_cell():  
+    shared_all.move_reverse( max_distance=25 , speed_mm_s= 100)
+    shared_all.turn(angle=-100, speed_deg_s=100)
+    shared_all.move_straight(max_distance=100, speed_mm_s=100)
 
-def run():
-   shared_all.move_crane_to_floor( motor=rack_motor, release_angle = 200)
-   
-   
-## Below lines only for testing
-## Comment out when done testing. Do not upload to Git hub without commenting.
-shared_all.calibrate_gyro(0)
 
-align()
-run()
+def cell_to_black():
+    shared_all.move_reverse(max_distance=90, speed_mm_s=100)
+    shared_all.turn(angle=-195, speed_deg_s=100)
+
+
+def row_to_weight():
+   
+
+def tread_to_row():
+    shared_all.move_reverse(max_distance=50, speed_mm_s=100)
+    shared_all.turn(angle=90, speed_deg_s=100)
+    shared_all.push_back_reset_gyro(distance_mm=50, reset_gyro = True, new_gyro_angle = 0 )
+
+
+# Calibrate the gyro point in the direction at the start
+# shared_all.calibrate_gyro(0)
+# weight_to_cell()
+# cell_to_black
+# row_to-weight
+# tread_to_row
