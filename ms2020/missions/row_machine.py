@@ -37,22 +37,22 @@ from robot_setup import DEGREES_PER_MM
 ##### Do not change above this line ##########################################
 
 def align():
-   shared_all.move_straight(distance_mm=400 , speed_mm_s=100)
-   shared_all.turn(angle=107, speed_deg_s= 30)
-   shared_all.move_straight(distance_mm=63, speed_mm_s=100)
-   
+   shared_all.move_straight(distance_mm=220 , speed_mm_s=100)
+   shared_all.turn(angle=79, speed_deg_s= 100)
+   shared_all.turn(angle=-10, speed_deg_s= 100)
+   shared_all.move_reverse(max_distance=20 , speed_mm_s=100)
+   shared_all.move_straight(distance_mm=23, speed_mm_s=50)
+
 def run():
-   shared_all.move_rack_to_floor()
-   shared_all.turn(angle=-5, speed_deg_s=30)
-   shared_all.turn(angle=5, speed_deg_s=30)
-   shared_all.drive_raising_crane(duration_ms=1500, robot_distance_mm=-100, robot_turn_angle=0, 
-                        motor= rack_motor, crane_angle=-10)
+   shared_all.move_crane_to_floor(motor=rack_motor, release_angle = -400)
+   shared_all.turn(angle=-5, speed_deg_s=100)
+   shared_all.move_crane_to_floor()
+   shared_all.turn(angle=-60, speed_deg_s=100)
+   shared_all.move_crane_to_top(motor=rack-motor, release_angle = -400)
 
-
-
-# shared_all.calibrate_gyro(0)
-# align()
-# run()
+shared_all.calibrate_gyro(0)
+align()
+run()
 
 
 
