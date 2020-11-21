@@ -51,8 +51,8 @@ def run():
    shared_all.move_crane_to_top(motor=rack-motor, release_angle = -400)
 
 shared_all.calibrate_gyro(0)
-align()
-run()
+# align()
+# run()
 
 
 
