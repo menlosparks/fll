@@ -18,6 +18,8 @@ import robot_setup
 import shared_all
 import basketball
 import slide
+import long_run
+
  
 from robot_setup import left_motor
 from robot_setup import right_motor
@@ -54,3 +56,7 @@ while True:
     if Button.LEFT in buttons:
         slide.align()
         slide.run()
+    if Button.CENTER in buttons:
+        buttons = shared_all.any_button_pressed(waiting_color=Color.RED):
+        if Button.UP in buttons:
+            long_run.execute
