@@ -42,7 +42,7 @@ def runold ():
     shared_all.move_rack_to_floor ()
     shared_all.move_straight(distance_mm=60, speed_mm_s=120)
     
-    while shared_all.did_motor_stall(motor =rack_motor , max_degrees =50 , speed = 320):
+    while shared_all.did_motor_stall(motor =rack_motor , max_degrees =50 , speed = 320)
         # log_string('stalled - step back')
         shared_all.move_reverse(max_distance=6, speed_mm_s=20)
 
@@ -55,10 +55,10 @@ def runold ():
 #(NEW RUN, DO NOT USE FUNCTION 'runold') ####
 
 def run ():
-    shared_all.move_straight(distance_mm=90, speed_mm_s=120):
-    shared_all.move_crane_to_floor(motor=crane_motor):
+    shared_all.move_straight(distance_mm=90, speed_mm_s=120)
+    shared_all.move_crane_to_floor(motor=crane_motor)
     shared_all.drive_raising_crane(duration_ms=50, robot_distance_mm=-37, robot_turn_angle=0, 
-                        motor=crane_motor, crane_angle=80):
+                        motor=crane_motor, crane_angle=80)
     shared_all.move_straight (distance_mm=90, speed_mm_s=120)
     
 
