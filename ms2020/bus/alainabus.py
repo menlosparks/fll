@@ -39,11 +39,11 @@ import shared_all
 #alainabus1-3 part of missions 
 
 def bballtobase ()
-    shared_all.turn(angle= -60, speed_mm_s = 100):
+    shared_all.turn(angle= -60, speed_mm_s = 100)
     shared_all.move_straight (distance_mm=90, speed_mm_s=-100)
 
 def basetostep ()
-    shared_all.move_straight_target_direction(gyro=gyro, distance_mm=885, speed_mm_s=130, target_angle=0):
+    shared_all.move_straight_target_direction(gyro=gyro, distance_mm=885, speed_mm_s=130, target_angle=0)
 
 
 
