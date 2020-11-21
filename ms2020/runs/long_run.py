@@ -45,21 +45,24 @@ def execute():
     shared_all.calibrate_gyro(0)
 
     adhya_bus.tread_to_row()
-    tread.align()
+    row.align()
+    
+    adhya_bus.row_to_weight()
+    weight.align()
 
     adhya_bus.weight_to_cell()
-    weight_machine.align()
+    cell.align()
 
     adhya_bus.cell_to_black()
-    cell_phone.align()
+    black.align()
 
     Arnav_Bus.black_to_bocciaslide()
-    black_tire.run()
+    bocciaslide.run()
+
+    
 
 
 
 ## Below lines only for testing
 ## Comment out when done testing. Do not upload to Git hub without commenting.
 # execute()
-
-
