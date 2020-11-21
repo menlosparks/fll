@@ -46,9 +46,9 @@ def run():
 
 ## Below lines only for testing
 ## Comment out when done testing. Do not upload to Git hub without commenting.
-shared_all.calibrate_gyro(-45)
-align()
-run()
+# shared_all.calibrate_gyro(-45) 
+# align()
+# run()
 
 # def move_straight(duration, speed_mm_s):
 #     robot.drive_time(speed_mm_s, 0, duration)
