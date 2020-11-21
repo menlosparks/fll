@@ -12,11 +12,12 @@ from pybricks.ev3devices import Motor
  
 sys.path.append('../shared')
 sys.path.append('../missions')
-sys.path.append('../runs')
 import boccia
 import bench
 import robot_setup
 import shared_all
+import basketball
+import slide
  
 from robot_setup import left_motor
 from robot_setup import right_motor
@@ -40,10 +41,16 @@ from robot_setup import DEGREES_PER_MM
 ##### Do not change above this line ##########################################
 
 while True:
-    buttons = shared_all.any_button_pressed(waiting_color=Color.RED)
+    buttons = shared_all.any_button_pressed(waiting_color=Color.RED):
     if Button.UP in buttons:
         boccia.align()
         boccia.run()
     if Button.RIGHT in buttons:
         bench.align()
         bench.run()
+    if Button.DOWN in buttons:
+        basketball.align()
+        basketball.run()
+    if Button.LEFT in buttons:
+        slide.align()
+        slide.run()
