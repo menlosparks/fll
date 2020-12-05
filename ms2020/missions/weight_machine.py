@@ -32,14 +32,12 @@ from robot_setup import AXLE_TRACK_MM
 from robot_setup import SENSOR_TO_AXLE
 from robot_setup import WHEEL_CIRCUM_MM
 from robot_setup import DEGREES_PER_MM
- 
+
 ##### Do not change above this line ##########################################
 
 def align():
    shared_all.turn(angle=-30, speed_deg_s=150)  
-   shared_all.move_straight(distance_mm=250, speed_mm_s=150)
-   shared_all.turn_arc(distance=75,angle=55, speed_mm_s=150)
-   shared_all.move_straight(distance_mm=200, speed_mm_s=150)
+   shared_all.move_straight(distance_mm=300, speed_mm_s=150)
    shared_all.turn(angle=28, speed_deg_s=150)
 
 def run():
