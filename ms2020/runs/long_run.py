@@ -17,7 +17,10 @@ import robot_setup
 import shared_all
 import adhya_bus
 import Arnav_Bus
-import cell_phone, weight_machine, black_tire, tread
+import ArjunBus
+import cell_phone
+import weight_machine, black_tire, tread
+import row_machine
 
 from robot_setup import left_motor
 from robot_setup import right_motor
@@ -44,20 +47,22 @@ def execute():
      # Must always calib rate gyro
     shared_all.calibrate_gyro(0)
 
+    ArjunBus.basetotread()
+    tread.run()
     adhya_bus.tread_to_row()
-    row.align()
+    row_machine.align()
     
     adhya_bus.row_to_weight()
-    weight.align()
+    weight_machine.align()
 
     adhya_bus.weight_to_cell()
-    cell.align()
+    cell_phone.align()
 
     adhya_bus.cell_to_black()
-    black.align()
+    black_tire.align()
 
-    Arnav_Bus.black_to_bocciaslide()
-    bocciaslide.run()
+    # Arnav_Bus.black_to_bocciaslide()
+    # bocciaslide.run()
 
     
 
