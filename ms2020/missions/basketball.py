@@ -43,7 +43,7 @@ def align():
 
 
 def run():
-    shared_all.move_straight(max_distance=100, speed_mm_s=300)
+    shared_all.move_straight(distance_mm=100, speed_mm_s=300)
     shared_all.move_crane_to_top(crane_motor)
     wait(10)
     shared_all.turn(270)
@@ -52,7 +52,7 @@ def run():
 
 ## Below lines only for testing
 ## Comment out when done testing. Do not upload to Git hub without commenting.
-shared_all.calibrate_gyro(-90)
-align()
-run()
+# shared_all.calibrate_gyro(-90)
+# align()
+# run()
 

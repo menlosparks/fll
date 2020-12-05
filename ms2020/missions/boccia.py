@@ -36,7 +36,9 @@ from robot_setup import DEGREES_PER_MM
 ##### Do not change above this line ##########################################
 
 def align():
-    shared_all.move_straight(distance_mm=940, speed_mm_s=300)
+    # shared_all.move_straight(distance_mm=940, speed_mm_s=300)
+    shared_all.calibrate_gyro(new_gyro_angle=-45)
+    shared_all.move_straight_target_direction(gyro=gyro, distance_mm=940, speed_mm_s=300, target_angle=-45)
 
 def run():
     shared_all.move_crane_down(motor=crane_motor, degrees=30)
