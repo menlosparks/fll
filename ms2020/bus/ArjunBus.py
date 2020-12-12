@@ -38,12 +38,13 @@ from robot_setup import DEGREES_PER_MM
  
 
 def basetotread ():
-    shared_all.move_straight(distance_mm=1390, speed_mm_s=-300)
+    shared_all.move_straight(distance_mm=1390, speed_mm_s=300)
 
 def inovtobball ():
     shared_all.move_straight(distance_mm=80, speed_mm_s=-100)
     shared_all.turn(90)
-    shared_all.move_straight(distance_mm=170, speed_mm_s=150)
+    shared_all.move_straight(distance_mm=60, speed_mm_s=150)
     shared_all.turn(-90)
-    shared_all.move_straight(distance_mm=450, speed_mm_s=75)
+    shared_all.move_straight(distance_mm=150, speed_mm_s=200)
+    shared.turn(-45)
 
