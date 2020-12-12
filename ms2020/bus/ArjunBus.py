@@ -41,10 +41,11 @@ def basetotread ():
     shared_all.move_straight(distance_mm=1390, speed_mm_s=300)
 
 def inovtobball ():
-    shared_all.move_straight(distance_mm=80, speed_mm_s=-100)
+    shared_all.move_straight(distance_mm=100, speed_mm_s=-100)
     shared_all.turn(90)
-    shared_all.move_straight(distance_mm=60, speed_mm_s=150)
+    shared_all.move_straight(distance_mm=150, speed_mm_s=150)
     shared_all.turn(-90)
-    shared_all.move_straight(distance_mm=150, speed_mm_s=200)
-    shared_all.turn(-45)
+    shared_all.move_straight(distance_mm=350, speed_mm_s=200)
+    shared.turn(-45)
+
 
