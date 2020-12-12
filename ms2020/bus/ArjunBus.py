@@ -46,5 +46,5 @@ def inovtobball ():
     shared_all.move_straight(distance_mm=60, speed_mm_s=150)
     shared_all.turn(-90)
     shared_all.move_straight(distance_mm=150, speed_mm_s=200)
-    shared.turn(-45)
+    shared_all.turn(-45)
 
