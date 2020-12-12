@@ -55,18 +55,18 @@ def runold ():
 #(NEW RUN, DO NOT USE FUNCTION 'runold') ####
 
 def run ():
-    shared_all.move_straight(distance_mm=90, speed_mm_s=120)
+    shared_all.move_straight(distance_mm=400, speed_mm_s=120)
     shared_all.move_crane_to_floor(motor=rack_motor)
     shared_all.drive_raising_crane(duration_ms=50, robot_distance_mm=-37, robot_turn_angle=0, 
                         motor=rack_motor, crane_angle=80)
-    shared_all.move_straight (distance_mm=90, speed_mm_s=120)
+    shared_all.move_straight (distance_mm=400, speed_mm_s=-120)
     
 
 
     ## Below lines only for testing
 ## Comment out when done testing. Do not upload to Git hub without commenting.
-shared_all.calibrate_gyro(-90)
+# shared_all.calibrate_gyro(-90)
 # align()
-runold()
+# runold()
 
 
