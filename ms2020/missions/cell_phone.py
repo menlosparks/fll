@@ -37,8 +37,6 @@ from robot_setup import DEGREES_PER_MM
 
 
 def align():
-    shared_all.turn(angle=-110, speed_deg_s=150)
-    shared_all.move_straight(distance_mm=120, speed_mm_s=100)
     shared_all.turn_arc(distance=120,angle=85,speed_mm_s=50)
     
 def run(): 
