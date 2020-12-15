@@ -35,6 +35,10 @@ from robot_setup import DEGREES_PER_MM
  
 ##### Do not change above this line ##########################################
 
+def tread_to_weight():
+    
+
+
 def weight_to_cell():  
     shared_all.move_reverse( max_distance=25 , speed_mm_s= 100)
     shared_all.turn(angle=-90, speed_deg_s=100)
@@ -42,8 +46,8 @@ def weight_to_cell():
 
 
 def cell_to_black():
-    shared_all.move_reverse(max_distance=90, speed_mm_s=100)
-    shared_all.turn(angle=-195, speed_deg_s=100)
+    shared_all.turn(angle=-110, speed_deg_s=150)
+    shared_all.move_straight(distance_mm=120, speed_mm_s=100)
 
 
 def row_to_weight():
