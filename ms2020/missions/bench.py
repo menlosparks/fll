@@ -42,18 +42,18 @@ def align():
     shared_all.move_to_color(color_sensor=color_sensor_right, stop_on_color=Color.GREEN,
                         max_distance_mm=600)
     shared_all.move_straight(distance_mm=35, speed_mm_s=100)                    
-    # wait(1000)
+    # wait(shared_all1000)
     # wait(10)
 
 def run():
     shared_all.move_crane_to_top(crane_motor)
     shared_all.move_crane_to_floor(crane_motor)
-    turn(-10)
+    shared_all.turn(-10)
 
     shared_all.move_straight(distance_mm=300, speed_mm_s=-190,)
 
 ## Below lines only for testing
 ## Comment out when done testing. Do not upload to Git hub without commenting.
-shared_all.calibrate_gyro(-90)
-align()
-run()
+# shared_all.calibrate_gyro(-90)
+# align()
+# run()
