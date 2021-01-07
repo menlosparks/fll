@@ -45,15 +45,21 @@ from robot_setup import DEGREES_PER_MM
 
 def execute():
      # Must always calib rate gyro
-    shared_all.calibrate_gyro(0)
+    shared_all.calibrate_gyro(180)
 
     ArjunBus.basetotread()
+    tread.align()
     tread.run()
-    adhya_bus.tread_to_row()
-    row_machine.align()
-    
-    adhya_bus.row_to_weight()
+
+    weight_machine.tread_to_weight()
     weight_machine.align()
+    weight_machine.run()
+
+    # adhya_bus.tread_to_row()
+    # row_machine.align()
+    
+    # adhya_bus.row_to_weight()
+    # weight_machine.align()
 
     adhya_bus.weight_to_cell()
     cell_phone.align()
