@@ -42,6 +42,6 @@ def align():
 
 
 # Calibrate the gyro point in the direction at the start
-shared_all.calibrate_gyro(0)
+# shared_all.calibrate_gyro(0)
 
-align()
+# align()

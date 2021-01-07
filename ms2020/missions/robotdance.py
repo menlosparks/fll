@@ -47,7 +47,7 @@ def run ():
 
   ## Below lines only for testing
 ## Comment out when done testing. Do not upload to Git hub without commenting.
-shared_all.calibrate_gyro(-90)
-# align()
-run()
+# shared_all.calibrate_gyro(-90)
+# # align()
+# run()
 

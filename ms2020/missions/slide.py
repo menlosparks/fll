@@ -52,15 +52,48 @@ def runold ():
     shared_all.move_crane_to_angle(motor=rack_motor, target_angle=120)
     shared_all.move_reverse(max_distance=20, speed_mm_s=100)
 
-#(NEW RUN, DO NOT USE FUNCTION 'runold') ####
+def alignold():
+    shared_all.move_crane_to_top(crane_motor)
+    shared_all.move_straight(distance_mm=550, speed_mm_s=160)
 
-def run ():
+def runold2 ():
     shared_all.move_straight(distance_mm=550, speed_mm_s=160)
     shared_all.move_crane_to_floor(motor=rack_motor)
     shared_all.drive_raising_crane(duration_ms=50, robot_distance_mm=-37, robot_turn_angle=0, 
                         motor=rack_motor, crane_angle=80)
     shared_all.move_straight (distance_mm=550, speed_mm_s=-160)
     
+
+#(NEW RUN, DO NOT USE FUNCTION 'runold') ####
+
+
+def align():
+    shared_all.calibrate_gyro(-45)
+
+
+    shared_all.move_straight_target_direction(gyro=gyro,
+        distance_mm=480, speed_mm_s=170, target_angle=-45)
+
+    shared_all.move_to_color(color_sensor=color_sensor_center, 
+        stop_on_color=Color.GREEN, max_distance_mm=40)
+
+    shared_all.move_straight(distance_mm=30, speed_mm_s=40)
+
+def run():
+    shared_all.move_crane_down(rack_motor, 70)
+    shared_all.move_hook_to_floor()
+    shared_all.move_straight(distance_mm=20, speed_mm_s=-50)
+
+    shared_all.drive_raising_crane (duration_ms=800, robot_distance_mm=-20, robot_turn_angle=0, 
+                        motor=rack_motor, crane_angle=20)
+    shared_all.drive_raising_crane (duration_ms=1900, robot_distance_mm=-70, robot_turn_angle=0, 
+                        motor=rack_motor, crane_angle=30)
+    shared_all.move_straight(distance_mm=40, speed_mm_s=-130)
+    shared_all.move_crane_up(rack_motor, 30)
+
+    #backup
+    shared_all.move_straight(distance_mm=600, speed_mm_s=-200)
+    # shared_all.move_rack_to_top()
 
 
     ## Below lines only for testing

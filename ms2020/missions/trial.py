@@ -78,6 +78,6 @@ def runtrial():
         speed_mm_s = -100)
 
 
-shared_all.calibrate_gyro()
-runtrial()
+# shared_all.calibrate_gyro()
+# runtrial()
 

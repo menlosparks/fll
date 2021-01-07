@@ -37,11 +37,14 @@ import shared_all
 ##### Do not change above this line ##########################################
 #bus and mission#
 def hometoinnov (): 
-    shared_all.move_straight(distance_mm=250, speed_mm_s=120)
+    shared_all.move_straight(distance_mm=250, speed_mm_s=200)
+
+def innovtohome (): 
+    shared_all.move_straight(distance_mm=250, speed_mm_s=-250)
 
 
 ## Below lines only for testing
 ## Comment out when done testing. Do not upload to Git hub without commenting.
-shared_all.calibrate_gyro(-90)
+# shared_all.calibrate_gyro(-90)
 # align()
-hometoinnov ()
+# hometoinnov ()

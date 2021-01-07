@@ -38,11 +38,13 @@ from robot_setup import DEGREES_PER_MM
 def align():
     # shared_all.move_straight(distance_mm=940, speed_mm_s=300)
     shared_all.calibrate_gyro(new_gyro_angle=-45)
-    shared_all.move_straight_target_direction(gyro=gyro, distance_mm=940, speed_mm_s=300, target_angle=-45)
+    shared_all.move_straight_target_direction(gyro=gyro, distance_mm=1000, speed_mm_s=300, target_angle=-45)
 
 def run():
-    shared_all.move_crane_down(motor=crane_motor, degrees=30)
-    shared_all.move_straight(distance_mm=940, speed_mm_s=-300)
+    shared_all.move_crane_to_floor(motor=crane_motor)
+    shared_all.move_crane_up(motor=crane_motor, degrees=60 )
+    # shared_all.move_crane_down(motor=crane_motor, degrees=30)
+    shared_all.move_straight(distance_mm=1080, speed_mm_s=-300)
 
 
 

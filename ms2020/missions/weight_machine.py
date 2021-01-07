@@ -35,23 +35,45 @@ from robot_setup import DEGREES_PER_MM
 
 ##### Do not change above this line ##########################################
 
+def tread_to_weight():
+   # shared_all.move_straight_target_direction(gyro=gyro, distance_mm=600, speed_mm_s=180,
+   #  target_angle= -90)
+
+    shared_all.move_rack_to_top()
+   #  shared_all.move_crane_to_floor(motor=crane_motor, release_angle=25)
+    shared_all.move_straight_target_direction(gyro = gyro, 
+            distance_mm=460, 
+            speed_mm_s=210, 
+            target_angle=-90)
+
+    shared_all.move_to_color(color_sensor=color_sensor_center,
+        stop_on_color=Color.WHITE, alternative_color=Color.BLACK,
+        speed_mm_s=30,
+         max_intensity=robot_setup.BLACK_MAX_INTENSITY[color_sensor_center],
+         max_distance_mm=50)
+
 def align():
-   shared_all.move_straight(distance_mm=50, speed_mm_s=200)
-   shared_all.turn(angle=90, speed_deg_s=200)
-   shared_all.move_reverse(max_distance=65, speed_mm_s=75)
-   shared_all.move_straight(distance_mm=450, speed_mm_s=175)
-   shared_all.turn(angle=15, speed_deg_s=200)
-   shared_all.turn_arc(distance=15,angle=15,speed_mm_s=50)
-   shared_all.move_straight(distance_mm=138, speed_mm_s=200)
+   # shared_all.move_straight(distance_mm=50, speed_mm_s=200)
+   # shared_all.turn(angle=90, speed_deg_s=200)
+   # shared_all.move_reverse(max_distance=65, speed_mm_s=75)
+   # shared_all.move_straight(distance_mm=450, speed_mm_s=175)
+   # shared_all.turn(angle=15, speed_deg_s=200)
+   # shared_all.turn_arc(distance=15,angle=15,speed_mm_s=50)
+   # shared_all.move_straight(distance_mm=138, speed_mm_s=200)
+    shared_all.start_moving_crane_to_angle(crane_motor, 45)
+    shared_all.move_rack_to_top()
+    shared_all.move_straight(distance_mm=110, speed_mm_s=120)
+    shared_all.turn(35)
    
 
 def run():
-   shared_all.move_crane_to_top( motor=rack_motor, release_angle = 270)
+   shared_all.move_crane_down(motor=rack_motor, degrees=220) 
+   # shared_all.move_crane_to_top( motor=rack_motor, release_angle = 270)
    
    
 ## Below lines only for testing
 ## Comment out when done testing. Do not upload to Git hub without commenting.
-#shared_all.calibrate_gyro(0)
-
+# shared_all.calibrate_gyro(-90)
+# tread_to_weight()
 # align()
 # run()

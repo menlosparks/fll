@@ -47,7 +47,7 @@ def run():
     shared_all.move_crane_to_top(crane_motor)
     wait(10)
     shared_all.turn(270)
-    shared_all.move_rack_to_top( rack_motor)
+    shared_all.move_rack_to_top()
 
 
 ## Below lines only for testing
